@@ -14,7 +14,7 @@ accès à la position x, y de map -> map[y*size+x]
 */
 
 void loadMap(const char* path, const int size, int* map) {
-
+	//TODO
 }
 
 /*
@@ -35,8 +35,9 @@ int*** maps -> pointeur à modifier, pointe sur nb_map pointeurs pointant eux me
 - le remplir avec des pointeurs sur des tableaux 2D
 - remplir les tableaux 2D avec la fonction loadMap
 */
-void loadingFiles(const int level, int* nb_maps, int** size_maps, int*** maps) {
+int loadingFiles(const int level, int* nb_maps, int** size_maps, int*** maps) {
+	//TODO
 
-
-
+	return -1;
+	//return 0; //renvoie 0 si tout se passe bien
 }
