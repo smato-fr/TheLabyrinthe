@@ -60,5 +60,16 @@ int main() {
   	}
 
 
-  	
+  	enum Command cmd;
+  	do {
+
+  		//attente d'une instruction donnée par le joueur
+  		cmd = read_console();
+
+  		
+  		
+
+  	}
+  	while(cmd != STOP);
+
 }
