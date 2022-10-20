@@ -1,3 +1,9 @@
+/*
+
+Fichier à compléter par Elie
+
+*/
+
 
 //chemin vers le fichier où se trouve tous les niveaux
 #define LEVELS_PATH "./res/levels/"
