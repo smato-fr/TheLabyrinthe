@@ -1,15 +1,23 @@
 //FICHIER PRINCIPAL DEMARRE A L'EXECUTION
 
+
+//IMPORTATIONS
+
+//énumération des types de commande utilisateur (en console)
+#include<Command.h>
+
+//énumération des types de case
+#include<Case.h>
+
 //gestion affichage en console
 #include<Renderer.c>
 
 //gestion de la lecture des ressources
 #include<FileManger.c>
 
-//énumération des types de case
-#include<Case.h>s
 
-//foncton principale
+
+//FONCTION PRINCIPALE
 int main() {
   	//INITIALISATION
 	int level = 1; //id du level à charger
@@ -41,6 +49,8 @@ int main() {
 	  			if (current_map[i*current_size+j] == START) {
 	  				x_spawn=i;
 	  				y_spawn=j;
+	  				x_player=x_spawn;
+	  				y_player=y_player;
 	  				break;
 	  			}
 
@@ -51,5 +61,4 @@ int main() {
 
 
   	
-
 }
