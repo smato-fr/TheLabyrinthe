@@ -32,10 +32,11 @@ void display(int* map, int xMin, int yMin, int xMax, int yMax) {
 
 }
 
+
 /*
-
+demande à l'utilisateur d'entrer une commande sous une chaine de caractère
+renvoie la commande dans le type Command
 */
-
 enum Command read_console() {
-	
+
 }
