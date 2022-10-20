@@ -1,5 +1,11 @@
+/*
+Partie affichage et lecture en console 
 
+ - Fichier à compléter par Louis-Eliott -
 
+*/
+
+#include <stdio.h>
 
 
 /*
@@ -24,4 +30,12 @@ x-> case à afficher
 */
 void display(int* map, int xMin, int yMin, int xMax, int yMax) {
 
+}
+
+/*
+
+*/
+
+enum Command read_console() {
+	
 }
