@@ -35,8 +35,8 @@ void loadMap(const char* path, const int size, int* map) {
 			else if (buffer[j] == '0'){ // recherche air
 				map[i*size + j] = AIR;
 			}
-			else if (buffer[j] == 's'){ // mur
-				map[i*size + j] = SPAWN;
+			else if (buffer[j] == 's'){ // spawn
+				map[i*size + j] = START;
 			}
 			else if (buffer[j] == 'x'){ // mur
 				map[i*size + j] = SOLID;
