@@ -25,9 +25,60 @@ void loadMap(const char* path, const int size, int* map) {
 		printf("erreur chargement");
 		exit(EXIT_FAILURE);
 	}
-	int buffer[size];
-	for (int i = 0, i < (size*size), i++){
-		map[i] = 
+	char* buffer[size];
+	for (int i = 0; i < size; i++){
+		fscanf(flux_entree, "%c", buffer);
+		for (int j=0; j < size; j++){
+			if (buffer[j] == 'S'){ // recherche safe zone
+				map[i*size + j] = (-1);
+			}
+			else if (buffer[j] == '0'){ // recherche air
+				map[i*size + j] = 0;
+			}
+			else if (buffer[j] == 'x'){ // mur
+				map[i*size + j] = 3;
+			}
+			else if (buffer[j] == 'c'){ //coffre
+				map[i*size + j] = 4;
+			}
+			else if (buffer[j] == 'r'){ //coffre rare
+				map[i*size + j] = 5;
+			}
+			else if (buffer[j] == 'l'){ //lit
+				map[i*size + j] = 6;
+			}
+			else if (buffer[j] == 'f'){ //forge
+				map[i*size + j] = 7;
+			}
+			else if (buffer[j] == 'g'){ //spawn griffeur !!
+				map[i*size + j] = 8;
+			}
+			else if (buffer[j] == 'k'){ //parchemin
+				map[i*size + j] = 9;
+			}
+			else if (buffer[j] == 'T'){ //piège !!
+				map[i*size + j] = 10;
+			}
+			else if (buffer[j] == 'P'){ // passage secret !
+				map[i*size + j] = 11;
+			}
+			else if (buffer[j] == 'L'){ //levier d'activation
+				map[i*size + j] = 12;
+			}
+			else if (buffer[j] == '1'){ //chemin vers bloc 1
+				map[i*size + j] = 13;
+			}
+			else if (buffer[j] == '2'){ //chemin vers bloc 2 
+				map[i*size + j] = 14;
+			}
+			else if (buffer[j] == '3'){ //chemin vers bloc 3
+				map[i*size + j] = 15;
+			}
+			else if (buffer[j] == '4'){ //chemin vers bloc 4
+				map[i*size + j] = 16;
+			}
+		}
+	}		
 }
 	
 
