@@ -14,14 +14,22 @@ const char* path -> chemin vers le fichier où se trouve les infos de la map
 const int size -> taille d'un coté du tableau 2D
 int* map -> pointeur vers un tableau 2D
 
-charger le fichier se trouvant au path, et stocké toutes les infos dans le tableau map
+charger le fichier se trouvant au path, et stocker toutes les infos dans le tableau map
 accès à la position x, y de map -> map[y*size+x]
 
 */
 
 void loadMap(const char* path, const int size, int* map) {
-	//TODO
+	FILE* flux_entree = fopen(path, "r");
+	if (flux_entree == NULL) {
+		printf("erreur chargement");
+		exit(EXIT_FAILURE);
+	}
+	int buffer[size];
+	for (int i = 0, i < (size*size), i++){
+		map[i] = 
 }
+	
 
 /*
 
