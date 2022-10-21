@@ -30,52 +30,52 @@ void loadMap(const char* path, const int size, int* map) {
 		fscanf(flux_entree, "%c", buffer);
 		for (int j=0; j < size; j++){
 			if (buffer[j] == 'S'){ // recherche safe zone
-				map[i*size + j] = (-1);
+				map[i*size + j] = SAFE;
 			}
 			else if (buffer[j] == '0'){ // recherche air
-				map[i*size + j] = 0;
+				map[i*size + j] = AIR;
 			}
 			else if (buffer[j] == 'x'){ // mur
-				map[i*size + j] = 3;
+				map[i*size + j] = SOLID;
 			}
 			else if (buffer[j] == 'c'){ //coffre
-				map[i*size + j] = 4;
+				map[i*size + j] = CHEST;
 			}
 			else if (buffer[j] == 'r'){ //coffre rare
-				map[i*size + j] = 5;
+				map[i*size + j] = RARE_CHEST;
 			}
 			else if (buffer[j] == 'l'){ //lit
-				map[i*size + j] = 6;
+				map[i*size + j] = BED;
 			}
 			else if (buffer[j] == 'f'){ //forge
-				map[i*size + j] = 7;
+				map[i*size + j] = FORGE;
 			}
 			else if (buffer[j] == 'g'){ //spawn griffeur !!
-				map[i*size + j] = 8;
+				map[i*size + j] = SCRATCHER_SPAWN;
 			}
 			else if (buffer[j] == 'k'){ //parchemin
-				map[i*size + j] = 9;
+				map[i*size + j] = PARCHMENT;
 			}
 			else if (buffer[j] == 'T'){ //piège !!
-				map[i*size + j] = 10;
+				map[i*size + j] = TRAP;
 			}
 			else if (buffer[j] == 'P'){ // passage secret !
-				map[i*size + j] = 11;
+				map[i*size + j] = SECRET_PASSAGE;
 			}
 			else if (buffer[j] == 'L'){ //levier d'activation
-				map[i*size + j] = 12;
+				map[i*size + j] = LEVER;
 			}
 			else if (buffer[j] == '1'){ //chemin vers bloc 1
-				map[i*size + j] = 13;
+				map[i*size + j] = ENTRY1;
 			}
 			else if (buffer[j] == '2'){ //chemin vers bloc 2 
-				map[i*size + j] = 14;
+				map[i*size + j] = ENTRY2;
 			}
 			else if (buffer[j] == '3'){ //chemin vers bloc 3
-				map[i*size + j] = 15;
+				map[i*size + j] = ENTRY3;
 			}
 			else if (buffer[j] == '4'){ //chemin vers bloc 4
-				map[i*size + j] = 16;
+				map[i*size + j] = ENTRY4;
 			}
 		}
 	}		
