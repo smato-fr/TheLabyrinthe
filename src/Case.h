@@ -1,8 +1,7 @@
 //énumération de tous les différents type de case
 enum Case {
 	SAFE = -1, //case vide protégée (déplacement possible)
-	AIR = 0, //case vide (déplacement possible) 
-	ENTRY, //entrée du labyrinthe
+	AIR = 0, //case vide (déplacement possible)
 	START, //point d'apparition
 	SOLID, //mur
 	CHEST, //coffre
@@ -14,5 +13,8 @@ enum Case {
 	TRAP, //piège
 	SECRET_PASSAGE, //passage secret
 	LEVER, //levier d'activation
-	MAP_ENTRY //passage vers une autre carte
+	ENTRY1, // Passage bloc 1
+	ENTRY2, // Passage bloc 2
+	ENTRY3, // Passage bloc 3
+	ENTRY4, // Passage bloc 4	
 };
