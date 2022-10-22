@@ -100,12 +100,11 @@ int*** maps -> pointeur à modifier, pointe sur nb_map pointeurs pointant eux me
 2) charger les nb_maps-1 fichiers restants (de level_1 à level_'nb_maps-1')
 - définir size_maps[i]
 3) charger chacune des maps dans maps
-- créer un tableau de pointeur de taille nb_maps
+- créer un tableau de pointeur de taille nb_maps, il s'agit de int *** maps
 - le remplir avec des pointeurs sur des tableaux 2D
 - remplir les tableaux 2D avec la fonction loadMap
 */
 int loadingFiles(const int level, int* nb_maps, int** size_maps, int*** maps) {
-	//TODO
 	char niveau[1];
 	sprintf(niveau, "%d", level); // définit un string qui contient la valeur de level
 	char to_path[256] = strcat((strcat("/",niveau)),"level./res/levels/level_"); // concatène les strings, + écriture du path jusqu'au niveau de difficulté désiré
@@ -131,15 +130,18 @@ int loadingFiles(const int level, int* nb_maps, int** size_maps, int*** maps) {
 		FILE* flux_entree = fopen(path, "r");
 		if (flux_entree == NULL) {
 			printf("erreur chargement");
-			return -1;
+			return (-1);
 		}
 		fscanf(flux_entree, "size: %d", buffer);
 		size[i] = atoi(buffer[6]);
 	}
-
 	
 	
-	//return 0; //renvoie 0 si tout se passe bien
+	for (int i=0; 
+	
+	
+	
+	return 0; 
 }
 
 	
