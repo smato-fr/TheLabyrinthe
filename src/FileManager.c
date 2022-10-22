@@ -137,10 +137,10 @@ int loadingFiles(const int level, int* nb_maps, int** size_maps, int*** maps) {
 	}
 	
 	
-	for (int i=0; 
-	
-	
-	
+	for (int i=0; i<nb_maps; i++) {
+		*maps[i] = (int*)malloc(sizeof(int)*size[i]*size[i]);
+		loadMap(path,size[i],*maps[i]);
+	}
 	return 0; 
 }
 
