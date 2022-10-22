@@ -85,33 +85,57 @@ int main() {
 }
 
 
+//déplacement possible sur cette case ?
+int canGoToCaseAt(int x, int y) {
+	int c = game.current_map[y*game.current_size+x];
+	if (c == AIR || c == SAFE) {
+		return 1;
+	}
+	return 0;
+}
+
 
 //fonctions appelées par  les commandes utilisateurs (définies dans Command.h)
-void up() {
+int up() {
 
-	if (game.x_player > 0) {
-
-
-
+	if (game.y_player+1 < game.current_size && canGoToCaseAt(game.x_player, game.y_player+1)) {
+		game.y_player++;
+		return 0;
 	}
 
 	print(USER_ERROR_UNMOVABLE);
+	return 1;
 }
 
-void down() {
+int down() {
 
+	if (game.y_player > 0 && canGoToCaseAt(game.x_player, game.y_player-1)) {
+		game.y_player--;
+		return 0;
+	}
 
 	print(USER_ERROR_UNMOVABLE);
+	return 1;
 }
 
-void right() {
+int right() {
 
+	if (game.x_player+1 < game.current_size && canGoToCaseAt(game.x_player+1, game.y_player)) {
+		game.x_player--;
+		return 0;
+	}
 
 	print(USER_ERROR_UNMOVABLE);
+	return 1;
 }
 
-void left() {
+int left() {
 
+	if (game.x_player > 0 && canGoToCaseAt(game.x_player-1, game.y_player)) {
+		game.x_player--;
+		return 0;
+	}
 
 	print(USER_ERROR_UNMOVABLE);
+	return 1;
 }
