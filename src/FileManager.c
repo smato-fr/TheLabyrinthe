@@ -19,11 +19,11 @@ accès à la position x, y de map -> map[y*size+x]
 
 */
 
-void loadMap(const char* path, const int size, int* map) {
+int loadMap(const char* path, const int size, int* map) {
 	FILE* flux_entree = fopen(path, "r");
 	if (flux_entree == NULL) {
 		printf("erreur chargement");
-		exit(EXIT_FAILURE);
+		return (-1);
 	}
 	char* buffer[size];
 	for (int i = 0; i < size; i++){
@@ -81,7 +81,8 @@ void loadMap(const char* path, const int size, int* map) {
 				map[i*size + j] = ENTRY4;
 			}
 		}
-	}		
+	}
+	return 0;
 }
 	
 
@@ -105,7 +106,21 @@ int*** maps -> pointeur à modifier, pointe sur nb_map pointeurs pointant eux me
 */
 int loadingFiles(const int level, int* nb_maps, int** size_maps, int*** maps) {
 	//TODO
-
-	return -1;
+	for (int i=0; i<*nb_maps, i++)
+		char niveau[1];
+		sprintf(niveau, "%d", level); // définit un string qui contient la valeur de level
+		char to_path[256] = strcat((strcat("/",niveau)),"level./res/levels/level_"); // concatène les strings, + écriture du path jusqu'au niveau de difficulté désiré
+		for (int i = 0; i < *nb_maps, i++) {
+			char num[1]; // numéro du labyrinthe désiré
+			sprintf(num, "%d", i); // définit un string contenant i
+			char terminaison[50] = strcat(".lvl", (strcat(num,"labyrinthe_"))); //définit le string de terminaison (pour accéder à la bonne carte de labyrinthe)
+			char path[256] = strcat(terminaison, to_path); //définit le path final, ./res/levels/level_'level'/labyrinthe_X.lvl
+			FILE* flux_entree = fopen(path, "r");
+			if (flux_entree == NULL) {
+				printf("erreur chargement");
+				return -1;
+			}
+		size_maps[i] = 
+	
 	//return 0; //renvoie 0 si tout se passe bien
 }
