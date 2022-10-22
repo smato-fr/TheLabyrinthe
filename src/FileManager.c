@@ -111,13 +111,15 @@ int loadingFiles(const int level, int* nb_maps, int** size_maps, int*** maps) {
 	char to_path[256] = strcat((strcat("/",niveau)),"level./res/levels/level_"); // concatène les strings, + écriture du path jusqu'au niveau de difficulté désiré
 	
 	
-	char tempo[256] = strcat("labyrinthe_0",to_path);
-	FILE* flux_entree = fopen(tempo, "r");
+	char tempo[256] = strcat("labyrinthe_0.opt",to_path); // on définit le chemin vers labyrinthe_0.opt
+	FILE* flux_entree = fopen(tempo, "r"); // on importe les caractéristiques de labyrinthe_0, qui contiennent sa taille et le nombre total de maps
 	if (flux_entree == NULL) {
 		printf("erreur chargement");
 		return (-1);
 	}
-	fscanf(flux_entree, "%c", buffer)
+	char buffer[1];
+	fscanf(flux_entree, "%d", buffer); // On lit le premier chiffre, il s'agit ici du nombre de maps !
+	*nb_maps = atoi(buffer); //on définit nb_maps !
 	
 	for (int i = 0; i < *nb_maps, i++) {
 		char num[1]; // numéro du labyrinthe désiré
