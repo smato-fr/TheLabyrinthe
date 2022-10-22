@@ -91,7 +91,7 @@ int loadMap(const char* path, const int size, int* map) {
 const int level -> indice du niveau à charger (dans: ./res/levels/level_'level'/)
 int* nb_maps -> entier à modifier, nombre de total de maps
 int** size_maps -> pointeur à modifier, pointe sur un tableau d'entier ()
-int*** maps -> pointeur à modifier, pointe sur nb_map pointeurs pointant eux memes sur chacun sur un tableau 2D (carte du jeu) 
+int*** maps -> pointeur à modifier, pointe sur nb_map pointeurs pointant eux memes chacun sur un tableau 2D (carte du jeu) 
 
 1) charger le fichier level_0.opt
 - définir nb_maps
@@ -117,21 +117,31 @@ int loadingFiles(const int level, int* nb_maps, int** size_maps, int*** maps) {
 		printf("erreur chargement");
 		return (-1);
 	}
-	char buffer[1];
-	fscanf(flux_entree, "%d", buffer); // On lit le premier chiffre, il s'agit ici du nombre de maps !
-	*nb_maps = atoi(buffer); //on définit nb_maps !
+	char* buffer[256];
+	fscanf(flux_entree, "nb_maps: %d", buffer); // On lit le premier chiffre, il s'agit ici du nombre de maps !
+	*nb_maps = atoi(buffer[9]); //on définit nb_maps, on ne se préocuppe pas du fait que nb_maps pourrait être un nombre à 2 chiffres, ça ne sera jamais le cas dans notre jeu.
+
+	
 	
 	for (int i = 0; i < *nb_maps, i++) {
-		char num[1]; // numéro du labyrinthe désiré
-		sprintf(num, "%d", i); // définit un string contenant i
-		char terminaison[50] = strcat(".lvl", (strcat(num,"labyrinthe_"))); //définit le string de terminaison (pour accéder à la bonne carte de labyrinthe)
+		char num[1]; // string qui devra contenir le numéro du labyrinthe désiré
+		sprintf(num, "%d", i); // définit le string num comme contenant l'unique caractère i
+		char terminaison[16] = strcat(".lvl", (strcat(num,"labyrinthe_"))); //définit le string de terminaison (pour accéder à la bonne carte de labyrinthe)
 		char path[256] = strcat(terminaison, to_path); //définit le path final, ./res/levels/level_'level'/labyrinthe_X.lvl
 		FILE* flux_entree = fopen(path, "r");
 		if (flux_entree == NULL) {
 			printf("erreur chargement");
 			return -1;
 		}
-		size_maps[i] = 
+		fscanf(flux_entree, "size: %d", buffer);
+		size[i] = atoi(buffer[6]);
+	}
+
+	
 	
 	//return 0; //renvoie 0 si tout se passe bien
 }
+
+	
+	
+	
