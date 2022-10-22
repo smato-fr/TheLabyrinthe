@@ -106,20 +106,29 @@ int*** maps -> pointeur à modifier, pointe sur nb_map pointeurs pointant eux me
 */
 int loadingFiles(const int level, int* nb_maps, int** size_maps, int*** maps) {
 	//TODO
-	for (int i=0; i<*nb_maps, i++)
-		char niveau[1];
-		sprintf(niveau, "%d", level); // définit un string qui contient la valeur de level
-		char to_path[256] = strcat((strcat("/",niveau)),"level./res/levels/level_"); // concatène les strings, + écriture du path jusqu'au niveau de difficulté désiré
-		for (int i = 0; i < *nb_maps, i++) {
-			char num[1]; // numéro du labyrinthe désiré
-			sprintf(num, "%d", i); // définit un string contenant i
-			char terminaison[50] = strcat(".lvl", (strcat(num,"labyrinthe_"))); //définit le string de terminaison (pour accéder à la bonne carte de labyrinthe)
-			char path[256] = strcat(terminaison, to_path); //définit le path final, ./res/levels/level_'level'/labyrinthe_X.lvl
-			FILE* flux_entree = fopen(path, "r");
-			if (flux_entree == NULL) {
-				printf("erreur chargement");
-				return -1;
-			}
+	char niveau[1];
+	sprintf(niveau, "%d", level); // définit un string qui contient la valeur de level
+	char to_path[256] = strcat((strcat("/",niveau)),"level./res/levels/level_"); // concatène les strings, + écriture du path jusqu'au niveau de difficulté désiré
+	
+	
+	char tempo[256] = strcat("labyrinthe_0",to_path);
+	FILE* flux_entree = fopen(tempo, "r");
+	if (flux_entree == NULL) {
+		printf("erreur chargement");
+		return (-1);
+	}
+	fscanf(flux_entree, "%c", buffer)
+	
+	for (int i = 0; i < *nb_maps, i++) {
+		char num[1]; // numéro du labyrinthe désiré
+		sprintf(num, "%d", i); // définit un string contenant i
+		char terminaison[50] = strcat(".lvl", (strcat(num,"labyrinthe_"))); //définit le string de terminaison (pour accéder à la bonne carte de labyrinthe)
+		char path[256] = strcat(terminaison, to_path); //définit le path final, ./res/levels/level_'level'/labyrinthe_X.lvl
+		FILE* flux_entree = fopen(path, "r");
+		if (flux_entree == NULL) {
+			printf("erreur chargement");
+			return -1;
+		}
 		size_maps[i] = 
 	
 	//return 0; //renvoie 0 si tout se passe bien
