@@ -74,7 +74,9 @@ int main() {
   	enum Command cmd = read_console();
   	while(cmd != STOP) {
   		
-  		(*Commands[cmd])();
+  		if ((*Commands[cmd])()) {
+  			display(); //TODO
+  		}
 
 
   		//attente d'une instruction donnée par le joueur
@@ -100,42 +102,42 @@ int up() {
 
 	if (game.y_player+1 < game.current_size && canGoToCaseAt(game.x_player, game.y_player+1)) {
 		game.y_player++;
-		return 0;
+		return 1;
 	}
 
 	print(USER_ERROR_UNMOVABLE);
-	return 1;
+	return 0;
 }
 
 int down() {
 
 	if (game.y_player > 0 && canGoToCaseAt(game.x_player, game.y_player-1)) {
 		game.y_player--;
-		return 0;
+		return 1;
 	}
 
 	print(USER_ERROR_UNMOVABLE);
-	return 1;
+	return 0;
 }
 
 int right() {
 
 	if (game.x_player+1 < game.current_size && canGoToCaseAt(game.x_player+1, game.y_player)) {
 		game.x_player--;
-		return 0;
+		return 1;
 	}
 
 	print(USER_ERROR_UNMOVABLE);
-	return 1;
+	return 0;
 }
 
 int left() {
 
 	if (game.x_player > 0 && canGoToCaseAt(game.x_player-1, game.y_player)) {
 		game.x_player--;
-		return 0;
+		return 1;
 	}
 
 	print(USER_ERROR_UNMOVABLE);
-	return 1;
+	return 0;
 }
