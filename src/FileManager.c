@@ -108,7 +108,7 @@ int*** maps -> pointeur à modifier, pointe sur nb_map pointeurs pointant eux me
 int concat(char s1[], char s2[]){ //concaténer deux strings
   int taille = 0; 
   int j = 0;
-
+	
   // déterminer la taille de s1
   while (s1[taille] != '\0') {
     ++taille;
@@ -125,6 +125,9 @@ int concat(char s1[], char s2[]){ //concaténer deux strings
   s1[taille] = '\0';
   return 0;
 }
+
+
+
 void duplicate(char dest[], char source[]){ //dupliquer un string source vers un string dest
 	int taille=0;
 	while (source[taille] != '\0') {
@@ -134,6 +137,8 @@ void duplicate(char dest[], char source[]){ //dupliquer un string source vers un
 		dest[i] = source[i];
 	}
 }
+
+
 
 int prendre_int(char str[], int n){ //renvoie le premier int contenu dans un string, en cherchant à partir de la nieme position, jusqu'à rencontrer un caractère qui ne soit pas un chiffre.
     int taille=0;
@@ -150,6 +155,7 @@ int prendre_int(char str[], int n){ //renvoie le premier int contenu dans un str
 
 
 
+
 //Programme principal loadingFiles
 int loadingFiles(const int level, int* nb_maps, int** size_maps, int*** maps) {
 	
@@ -161,7 +167,7 @@ int loadingFiles(const int level, int* nb_maps, int** size_maps, int*** maps) {
 	concat(to_path, niveau); // to_path = ./res/levels/level_'level'/
 	
 	
-
+	// Recherche du nombre de maps dans le jeu
 	char lab0opt[256]; 
 	duplicate(lab0opt, to_path); 
 	concat(lab0opt,"labyrinthe_0.opt"); // lab0opt = ./res/levels/level_'level'/labyrinthe_0.opt
@@ -175,7 +181,8 @@ int loadingFiles(const int level, int* nb_maps, int** size_maps, int*** maps) {
 	*nb_maps = prendre_int(buffer, 9); //nb_maps pointe donc vers le nombre de maps
 
 
-	//définition du tableau size
+	
+	//Définition du tableau size_maps et de maps
 	for(int i = 0; i < *nb_maps; i++) { 
 
 		//définition de path
@@ -188,16 +195,19 @@ int loadingFiles(const int level, int* nb_maps, int** size_maps, int*** maps) {
 		concat(tempo,".lvl"); // tempo = labyrinthe_X.lvl
 		concat(path, tempo); // path = ./res/levels/level_'level'/labyrinthe_X.lvl
 		
-		//accès au document et utilisation 
+		//accès au document
 		FILE* flux_entree = fopen(path, "r"); // accède au document
 		if (flux_entree == NULL) {
 			printf("erreur chargement");
 			return (-1);
 		}
+		
+		// défiition de size_maps
 		char taille[256];
 		fscanf(flux_entree, "size: %s", taille); 
 		*size_maps[i] = prendre_int(taille, 6); 
 	
+		// définition de maps
 		*maps[i] = (int*)malloc(sizeof(int)*(*size_maps[i])*(*size_maps[i])); //définition de maps
 		loadMap(path,*size_maps[i],*maps[i]);
 	}
