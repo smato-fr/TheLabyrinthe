@@ -1,10 +1,6 @@
-/*
-
-Fichier à compléter par Elie
-
-*/
-
-
+#include <stdlib.h>
+#include <stdio.h>
+#include <Case.h>
 //chemin vers le fichier où se trouve tous les niveaux
 #define LEVELS_PATH "./res/levels/"
 
@@ -121,8 +117,7 @@ int loadingFiles(const int level, int* nb_maps, int** size_maps, int*** maps) {
 	*nb_maps = atoi(buffer[9]); //on définit nb_maps en premier le chiffre du buffer et en le convertissant en int avec atoi, ce qui est bien, c'est que atoi convertira tous les éléments du buffer en int à partir du 9e, jusqu'à trouver une lettre ou que le stirng finisse.
 
 	
-	
-	for (int i = 0; i < *nb_maps, i++) { //définition du tableau size
+	for(int i = 0; i < *nb_maps; i++) { //définition du tableau size
 		char num[1]; // string qui devra contenir le numéro du labyrinthe désiré
 		sprintf(num, "%d", i); // définit le string num comme contenant l'unique caractère i
 		char terminaison[16] = strcat(".lvl", (strcat(num,"labyrinthe_"))); //définit le string de terminaison (pour accéder à la bonne carte de labyrinthe)
@@ -135,12 +130,10 @@ int loadingFiles(const int level, int* nb_maps, int** size_maps, int*** maps) {
 		char taille[256];
 		fscanf(flux_entree, "size: %d", taille); //on trouve le premier motif tq size : %d où %d représente 2 entiers consécutifs (ce n'est pas un problème, la reconnaissance avec %d s'arrête au premier espace au sens large.
 		size_maps[i] = atoi(taille[6]); //Même si la taille fait 2 chiffres, atoi va convertir ce string à partir du 6e élément et continuer pour obtenir un unique int, jusqu'à trouver une lettre ou finir le string !
-	}
 	
-	
-	for (int i=0; i<*nb_maps; i++) { // définition de maps
-		*maps[i] = (int*)malloc(sizeof(int)*size[i]*size[i]);
-		loadMap(path,size[i],*maps[i]);
+		
+		*maps[i] = (int*)malloc(sizeof(int)*(*size_maps[i])*(*size_maps[i])); //définition de maps
+		loadMap(path,*size_maps[i],*maps[i]);
 	}
 	return 0; 
 }
