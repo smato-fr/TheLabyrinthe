@@ -1,6 +1,8 @@
 #include <stdlib.h>
 #include <stdio.h>
+#include <string.h>
 #include <Case.h>
+
 //chemin vers le fichier où se trouve tous les niveaux
 #define LEVELS_PATH "./res/levels/"
 
@@ -21,9 +23,9 @@ int loadMap(const char* path, const int size, int* map) {
 		printf("erreur chargement");
 		return (-1);
 	}
-	char* buffer[size];
+	char buffer[size];
 	for (int i = 0; i < size; i++){
-		fscanf(flux_entree, "%c", buffer);
+		fscanf(flux_entree, "%s", buffer);
 		for (int j=0; j < size; j++){
 			if (buffer[j] == 'S'){ // recherche safe zone
 				map[i*size + j] = SAFE;
@@ -80,7 +82,6 @@ int loadMap(const char* path, const int size, int* map) {
 	}
 	return 0;
 }
-	
 
 /*
 
@@ -100,44 +101,108 @@ int*** maps -> pointeur à modifier, pointe sur nb_map pointeurs pointant eux me
 - le remplir avec des pointeurs sur des tableaux 2D
 - remplir les tableaux 2D avec la fonction loadMap
 */
+
+
+
+/* On définit quelques fonctions auxiliaires qui nous serons utiles*/
+int concat(char s1[], char s2[]){ //concaténer deux strings
+  int taille = 0; 
+  int j = 0;
+
+  // déterminer la taille de s1
+  while (s1[taille] != '\0') {
+    ++taille;
+  }
+
+  // concaténer s2 dans s1
+  while (s2[j] != '\0') {
+    s1[taille] = s2[j]; //ici, on étend s1 à taille + j, càd on associé s1[taille] à s2[0], s1[taille + 1] à s2[1] etc...
+	j++;
+	taille++;
+  }
+
+  // Il faut bien sûr terminer le string s1 !
+  s1[taille] = '\0';
+  return 0;
+}
+void duplicate(char dest[], char source[]){ //dupliquer un string source vers un string dest
+	int taille=0;
+	while (source[taille] != '\0') {
+    	++taille;
+  	}
+	for (int i = 0; i<taille; i++){
+		dest[i] = source[i];
+	}
+}
+
+int prendre_int(char str[], int n){ //renvoie le premier int contenu dans un string, en cherchant à partir de la nieme position, jusqu'à rencontrer un caractère qui ne soit pas un chiffre.
+    int taille=0;
+	while (str[taille] != '\0') {
+    	++taille;
+  	}
+    char tempo[taille];
+    for (int i = 0; i<=(taille-n); i++){
+        tempo[i] = str[i+n];
+    }
+    int val =atoi(tempo);
+    return val;
+}
+
+
+
+//Programme principal loadingFiles
 int loadingFiles(const int level, int* nb_maps, int** size_maps, int*** maps) {
-	char niveau[1];
-	sprintf(niveau, "%d", level); // définit un string qui contient la valeur de level
-	char to_path[256] = strcat((strcat("/",niveau)),"level./res/levels/level_"); // concatène les strings, + écriture du path jusqu'au niveau de difficulté désiré
+	
+	//définition d'un string chemin de base to_path, on devra s'en servir par la suite
+	char niveau[256];
+	sprintf(niveau, "%d", level); // définit un string qui contient la valeur de level, un int.
+	char to_path[256] = "level./res/levels/level_";
+	concat(niveau,"/");
+	concat(to_path, niveau); // to_path = ./res/levels/level_'level'/
 	
 	
-	char tempo[256] = strcat("labyrinthe_0.opt",to_path); // on définit le chemin vers labyrinthe_0.opt
-	FILE* flux_entree = fopen(tempo, "r"); // on importe les caractéristiques de labyrinthe_0, qui contiennent sa taille et le nombre total de maps
+
+	char lab0opt[256]; 
+	duplicate(lab0opt, to_path); 
+	concat(lab0opt,"labyrinthe_0.opt"); // lab0opt = ./res/levels/level_'level'/labyrinthe_0.opt
+	FILE* flux_entree = fopen(lab0opt, "r"); // labyrinthe_0.opt contient la taille de la carte centrale et le nombre total de maps
 	if (flux_entree == NULL) {
 		printf("erreur chargement");
 		return (-1);
 	}
-	char* buffer[256];
-	fscanf(flux_entree, "nb_maps: %d", buffer); // On donne à buffer la première valeur du style "nb_maps: %d", qui est présent dans labyrinthe_0.opt.
-	*nb_maps = atoi(buffer[9]); //on définit nb_maps en premier le chiffre du buffer et en le convertissant en int avec atoi, ce qui est bien, c'est que atoi convertira tous les éléments du buffer en int à partir du 9e, jusqu'à trouver une lettre ou que le stirng finisse.
+	char buffer[256];
+	fscanf(flux_entree, "nb_maps: %s", buffer); //on trouve le premier motif 'nb_maps: %s', où %s représente le string contenant le nombre de cartes (la reconnaissance avec %s s'arrête au premier espace au sens large).
+	*nb_maps = prendre_int(buffer, 9); //nb_maps pointe donc vers le nombre de maps
 
-	
-	for(int i = 0; i < *nb_maps; i++) { //définition du tableau size
-		char num[1]; // string qui devra contenir le numéro du labyrinthe désiré
-		sprintf(num, "%d", i); // définit le string num comme contenant l'unique caractère i
-		char terminaison[16] = strcat(".lvl", (strcat(num,"labyrinthe_"))); //définit le string de terminaison (pour accéder à la bonne carte de labyrinthe)
-		char path[256] = strcat(terminaison, to_path); //définit le path final, ./res/levels/level_'level'/labyrinthe_X.lvl
+
+	//définition du tableau size
+	for(int i = 0; i < *nb_maps; i++) { 
+
+		//définition de path
+		char num[256]; 
+		sprintf(num, "%d", i);
+		char path[256];
+		duplicate(path, to_path); // On définit path, et on va le concaténer avec tempo pour obtenir le chemin final
+		char tempo[256] = "labyrinthe_"; // On va maintenant s'occuper de tempo, pour obtenir un string de la forme
+		concat(tempo,num); // tempo = labyrinthe_X
+		concat(tempo,".lvl"); // tempo = labyrinthe_X.lvl
+		concat(path, tempo); // path = ./res/levels/level_'level'/labyrinthe_X.lvl
+		
+		//accès au document et utilisation 
 		FILE* flux_entree = fopen(path, "r"); // accède au document
 		if (flux_entree == NULL) {
 			printf("erreur chargement");
 			return (-1);
 		}
 		char taille[256];
-		fscanf(flux_entree, "size: %d", taille); //on trouve le premier motif tq size : %d où %d représente 2 entiers consécutifs (ce n'est pas un problème, la reconnaissance avec %d s'arrête au premier espace au sens large.
-		size_maps[i] = atoi(taille[6]); //Même si la taille fait 2 chiffres, atoi va convertir ce string à partir du 6e élément et continuer pour obtenir un unique int, jusqu'à trouver une lettre ou finir le string !
+		fscanf(flux_entree, "size: %s", taille); 
+		*size_maps[i] = prendre_int(taille, 6); 
 	
-		
 		*maps[i] = (int*)malloc(sizeof(int)*(*size_maps[i])*(*size_maps[i])); //définition de maps
 		loadMap(path,*size_maps[i],*maps[i]);
 	}
 	return 0; 
 }
-
 	
 	
 	
