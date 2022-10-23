@@ -77,5 +77,5 @@ void print(char* str) {
 
 //affichage en console si le debuggin mode est activé
 void debug(char* str) {
-	if (DEGUG_MOD) print(str);
+	if (DEBUG_MOD) print(str);
 } 
