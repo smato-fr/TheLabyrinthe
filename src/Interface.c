@@ -71,11 +71,16 @@ enum Command read_console()
 }
 
 //affichage en console d'un string
-void print(char* str) {
+void print(char* str) 
+{
 	printf("(%s)\n", str);
 }
 
 //affichage en console si le debuggin mode est activé
-void debug(char* str) {
-	if (DEBUG_MOD) print(str);
+void debug(char* str) 
+{
+	if (DEBUG_MOD) 
+	{
+		print(str);
+	}
 } 
