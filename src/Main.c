@@ -13,7 +13,7 @@
 
 //énumération des types de commande utilisateur (en console)
 #include "Command.h"
-const FunctionCommand Commands[]={&up, &down, &right, &left};
+const FunctionCommand Commands[]={&unknowCommand, &up, &down, &right, &left};
 
 //énumération des types de case
 #include "Case.h"
