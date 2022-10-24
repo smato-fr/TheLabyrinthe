@@ -248,23 +248,3 @@ int loadingFiles(const int level, int* nb_maps, int** size_maps, int*** maps) {
 	}
 	return 0;
 }
-
-
-	
-void print(int* tab, int taille){
-	for (int i = 0; i<taille; i++){
-		for (int j = 0; j<taille; j++){
-		printf("%d", tab[i*taille + j]);
-		}
-		printf("\n");
-	}
-}
-
-void main(){
-	int nb_maps;
-	int* size_maps;
-	int** map; 
-	loadingFiles(1, &nb_maps, &size_maps, &map);
-	print(map[0], size_maps[0]);
-	//loadingFiles(1, nb_maps, size_maps, maps);
-}

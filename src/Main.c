@@ -66,7 +66,7 @@ int main() {
 
 
 
-	printf("loaded ! size_map: %d map: %d\n", game.current_size, game.current_map[0]);
+	//printf("loaded ! size_map: %d map: %d\n", game.current_size, game.current_map[0]);
 	display(game.current_map, game.current_size, 0, 0, game.current_size-1, game.current_size-1);
   	enum Command cmd = read_console();
   	while(cmd != STOP) {
