@@ -13,7 +13,7 @@
 
 //énumération des types de commande utilisateur (en console)
 #include "Command.h"
-const FunctionCommand Commands[]={&unknowCommand, &up, &down, &right, &left};
+const FunctionCommand Commands[]={&unknownCommand, &up, &down, &right, &left};
 
 //énumération des types de case
 #include "Case.h"
@@ -33,6 +33,7 @@ Game game;
 int main() {
   	//INITIALISATION
 	game.level = 1;
+	game.renderDistance = 10;
 
   	if (loadingFiles(game.level, &game.nb_map, &game.size_maps, &game.maps)) //chargement des fichier 
   		assert("erreur lors du chargement des fichiers"); //lance une exception
@@ -64,7 +65,18 @@ int main() {
   	while(cmd != STOP) {
   		
   		if (Commands[cmd]()) {
-  			//display(); //TODO
+			int xMin = game.x_player-game.renderDistance;
+			int yMin = game.y_player-game.renderDistance;
+
+			int xMax = game.x_player+game.renderDistance;
+			int yMax = game.y_player+game.renderDistance;
+
+			if (xMin<0)xMin=0;
+			if (yMin<0)yMin=0;
+			if (xMax>=game.current_size)xMax=game.current_size-1;
+			if (yMax>=game.current_size)yMax=game.current_size-1;
+
+			display(game.current_map, game.current_size, xMin, yMin, xMax, yMax);
   		}
 
 
@@ -87,6 +99,12 @@ int canGoToCaseAt(int x, int y) {
 
 
 //fonctions appelées par  les commandes utilisateurs (définies dans Command.h)
+
+int unknownCommand() {
+	print(USER_ERROR_UNKNOWN);
+	return 0;
+}
+
 int up() {
 
 	if (game.y_player+1 < game.current_size && canGoToCaseAt(game.x_player, game.y_player+1)) {

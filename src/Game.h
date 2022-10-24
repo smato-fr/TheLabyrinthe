@@ -5,6 +5,9 @@
   typedef struct Game {
     //constantes
     int level; //id du level à charger
+    int renderDistance;
+
+    //à charger dans les fichiers
     int nb_map; //nombre de carte
     int* size_maps; //tableau des tailles des cartes
     int** maps; //tous les tableaux 2D

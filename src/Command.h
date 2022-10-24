@@ -8,7 +8,7 @@
   enum Command {
 
 	  STOP=-1,
-	  UNKNOW_COMMAND=0,
+	  UNKNOWN_COMMAND=0,
     UP,
 	  DOWN,
 	  RIGHT,
@@ -19,7 +19,7 @@
 
 
   //fonctions appelées à la suite d'une commande utilisateur
-  int unknowCommand();
+  int unknownCommand();
   int up();
   int down();
   int left();
