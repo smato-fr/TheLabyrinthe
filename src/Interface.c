@@ -37,14 +37,14 @@ x-> case à afficher
 */
 void display(int* map, int size, int xMin, int yMin, int xMax, int yMax) 
 {
-	/* parcours des lignes du tableau */
+	/* parcours des colonnes du tableau */
 	for (int i = xMin; i < xMax; i++)
 	{
-		/*parcours des colonnes du tableau */
+		/*parcours des lignes du tableau */
 		for (int j = yMin; j < yMax; j++)
 		{
+			/*affiche le caractere associe a sa commande */
 			printf("%c ",characteres[map[j*size+i]]); 
-
 		}
 	printf('\n');
 	}
@@ -84,8 +84,6 @@ enum Command read_console()
 		/* si c est le cas alors le personnage va en bas sinon il ne se passe rien*/
 		return (DOWN);
 	}
-
-	return ERROR;
 }
 
 //affichage en console d'un string
