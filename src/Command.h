@@ -6,6 +6,7 @@
 
   //énumérations de toutes les commandes utilisateurs
   enum Command {
+    ERROR=-2,
 	  STOP=-1,
 	  UP=0,
 	  DOWN,

@@ -84,6 +84,8 @@ enum Command read_console()
 		/* si c est le cas alors le personnage va en bas sinon il ne se passe rien*/
 		return (DOWN);
 	}
+
+	return ERROR;
 }
 
 //affichage en console d'un string
