@@ -26,26 +26,26 @@
 
 
 //instance de game
-const Game game;
+Game game;
 
 //FONCTION PRINCIPALE
 int main() {
   	//INITIALISATION
-	
+	game.level = 1;
 
-  	if (loadingFiles(level, &nb_map, &size_maps, &maps)) //chargement des fichier 
+  	if (loadingFiles(game.level, &game.nb_map, &game.size_maps, &game.maps)) //chargement des fichier 
   		assert("erreur lors du chargement des fichiers"); //lance une exception
 
 
   	//recherche du point de spawn du joueur
-  	for (int m = 0; m < nb_map; m++) {
-  		game.current_map = maps[m];
-  		game.current_size = size_maps[m];
-	  	for (int i = 0; i < current_size; i++) {
+  	for (int m = 0; m < game.nb_map; m++) {
+  		game.current_map = game.maps[m];
+  		game.current_size = game.size_maps[m];
+	  	for (int i = 0; i < game.current_size; i++) {
 
-	  		for (int j = 0; j < current_size; j++) {
+	  		for (int j = 0; j < game.current_size; j++) {
 
-	  			if (current_map[i*current_size+j] == START) {
+	  			if (game.current_map[i*game.current_size+j] == START) {
 	  				game.x_spawn=i;
 	  				game.y_spawn=j;
 	  				game.x_player=game.x_spawn;
@@ -62,8 +62,8 @@ int main() {
   	enum Command cmd = read_console();
   	while(cmd != STOP) {
   		
-  		if ((*Commands[cmd])()) {
-  			display(); //TODO
+  		if (*(Commands[cmd])()) {
+  			//display(); //TODO
   		}
 
 
