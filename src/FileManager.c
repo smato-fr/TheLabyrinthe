@@ -195,7 +195,7 @@ int loadingFiles(const int level, int* nb_maps, int** size_maps, int*** maps) {
 	printf("nb _maps = %d\n",*nb_maps);
 	fclose(flux_entree);
 	*size_maps = (int*)malloc(sizeof(int)*(*nb_maps));
-	*maps = (int**)malloc(sizeof(int*)*(*nb_maps)); //définition de maps 
+	*maps = (int**)malloc(sizeof(int*)*(*nb_maps)); //on alloue la bonne taille à *maps
 
 	//Définition du tableau size_maps et de maps
 	for(int i = 0; i < *nb_maps; i++) { 
