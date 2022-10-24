@@ -9,6 +9,8 @@ Partie affichage et lecture en console
 #include <string.h>
 //énumération des types de commande utilisateur (en console)
 #include "Command.h"
+#include "Case.h"
+char Characteres[]={' ', ' ', 'S', 'X'};
 
 //activation du mode de debuggage 
 #define DEBUG_MOD 1
