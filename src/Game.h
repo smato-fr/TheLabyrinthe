@@ -4,7 +4,7 @@
   
   typedef struct Game {
     //constantes
-    int level = 1; //id du level à charger
+    int level; //id du level à charger
     int nb_map; //nombre de carte
     int* size_maps; //tableau des tailles des cartes
     int** maps; //tous les tableaux 2D
