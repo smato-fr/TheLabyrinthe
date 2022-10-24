@@ -10,7 +10,7 @@ Partie affichage et lecture en console
 //énumération des types de commande utilisateur (en console)
 #include "Command.h"
 #include "Case.h"
-char Characteres[]={' ', ' ', 'S', 'X', '?', '+', 'Z', 'F', '!', '$', 'T', 'P', '/','E'};
+char characteres[]={' ', ' ', 'S', 'X', '?', '+', 'Z', 'F', '!', '$', 'T', 'P', '/','E'};
 
 //activation du mode de debuggage 
 #define DEBUG_MOD 1
@@ -35,7 +35,7 @@ ______________________
 x-> case à afficher
 
 */
-void display(int* map, int xMin, int yMin, int xMax, int yMax, int size) 
+void display(int* map, int size, int xMin, int yMin, int xMax, int yMax) 
 {
 	/* parcours des lignes du tableau */
 	for (int i = xMin; i < xMax; i++)
@@ -43,74 +43,10 @@ void display(int* map, int xMin, int yMin, int xMax, int yMax, int size)
 		/*parcours des colonnes du tableau */
 		for (int j = yMin; j < yMax; j++)
 		{
-			/* les printf correspondent a l affichage des differents caracteres associe aux commandes */
-			/* test si la case est vide ou si c est la safe zone */
-			if (map[i*size + j] == SAFE or map[i*size + j] == AIR)
-			{
-				printf('%c ', ' ');
-			}
-			/* test si la case est le point de depart */
-			if (map[i*size + j] == START)
-			{
-				printf('%c ', 'S');
-			}
-			/* test si la case est un mur */
-			if (map[i*size + j] == SOLID)
-			{
-				printf('%c ', 'X');
-			}
-			/* test si la case est un coffre */
-			if (map[i*size + j] == CHEST)
-			{
-				printf('%c ', '?');
-			}
-			/* test si la case est un coffre rare */
-			if (map[i*size + j] == RARE_CHEST)
-			{
-				printf('%c ', '+');
-			}
-			/* test si la case est un lit */
-			if (map[i*size + j] == BED)
-			{
-				printf('%c ', 'Z');
-			}
-			/* test si la case est une forge */
-			if (map[i*size + j] == FORGE)
-			{
-				printf('%c ', 'F');
-			}
-			/* test si la case est un point d apparition du griffeur */
-			if (map[i*size + j] == SCRATCHER_SPAWN)
-			{
-				printf('%c ', '!');
-			}
-			/* test si la case est un parchemin contenant un bout du mot de passe*/
-			if (map[i*size + j] == PARCHMENT)
-			{
-				printf('%c ', '$');
-			}
-			/* test si la case est un piege */
-			if (map[i*size + j] == TRAP)
-			{
-				printf('%c ', 'T');
-			}
-			/* test si la case est un passage secret */
-			if (map[i*size + j] == SECRET_PASSAGE)
-			{
-				printf('%c ', 'P');
-			}
-			/* test si la case est un levier */
-			if (map[i*size + j] == LEVER)
-			{
-				printf('%c ', '/');
-			}
-			/* test si la case est une des 4 entrees pour acceder aux 4 autres labyrinthes */
-			if (map[i*size + j] == ENTRY1 or map[i*size + j] == ENTRY2 or map[i*size + j] == ENTRY3 or map[i*size + j] == ENTRY4)
-			{
-				printf('%c ', 'E');
-			}
+			printf("%c ",characteres[map[j*size+i]]); 
+
 		}
-	printf('\n')
+	printf('\n');
 	}
 }
 
