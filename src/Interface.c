@@ -10,6 +10,8 @@ Partie affichage et lecture en console
 //énumération des types de commande utilisateur (en console)
 #include "Command.h"
 
+//activation du mode de debuggage 
+#define DEBUG_MOD 1
 
 /*
 

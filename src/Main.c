@@ -62,7 +62,7 @@ int main() {
   	enum Command cmd = read_console();
   	while(cmd != STOP) {
   		
-  		if (*(Commands[cmd])()) {
+  		if (Commands[cmd]()) {
   			//display(); //TODO
   		}
 
