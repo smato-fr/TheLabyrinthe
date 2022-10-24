@@ -110,6 +110,7 @@ void display(int* map, int xMin, int yMin, int xMax, int yMax, int size)
 				printf('%c ', 'E');
 			}
 		}
+	printf('\n')
 	}
 }
 
