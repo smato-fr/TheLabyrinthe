@@ -1,17 +1,17 @@
-Labyrinthe: Main.o Constants.o Interface.o FileManager.o
-    gcc -o Labyrinthe Constants.o Interface.o FileManager.o
+prog: main.o constants.o interface.o filemanager.o
+	gcc -o prog -c main.o constants.o interface.o filemanager.o
 
-Main.o: ./src/Main.c
-    gcc -c -Wall ./src/Main.c
+main.o: Main.c
+	gcc -c -Wall Main.c
 
-Constants.o: ./src/Constants.c
-    gcc -c -Wall ./src/Constants.c
+constants.o: Constants.c
+	gcc -o constants.o -c Constants.c
 
-Interface.o: ./src/Interface.c
-    gcc -c -Wall ./src/Interface.c
+interface.o: Interface.c
+	gcc -o interface.o -c Interface.c
 
-FileManager.o: ./src/FileManager.c
-    gcc -c -Wall ./src/FileManager.c
+filemanager.o: FileManager.c
+	gcc -o filemanager.o -c FileManager.c
 
 clean:
-    rm -f Labyrinthe *.o
+	rm -f prog *.o
