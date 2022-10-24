@@ -4,8 +4,8 @@
   
   //énumération de tous les différents type de case
   enum Case {
-	  SAFE = -1, //case vide protégée (déplacement possible)
-	  AIR = 0, //case vide (déplacement possible)
+	  SAFE, //case vide protégée (déplacement possible)
+	  AIR, //case vide (déplacement possible)
 	  START, //point d'apparition
 	  SOLID, //mur
 	  CHEST, //coffre
