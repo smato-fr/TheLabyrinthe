@@ -18,13 +18,13 @@ accès à la position x, y de map -> map[y*size+x]
 
 */
 
-int loadMap(const char* path, const int size, int* map) {
+int loadMap(char* path, const int size, int* map) {
 	FILE* flux_entree = fopen(path, "r");
 	if (flux_entree == NULL) {
 		printf("erreur chargement");
 		return (-1);
 	}
-	char buffer[size];
+	char* buffer = (char*)malloc(sizeof(char)*size);
 	for (int i = 0; i < size; i++){
 		fscanf(flux_entree, "%s", buffer);
 		for (int j=0; j < size; j++){
@@ -81,6 +81,8 @@ int loadMap(const char* path, const int size, int* map) {
 			}
 		}
 	}
+	free(buffer);
+	fclose(flux_entree);
 	return 0;
 }
 
@@ -117,7 +119,7 @@ int concat(char s1[], char s2[]){ //concaténer deux strings
 
   // concaténer s2 dans s1
   while (s2[j] != '\0') {
-    s1[taille] = s2[j]; //ici, on étend s1 à taille + j, càd on associé s1[taille] à s2[0], s1[taille + 1] à s2[1] etc...
+    s1[taille] = s2[j]; //ici, on étend s1 à taille + j, càd on associe s1[taille] à s2[0], s1[taille + 1] à s2[1] etc...
 	j++;
 	taille++;
   }
@@ -137,24 +139,28 @@ void duplicate(char dest[], char source[]){ //dupliquer un string source vers un
 	for (int i = 0; i<taille; i++){
 		dest[i] = source[i];
 	}
+	dest[taille]='\0';
 }
 
-
-
-int prendre_int(char str[], int n){ //renvoie le premier int contenu dans un string, en cherchant à partir de la nieme position, jusqu'à rencontrer un caractère qui ne soit pas un chiffre.
-    int taille=0;
-	while (str[taille] != '\0') {
-    	++taille;
+int egaux(char *tab1, char *tab2){
+	int taille1=0;
+	int taille2=0;
+	while (tab1[taille1] != '\0') {
+    	taille1++;
   	}
-    char tempo[taille];
-    for (int i = 0; i<=(taille-n); i++){
-        tempo[i] = str[i+n];
-    }
-    int val =atoi(tempo);
-    return val;
+	while (tab2[taille2] != '\0') {
+    	taille2++;
+	}
+	if (taille1 != taille2){
+		return 0;
+	}
+	for (int i=0; i<taille1; i++){
+		if (tab1[i] != tab2[i]){
+			return 0;
+		}
+	}
+	return 1;
 }
-
-
 
 
 //Programme principal loadingFiles
@@ -163,26 +169,34 @@ int loadingFiles(const int level, int* nb_maps, int** size_maps, int*** maps) {
 	//définition d'un string chemin de base to_path, on devra s'en servir par la suite
 	char niveau[256];
 	sprintf(niveau, "%d", level); // définit un string qui contient la valeur de level, un int.
-	char to_path[256] = "level./res/levels/level_";
+	char to_path[256] = "./src/res/levels/level_";
 	concat(niveau,"/");
-	concat(to_path, niveau); // to_path = ./res/levels/level_'level'/
-	
+	concat(to_path, niveau); // to_path = ./src/res/levels/level_'level'/
+	printf("%s\n",to_path);
 	
 	// Recherche du nombre de maps dans le jeu
 	char lab0opt[256]; 
 	duplicate(lab0opt, to_path); 
-	concat(lab0opt,"labyrinthe_0.opt"); // lab0opt = ./res/levels/level_'level'/labyrinthe_0.opt
+	concat(lab0opt,"labyrinthe_0.opt"); // lab0opt = ./src/res/levels/level_'level'/labyrinthe_0.opt
+	printf("%s\n", lab0opt);
 	FILE* flux_entree = fopen(lab0opt, "r"); // labyrinthe_0.opt contient la taille de la carte centrale et le nombre total de maps
 	if (flux_entree == NULL) {
 		printf("erreur chargement");
 		return (-1);
 	}
 	char buffer[256];
-	fscanf(flux_entree, "nb_maps: %s", buffer); //on trouve le premier motif 'nb_maps: %s', où %s représente le string contenant le nombre de cartes (la reconnaissance avec %s s'arrête au premier espace au sens large).
-	*nb_maps = prendre_int(buffer, 9); //nb_maps pointe donc vers le nombre de maps
+	while(fscanf(flux_entree,"%s", buffer) != EOF){
+		if (egaux(buffer, "nb_maps:")){  //on trouve le premier motif 'nb_maps: '
+			fscanf(flux_entree,"%s", buffer); // on sait alors que le string suivant est la donnée de nb_maps, bingo!
+			break;
+		}
+	}
+	*nb_maps = atoi(buffer); //nb_maps pointe donc vers le nombre de maps
+	printf("nb _maps = %d\n",*nb_maps);
+	fclose(flux_entree);
+	*size_maps = (int*)malloc(sizeof(int)*(*nb_maps));
+	*maps = (int**)malloc(sizeof(int*)*(*nb_maps)); //définition de maps 
 
-
-	
 	//Définition du tableau size_maps et de maps
 	for(int i = 0; i < *nb_maps; i++) { 
 
@@ -193,27 +207,64 @@ int loadingFiles(const int level, int* nb_maps, int** size_maps, int*** maps) {
 		duplicate(path, to_path); // On définit path, et on va le concaténer avec tempo pour obtenir le chemin final
 		char tempo[256] = "labyrinthe_"; // On va maintenant s'occuper de tempo, pour obtenir un string de la forme
 		concat(tempo,num); // tempo = labyrinthe_X
-		concat(tempo,".lvl"); // tempo = labyrinthe_X.lvl
-		concat(path, tempo); // path = ./res/levels/level_'level'/labyrinthe_X.lvl
-		
+		printf("%s\n", tempo);
+		printf("%s\n", path);
+		concat(path, tempo); // path = ./src/res/levels/level_'level'/labyrinthe_X
+		printf("%s\n", path);
+
+
+		char path_size[256];
+		duplicate(path_size, path);
+		concat(path_size,".opt"); // path = ./src/res/levels/level_'level'/labyrinthe_X.opt
+		printf("%s\n", path_size);
 		//accès au document
-		FILE* flux_entree = fopen(path, "r"); // accède au document
+		FILE* flux_entree = fopen(path_size, "r"); // accède au document
 		if (flux_entree == NULL) {
 			printf("erreur chargement");
 			return (-1);
 		}
 		
-		// défiition de size_maps
+		// définition de size_maps
 		char taille[256];
-		fscanf(flux_entree, "size: %s", taille); 
-		*size_maps[i] = prendre_int(taille, 6); 
-	
+		while(fscanf(flux_entree,"%s", taille) != EOF){
+			if (egaux(taille, "size:")){  //on trouve le premier motif 'size: '
+				fscanf(flux_entree,"%s", taille); // on sait alors que le string suivant est la donnée de nb_maps, bingo!
+				break; 
+			}
+		}
+		*size_maps[i] = atoi(taille);
+		printf("%s, %d\n", taille, *size_maps[i]);
+		fclose(flux_entree);
+
 		// définition de maps
+		char path_maps[256];
+		duplicate(path_maps, path);
+		concat(path_maps, ".lvl");
+		printf("%s\n",path_maps);
 		*maps[i] = (int*)malloc(sizeof(int)*(*size_maps[i])*(*size_maps[i])); //définition de maps
-		loadMap(path,*size_maps[i],*maps[i]);
+		printf("verif1\n");
+		loadMap(path_maps,*size_maps[i], *maps[i]);
+		printf("verif2\n");
 	}
 	return 0; 
 }
+
+
 	
-	
-	
+void print(int* tab, int taille){
+	for (int i = 0; i<taille; i++){
+		for (int j = 0; j<taille; j++){
+		printf("%d", tab[i*taille + j]);
+		}
+		printf("\n");
+	}
+}
+
+void main(){
+	int nb_maps;
+	int* size_maps;
+	int** map; 
+	loadingFiles(1, &nb_maps, &size_maps, &map);
+	print(map[0], size_maps[0]);
+	//loadingFiles(1, nb_maps, size_maps, maps);
+}
