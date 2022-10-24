@@ -7,6 +7,8 @@ Partie affichage et lecture en console
 
 #include <stdio.h>
 #include <string.h>
+//énumération des types de commande utilisateur (en console)
+#include "Command.h"
 
 
 /*

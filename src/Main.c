@@ -2,38 +2,26 @@
 
 
 //IMPORTATIONS
+#include <assert.h>
+
 
 //Structure partie
-struct Game
-{
-	//constantes
-	int level = 1; //id du level à charger
-  	int nb_map; //nombre de carte
-  	int* size_maps; //tableau des tailles des cartes
-  	int** maps; //tous les tableaux 2D
-
-
-	//variables du jeu
-  	int x_spawn, y_spawn;
-  	int current_size; //taille de la carte actuelle
-  	int* current_map;//carte actuelle où se trouve le joueur
-  	int x_player, y_player; //position du joueur
-};
+#include "Game.h"
 
 //enumération des erreurs
-#include<Error.h>
+#include "Error.h"
 
 //énumération des types de commande utilisateur (en console)
-#include<Command.h>
+#include "Command.h"
 
 //énumération des types de case
-#include<Case.h>
+#include "Case.h"
 
 //gestion affichage en console
-#include<Renderer.c>
+#include "Interface.c"
 
 //gestion de la lecture des ressources
-#include<FileManger.c>
+#include "FileManager.c"
 
 
 

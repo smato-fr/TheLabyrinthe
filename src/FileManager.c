@@ -1,7 +1,8 @@
 #include <stdlib.h>
 #include <stdio.h>
-#include <string.h>
-#include <Case.h>
+//énumération des types de case
+#include "Case.h"
+
 
 //chemin vers le fichier où se trouve tous les niveaux
 #define LEVELS_PATH "./res/levels/"
