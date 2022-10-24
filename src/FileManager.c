@@ -232,8 +232,8 @@ int loadingFiles(const int level, int* nb_maps, int** size_maps, int*** maps) {
 				break; 
 			}
 		}
-		*size_maps[i] = atoi(taille);
-		printf("%s, %d\n", taille, *size_maps[i]);
+		(*size_maps)[i] = atoi(taille);
+		printf("%s, %d\n", taille, (*size_maps)[i]);
 		fclose(flux_entree);
 
 		// définition de maps
@@ -241,30 +241,10 @@ int loadingFiles(const int level, int* nb_maps, int** size_maps, int*** maps) {
 		duplicate(path_maps, path);
 		concat(path_maps, ".lvl");
 		printf("%s\n",path_maps);
-		*maps[i] = (int*)malloc(sizeof(int)*(*size_maps[i])*(*size_maps[i])); //définition de maps
+		(*maps)[i] = (int*)malloc(sizeof(int)*((*size_maps)[i])*((*size_maps)[i])); //définition de maps
 		printf("verif1\n");
-		loadMap(path_maps,*size_maps[i], *maps[i]);
+		loadMap(path_maps,(*size_maps)[i], (*maps)[i]);
 		printf("verif2\n");
 	}
 	return 0; 
-}
-
-
-	
-void print(int* tab, int taille){
-	for (int i = 0; i<taille; i++){
-		for (int j = 0; j<taille; j++){
-		printf("%d", tab[i*taille + j]);
-		}
-		printf("\n");
-	}
-}
-
-void main(){
-	int nb_maps;
-	int* size_maps;
-	int** map; 
-	loadingFiles(1, &nb_maps, &size_maps, &map);
-	print(map[0], size_maps[0]);
-	//loadingFiles(1, nb_maps, size_maps, maps);
 }

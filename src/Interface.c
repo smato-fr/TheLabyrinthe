@@ -46,7 +46,7 @@ void display(int* map, int size, int xMin, int yMin, int xMax, int yMax)
 			/*affiche le caractere associe a sa commande */
 			printf("%c ",characteres[map[j*size+i]]); 
 		}
-	printf('\n');
+	printf("\n");
 	}
 }
 
@@ -60,28 +60,33 @@ enum Command read_console()
 	char mot[10];
 	/* demande a l'utilisateur d entrer un mot */
 	scanf("%s", mot);
+	if (strcmp(mot, "stop") == 0)
+	{
+		/* si c est le cas alors le personnage va en bas*/
+		return (STOP);
+	}
 	/* test si le mot entre par l utilisateur correspond au mot associe a l action qui le fera aller en haut */
 	if (strcmp(mot, "up") == 0)
 	{
-		/* si c est le cas alors le personnage va en haut sinon il ne se passe rien*/
+		/* si c est le cas alors le personnage va en haut*/
 		return (UP);
 	}
 	/* test si le mot entre par l utilisateur correspond au mot associe a l action qui le fera aller a gauche */
 	if (strcmp(mot, "left") == 0)
 	{
-		/* si c est le cas alors le personnage va a gauche sinon il ne se passe rien*/
+		/* si c est le cas alors le personnage va a gauche */
 		return (LEFT);
 	}
 	/* test si le mot entre par l utilisateur correspond au mot associe a l action qui le fera aller en droite */
 	if (strcmp(mot, "right") == 0)
 	{
-		/* si c est le cas alors le personnage va a droite sinon il ne se passe rien*/
+		/* si c est le cas alors le personnage va a droite */
 		return (RIGHT);
 	}
 	/* test si le mot entre par l utilisateur correspond au mot associe a l action qui le fera aller en bas */
 	if (strcmp(mot, "down") == 0)
 	{
-		/* si c est le cas alors le personnage va en bas sinon il ne se passe rien*/
+		/* si c est le cas alors le personnage va en bas*/
 		return (DOWN);
 	}
 

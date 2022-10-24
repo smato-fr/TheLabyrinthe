@@ -40,10 +40,13 @@ int main() {
 
 
   	//recherche du point de spawn du joueur
-  	for (int m = 0; m < game.nb_map; m++) {
+  	
+	int searching = 1;	
+	for (int m = 0; m < game.nb_map && searching; m++) {
   		game.current_map = game.maps[m];
   		game.current_size = game.size_maps[m];
-	  	for (int i = 0; i < game.current_size; i++) {
+		
+	  	for (int i = 0; i < game.current_size && searching; i++) {
 
 	  		for (int j = 0; j < game.current_size; j++) {
 
@@ -52,6 +55,7 @@ int main() {
 	  				game.y_spawn=j;
 	  				game.x_player=game.x_spawn;
 	  				game.y_player=game.y_player;
+					searching=0;
 	  				break;
 	  			}
 
@@ -61,6 +65,9 @@ int main() {
   	}
 
 
+
+	printf("loaded ! size_map: %d map: %d\n", game.current_size, game.current_map[0]);
+	display(game.current_map, game.current_size, 0, 0, game.current_size-1, game.current_size-1);
   	enum Command cmd = read_console();
   	while(cmd != STOP) {
   		
