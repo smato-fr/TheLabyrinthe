@@ -10,7 +10,7 @@ Partie affichage et lecture en console
 //énumération des types de commande utilisateur (en console)
 #include "Command.h"
 #include "Case.h"
-char characteres[]={' ', ' ', 'S', 'X', '?', '+', 'Z', 'F', '!', '$', 'T', 'P', '/','E'};
+char characteres[]={' ', ' ', 'S', 'X', '?', '+', 'Z', 'F', '!', '$', 'T', 'P', '/','E', 'E', 'E', 'E'};
 
 //activation du mode de debuggage 
 #define DEBUG_MOD 1
