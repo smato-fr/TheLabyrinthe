@@ -13,15 +13,16 @@
 
 //énumération des types de commande utilisateur (en console)
 #include "Command.h"
+const FunctionCommand Commands[]={&up, &down, &right, &left};
 
 //énumération des types de case
 #include "Case.h"
 
 //gestion affichage en console
-#include "Interface.c"
+#include "Interface.h"
 
 //gestion de la lecture des ressources
-#include "FileManager.c"
+#include "FileManager.h"
 
 
 

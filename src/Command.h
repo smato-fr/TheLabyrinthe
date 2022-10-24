@@ -26,7 +26,6 @@
 
   typedef int (*FunctionCommand)(); //crée un type qui peut contenir un pointeur vers une fonction
   //tableau qui renvoie la fonction correspond à la Command. Exemple Commands[DOWN] = down();
-  const FunctionCommand Commands[]={&up, &down, &right, &left};
 
 
 #endif
