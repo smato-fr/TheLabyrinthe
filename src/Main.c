@@ -14,7 +14,7 @@
 
 //énumération des types de commande utilisateur (en console)
 #include "Command.h"
-const FunctionCommand Commands[]={&debug_CMD, &unknownCommand, &up, &down, &right, &left};
+const FunctionCommand Commands[]={&debug_CMD, &unknownCommand, &help, &up, &down, &right, &left};
 
 //énumération des types de case
 #include "Case.h"
@@ -157,6 +157,13 @@ int debug_CMD() {
 
 int unknownCommand() {
 	print(USER_ERROR_UNKNOWN);
+	return 0;
+}
+
+int help() {
+	print("\n");
+	print("déplacement: up/down/left/right \n");
+	print("\n");
 	return 0;
 }
 

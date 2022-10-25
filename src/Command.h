@@ -9,6 +9,7 @@
     STOP=-1,
 	  DEBUG=0,
     UNKNOWN_COMMAND,
+    HELP,
     UP,
 	  DOWN,
 	  RIGHT,
@@ -19,6 +20,7 @@
   //fonctions appelées à la suite d'une commande utilisateur
   int debug_CMD();
   int unknownCommand();
+  int help();
   int up();
   int down();
   int left();
