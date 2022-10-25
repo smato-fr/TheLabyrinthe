@@ -118,8 +118,8 @@ int goToCaseAt(int x, int y) {
 	}
 
 	if (c == ENTRY2) {
-		game.current_map = game.maps[1];
-		game.current_size = game.size_maps[1];
+		game.current_map = game.maps[2];
+		game.current_size = game.size_maps[2];
 
 		lookingFor(&game.x_spawn, &game.y_spawn, game.current_map, game.current_size, ENTRY2);
 		game.x_player=game.x_spawn;
@@ -127,8 +127,8 @@ int goToCaseAt(int x, int y) {
 	}
 
 	if (c == ENTRY3) {
-		game.current_map = game.maps[1];
-		game.current_size = game.size_maps[1];
+		game.current_map = game.maps[3];
+		game.current_size = game.size_maps[3];
 
 		lookingFor(&game.x_spawn, &game.y_spawn, game.current_map, game.current_size, ENTRY3);
 		game.x_player=game.x_spawn;
@@ -136,8 +136,8 @@ int goToCaseAt(int x, int y) {
 	}
 
 	if (c == ENTRY4) {
-		game.current_map = game.maps[1];
-		game.current_size = game.size_maps[1];
+		game.current_map = game.maps[4];
+		game.current_size = game.size_maps[4];
 
 		lookingFor(&game.x_spawn, &game.y_spawn, game.current_map, game.current_size, ENTRY4);
 		game.x_player=game.x_spawn;
