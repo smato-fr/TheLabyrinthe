@@ -83,25 +83,25 @@ enum Command read_console()
 		return (STOP);
 	}
 	/* test si le mot entre par l utilisateur correspond au mot associe a l action qui le fera aller en haut */
-	if (strcmp(mot, "up") == 0 || strcmp(mot, "u") == 0)
+	if (strcmp(mot, "up") == 0 || strcmp(mot, "z") == 0)
 	{
 		/* si c est le cas alors le personnage va en haut*/
 		return (UP);
 	}
 	/* test si le mot entre par l utilisateur correspond au mot associe a l action qui le fera aller a gauche */
-	if (strcmp(mot, "left") == 0 || strcmp(mot, "l") == 0)
+	if (strcmp(mot, "left") == 0 || strcmp(mot, "q") == 0)
 	{
 		/* si c est le cas alors le personnage va a gauche */
 		return (LEFT);
 	}
 	/* test si le mot entre par l utilisateur correspond au mot associe a l action qui le fera aller en droite */
-	if (strcmp(mot, "right") == 0 || strcmp(mot, "r") == 0)
+	if (strcmp(mot, "right") == 0 || strcmp(mot, "d") == 0)
 	{
 		/* si c est le cas alors le personnage va a droite */
 		return (RIGHT);
 	}
 	/* test si le mot entre par l utilisateur correspond au mot associe a l action qui le fera aller en bas */
-	if (strcmp(mot, "down") == 0 || strcmp(mot, "d") == 0)
+	if (strcmp(mot, "down") == 0 || strcmp(mot, "s") == 0)
 	{
 		/* si c est le cas alors le personnage va en bas*/
 		return (DOWN);
