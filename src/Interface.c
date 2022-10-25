@@ -35,16 +35,28 @@ ______________________
 x-> case à afficher
 
 */
-void display(int* map, int size, int xMin, int yMin, int xMax, int yMax) 
+void display(int* map, int size, int xMin, int yMin, int xMax, int yMax, int xPlayer, int yPlayer) 
 {
-	/* parcours des colonnes du tableau */
-	for (int i = xMin; i < xMax; i++)
+	printf("size: %d\n", size);
+	
+	/*parcours des lignes du tableau */
+	for (int y = yMin; y < yMax; y++)
 	{
-		/*parcours des lignes du tableau */
-		for (int j = yMin; j < yMax; j++)
+		/* parcours des colonnes du tableau */
+		for (int x = xMin; x < xMax; x++)
 		{
-			/*affiche le caractere associe a sa commande */
-			printf("%c ",characteres[map[j*size+i]]); 
+			/*printf("pos: %d/%d\n", x, y);
+			printf("map: %d\n",map[y*size+x]);
+			printf("char: %c\n", characteres[map[y*size+x]]);*/
+
+			if (x == xPlayer && y == yPlayer)
+			{
+				printf("o "); //affiche le joueur
+			}
+			else 
+			{
+				printf("%c ",characteres[map[y*size+x]]); /*affiche le caractere associe a sa case */
+			}
 		}
 	printf("\n");
 	}
@@ -60,6 +72,11 @@ enum Command read_console()
 	char mot[10];
 	/* demande a l'utilisateur d entrer un mot */
 	scanf("%s", mot);
+	if (strcmp(mot, "debug") == 0)
+	{
+		/* si c est le cas alors le personnage va en bas*/
+		return (DEBUG);
+	}
 	if (strcmp(mot, "stop") == 0)
 	{
 		/* si c est le cas alors le personnage va en bas*/

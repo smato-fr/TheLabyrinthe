@@ -1,0 +1,6 @@
+{
+    "files.associations": {
+        "case.h": "c",
+        "command.h": "c"
+    }
+}

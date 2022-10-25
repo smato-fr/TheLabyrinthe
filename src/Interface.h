@@ -1,5 +1,5 @@
 //affichage d'une partie du labyrinthe en console
-void display(int* map, int size, int xMin, int yMin, int xMax, int yMax);
+void display(int* map, int size, int xMin, int yMin, int xMax, int yMax, int xPlayer, int yPlayer);
 
 /*
 demande à l'utilisateur d'entrer une commande sous une chaine de caractère

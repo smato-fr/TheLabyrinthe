@@ -172,13 +172,13 @@ int loadingFiles(const int level, int* nb_maps, int** size_maps, int*** maps) {
 	char to_path[256] = "./src/res/levels/level_";
 	concat(niveau,"/");
 	concat(to_path, niveau); // to_path = ./src/res/levels/level_'level'/
-	printf("%s\n",to_path);
+	//printf("%s\n",to_path);
 	
 	// Recherche du nombre de maps dans le jeu
 	char lab0opt[256]; 
 	duplicate(lab0opt, to_path); 
 	concat(lab0opt,"labyrinthe_0.opt"); // lab0opt = ./src/res/levels/level_'level'/labyrinthe_0.opt
-	printf("%s\n", lab0opt);
+	//printf("%s\n", lab0opt);
 	FILE* flux_entree = fopen(lab0opt, "r"); // labyrinthe_0.opt contient la taille de la carte centrale et le nombre total de maps
 	if (flux_entree == NULL) {
 		printf("erreur chargement");
@@ -192,7 +192,7 @@ int loadingFiles(const int level, int* nb_maps, int** size_maps, int*** maps) {
 		}
 	}
 	*nb_maps = atoi(buffer); //nb_maps pointe donc vers le nombre de maps
-	printf("nb _maps = %d\n",*nb_maps);
+	//printf("nb _maps = %d\n",*nb_maps);
 	fclose(flux_entree);
 	*size_maps = (int*)malloc(sizeof(int)*(*nb_maps));
 	*maps = (int**)malloc(sizeof(int*)*(*nb_maps)); //on alloue la bonne taille à *maps
@@ -207,16 +207,16 @@ int loadingFiles(const int level, int* nb_maps, int** size_maps, int*** maps) {
 		duplicate(path, to_path); // On définit path, et on va le concaténer avec tempo pour obtenir le chemin final
 		char tempo[256] = "labyrinthe_"; // On va maintenant s'occuper de tempo, pour obtenir un string de la forme
 		concat(tempo,num); // tempo = labyrinthe_X
-		printf("%s\n", tempo);
-		printf("%s\n", path);
+		//printf("%s\n", tempo);
+		//printf("%s\n", path);
 		concat(path, tempo); // path = ./src/res/levels/level_'level'/labyrinthe_X
-		printf("%s\n", path);
+		//printf("%s\n", path);
 
 
 		char path_size[256];
 		duplicate(path_size, path);
 		concat(path_size,".opt"); // path = ./src/res/levels/level_'level'/labyrinthe_X.opt
-		printf("%s\n", path_size);
+		//printf("%s\n", path_size);
 		//accès au document
 		FILE* flux_entree = fopen(path_size, "r"); // accède au document
 		if (flux_entree == NULL) {
@@ -233,18 +233,18 @@ int loadingFiles(const int level, int* nb_maps, int** size_maps, int*** maps) {
 			}
 		}
 		(*size_maps)[i] = atoi(taille);
-		printf("%s, %d\n", taille, (*size_maps)[i]);
+		//printf("%s, %d\n", taille, (*size_maps)[i]);
 		fclose(flux_entree);
 
 		// définition de maps
 		char path_maps[256];
 		duplicate(path_maps, path);
 		concat(path_maps, ".lvl");
-		printf("%s\n",path_maps);
+		//printf("%s\n",path_maps);
 		(*maps)[i] = (int*)malloc(sizeof(int)*((*size_maps)[i])*((*size_maps)[i])); //définition de maps
-		printf("verif1\n");
+		//printf("verif1\n");
 		loadMap(path_maps,(*size_maps)[i], (*maps)[i]);
-		printf("verif2\n");
+		//printf("verif2\n");
 	}
 	return 0;
 }

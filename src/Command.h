@@ -6,19 +6,18 @@
 
   //énumérations de toutes les commandes utilisateurs
   enum Command {
-
-	  STOP=-1,
-	  UNKNOWN_COMMAND=0,
+    STOP=-1,
+	  DEBUG=0,
+    UNKNOWN_COMMAND,
     UP,
 	  DOWN,
 	  RIGHT,
 	  LEFT,
-	  
-
   };
 
 
   //fonctions appelées à la suite d'une commande utilisateur
+  int debug_CMD();
   int unknownCommand();
   int up();
   int down();
