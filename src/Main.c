@@ -82,6 +82,7 @@ int main() {
 			if (xMax>=game.current_size)xMax=game.current_size-1;
 			if (yMax>=game.current_size)yMax=game.current_size-1;
 
+			clearConsole();
 			display(game.current_map, game.current_size, xMin, yMin, xMax, yMax, game.x_player, game.y_player);
   		}
 

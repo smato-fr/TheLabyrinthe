@@ -1,3 +1,7 @@
+
+//fait de la place sur la console
+void clearConsole();
+
 //affichage d'une partie du labyrinthe en console
 void display(int* map, int size, int xMin, int yMin, int xMax, int yMax, int xPlayer, int yPlayer);
 
@@ -10,5 +14,5 @@ enum Command read_console();
 //affichage en console d'un string
 void print(char* str);
 
-//affichage en console si le debuggin mode est activé
+//affichage en console si le debuggage est activé
 void debug(char* str);

@@ -15,6 +15,14 @@ char characteres[]={' ', ' ', 'S', 'X', '?', '+', 'Z', 'F', '!', '$', 'T', 'P', 
 //activation du mode de debuggage 
 #define DEBUG_MOD 1
 
+
+
+//fait de la place dans la console
+void clearConsole() {
+	printf("\n\n\n\n\n\n\n\n\n\n\n\n\n");
+}
+
+
 /*
 
 int* map -> pointeur vers un tableau 2D caractérisant la carte
@@ -37,7 +45,6 @@ x-> case à afficher
 */
 void display(int* map, int size, int xMin, int yMin, int xMax, int yMax, int xPlayer, int yPlayer) 
 {
-	printf("size: %d\n", size);
 	
 	/*parcours des lignes du tableau */
 	for (int y = yMin; y < yMax; y++)
