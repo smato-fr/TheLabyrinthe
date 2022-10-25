@@ -9,7 +9,10 @@ Partie affichage et lecture en console
 #include <string.h>
 //énumération des types de commande utilisateur (en console)
 #include "Command.h"
-#include "Case.h"
+
+//énumération des types de case dans le labyrinthe
+#include "Case.h" 
+//associe à chaque case un caractère à afficher
 char characteres[]={' ', ' ', 'S', 'X', '?', '+', 'Z', 'F', '!', '$', 'T', 'P', '/','E', 'E', 'E', 'E'};
 
 //activation du mode de debuggage 
