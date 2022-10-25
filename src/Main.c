@@ -3,6 +3,8 @@
 
 //IMPORTATIONS
 #include <assert.h>
+#include <stdlib.h>
+
 
 //Constante
 #include "Constants.h"
