@@ -42,32 +42,22 @@ int main() {
 
 
   	//recherche du point de spawn du joueur
-  	
-	int found = 0;	
+
 	for (int m = 0; m < game.nb_map; m++) {
 
   		game.current_map = game.maps[m];
   		game.current_size = game.size_maps[m];
 		
-	  	for (int y = 0; y < game.current_size; y++) {
+		int x;
+		int y;
 
-	  		for (int x = 0; x < game.current_size; x++) {
-				
-	  			if (game.current_map[y*game.current_size+x] == START) {
-	  				game.x_spawn=x;
-	  				game.y_spawn=y;
-	  				game.x_player=game.x_spawn;
-	  				game.y_player=game.y_spawn;
-					found=1;
-	  				break;
-	  			}
-
-	  		}
-
-			if (found) break;
-	  	}
-
-		if (found) break;
+	  	if (lookingFor(&x, &y, game.current_map, game.current_size, START)) {
+			game.x_spawn=x;
+			game.y_spawn=y;
+			game.x_player=x;
+			game.y_player=y;
+			break;
+		}
   	}
 
 
@@ -99,6 +89,13 @@ int main() {
   	}
   	
 
+
+	//désallocation mémoire
+	for (int m = 0; m < game.nb_map; m++) {
+		free(game.maps[m]);
+	}
+	free(game.maps);
+	free(game.size_maps);
 }
 
 
@@ -112,21 +109,37 @@ int goToCaseAt(int x, int y) {
 	if (c == ENTRY1) {
 		game.current_map = game.maps[1];
 		game.current_size = game.size_maps[1];
+		
+		lookingFor(&game.x_spawn, &game.y_spawn, game.current_map, game.current_size, ENTRY1);
+		game.x_player=game.x_spawn;
+		game.y_player=game.y_spawn;
 	}
 
 	if (c == ENTRY2) {
 		game.current_map = game.maps[1];
 		game.current_size = game.size_maps[1];
+
+		lookingFor(&game.x_spawn, &game.y_spawn, game.current_map, game.current_size, ENTRY2);
+		game.x_player=game.x_spawn;
+		game.y_player=game.y_spawn;
 	}
 
 	if (c == ENTRY3) {
 		game.current_map = game.maps[1];
 		game.current_size = game.size_maps[1];
+
+		lookingFor(&game.x_spawn, &game.y_spawn, game.current_map, game.current_size, ENTRY3);
+		game.x_player=game.x_spawn;
+		game.y_player=game.y_spawn;
 	}
 
 	if (c == ENTRY4) {
 		game.current_map = game.maps[1];
 		game.current_size = game.size_maps[1];
+
+		lookingFor(&game.x_spawn, &game.y_spawn, game.current_map, game.current_size, ENTRY4);
+		game.x_player=game.x_spawn;
+		game.y_player=game.y_spawn;
 	}
 
 	print(USER_ERROR_UNMOVABLE);
