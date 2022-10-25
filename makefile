@@ -9,6 +9,9 @@ Interface.o:
 
 FileManager.o:
 	gcc -c -Wall ./src/FileManager.c
-	
+
+Tool.o:
+	gcc -c -Wall ./src/Tool.c
+
 clean:
 	rm -f Labyrinthe *.o

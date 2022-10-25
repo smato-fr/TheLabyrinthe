@@ -23,6 +23,8 @@ const FunctionCommand Commands[]={&debug_CMD, &unknownCommand, &up, &down, &righ
 //gestion de la lecture des ressources
 #include "FileManager.h"
 
+//fonctions utiles
+#include "Tools.h"
 
 
 //instance de game
@@ -76,7 +78,7 @@ int main() {
   	enum Command cmd = UP;
   	while(cmd != STOP) {
   		
-  		if (Commands[cmd]()) {
+  		if (Commands[cmd]()>0) {
 			int xMin = game.x_player-game.renderDistance;
 			int yMin = game.y_player-game.renderDistance;
 
@@ -101,11 +103,33 @@ int main() {
 
 
 //déplacement possible sur cette case ?
-int canGoToCaseAt(int x, int y) {
+int goToCaseAt(int x, int y) {
 	int c = game.current_map[y*game.current_size+x];
-	if (c == AIR || c == SAFE) {
+	if (c == AIR || c == SAFE || c == START) {
 		return 1;
 	}
+
+	if (c == ENTRY1) {
+		game.current_map = game.maps[1];
+		game.current_size = game.size_maps[1];
+	}
+
+	if (c == ENTRY2) {
+		game.current_map = game.maps[1];
+		game.current_size = game.size_maps[1];
+	}
+
+	if (c == ENTRY3) {
+		game.current_map = game.maps[1];
+		game.current_size = game.size_maps[1];
+	}
+
+	if (c == ENTRY4) {
+		game.current_map = game.maps[1];
+		game.current_size = game.size_maps[1];
+	}
+
+	print(USER_ERROR_UNMOVABLE);
 	return 0;
 }
 
@@ -123,9 +147,12 @@ int unknownCommand() {
 
 int up() {
 
-	if (game.y_player > 0 && canGoToCaseAt(game.x_player, game.y_player-1)) {
-		game.y_player--;
-		return 1;
+	if (game.y_player > 0) {
+
+		int answer = goToCaseAt(game.x_player, game.y_player-1);
+		if (answer == 1) game.y_player--;
+
+		return answer;
 	}
 
 	print(USER_ERROR_UNMOVABLE);
@@ -134,9 +161,12 @@ int up() {
 
 int down() {
 
-	if (game.y_player+1 < game.current_size && canGoToCaseAt(game.x_player, game.y_player+1)) {
-		game.y_player++;
-		return 1;
+	if (game.y_player+1 < game.current_size) {
+
+		int answer = goToCaseAt(game.x_player, game.y_player+1);
+		if (answer == 1) game.y_player++;
+
+		return answer;
 	}
 
 	print(USER_ERROR_UNMOVABLE);
@@ -146,9 +176,12 @@ int down() {
 
 int right() {
 
-	if (game.x_player+1 < game.current_size && canGoToCaseAt(game.x_player+1, game.y_player)) {
-		game.x_player++;
-		return 1;
+	if (game.x_player+1 < game.current_size) {
+
+		int answer = goToCaseAt(game.x_player+1, game.y_player);
+		if (answer == 1) game.x_player++;
+
+		return answer;
 	}
 
 	print(USER_ERROR_UNMOVABLE);
@@ -157,11 +190,13 @@ int right() {
 
 int left() {
 
-	if (game.x_player > 0 && canGoToCaseAt(game.x_player-1, game.y_player)) {
-		game.x_player--;
-		return 1;
-	}
+	if (game.x_player > 0) {
 
+		int answer = goToCaseAt(game.x_player-1, game.y_player);
+		if (answer == 1) game.x_player--;
+
+		return answer;
+	}
 	print(USER_ERROR_UNMOVABLE);
 	return 0;
 }

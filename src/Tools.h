@@ -1,0 +1,2 @@
+//Toutes fonctions utilitaires
+
