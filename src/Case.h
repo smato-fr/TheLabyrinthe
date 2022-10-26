@@ -21,6 +21,7 @@
 	  ENTRY2, // Passage bloc 2
 	  ENTRY3, // Passage bloc 3
 	  ENTRY4, // Passage bloc 4	
+	  DAY_NIGHT_DOOR,
   };
 
   	//fonction appelées quand on va vers la case
@@ -38,6 +39,7 @@
 	int entry2();
 	int entry3();
 	int entry4();
+	int dayNightDoor();
 
    	typedef int (*FunctionCase)(); //crée un type qui peut contenir un pointeur vers une fonction
 

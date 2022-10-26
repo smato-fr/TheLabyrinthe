@@ -13,7 +13,7 @@ Partie affichage et lecture en console
 //énumération des types de case dans le labyrinthe
 #include "Case.h" 
 //associe à chaque case un caractère à afficher
-char characteres[]={' ', ' ', 'S', 'X', '?', '+', 'Z', 'F', '!', '$', 'T', 'P', '/','E', 'E', 'E', 'E'};
+char characteres[]={' ', ' ', ' ', 'X', '?', '+', 'L', 'F', '!', '$', 'T', 'P', '/','E', 'E', 'E', 'E', '^'};
 
 //activation du mode de debuggage 
 #define DEBUG_MOD 1
@@ -23,6 +23,17 @@ char characteres[]={' ', ' ', 'S', 'X', '?', '+', 'Z', 'F', '!', '$', 'T', 'P', 
 //fait de la place dans la console
 void clearConsole() {
 	printf("\n\n\n\n\n\n\n\n\n\n\n\n\n");
+}
+
+
+
+//affichage du temps
+void display_time(int night, int time) {
+	if (night) {
+		printf("Il fait nuit, %d heure(s) avant le jour...\n", time);
+	} else {
+		printf("Il fait jour, %d heure(s) avant la nuit...\n", time);
+	}
 }
 
 
@@ -46,7 +57,7 @@ ______________________
 x-> case à afficher
 
 */
-void display(int* map, int size, int xMin, int yMin, int xMax, int yMax, int xPlayer, int yPlayer) 
+void display_labyrinthe(int* map, int size, int xMin, int yMin, int xMax, int yMax, int xPlayer, int yPlayer) 
 {
 	
 	/*parcours des lignes du tableau */

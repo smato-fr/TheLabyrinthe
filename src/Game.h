@@ -6,6 +6,8 @@
     //constantes
     int level; //id du level à charger
     int renderDistance;
+    int nightDuration;
+    int dayDuration;
 
     //à charger dans les fichiers
     int nb_map; //nombre de carte
@@ -22,9 +24,16 @@
     int current_size; //taille de la carte actuelle
     int* current_map;//carte actuelle où se trouve le joueur
     
+    int time; //cycle jour nuit
+    int night; //0-> oui, 1-> nuit
+
     //position du joueur
     int x_player;
     int y_player; 
   }Game;
-  
+
+  void onDie();
+  void onDay();
+  void onNight();
+
 #endif

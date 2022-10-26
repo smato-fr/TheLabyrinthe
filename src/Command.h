@@ -27,7 +27,7 @@
   int right();
 
   typedef int (*FunctionCommand)(); //crée un type qui peut contenir un pointeur vers une fonction
-  //tableau qui renvoie la fonction correspond à la Command. Exemple Commands[DOWN] = down();
+  //à utiliser pour créer un tableau qui renvoie la fonction correspond à la Command. Exemple Commands[DOWN] = down();
 
 
 #endif

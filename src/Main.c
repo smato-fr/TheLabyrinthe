@@ -20,7 +20,7 @@ const FunctionCommand CommandsFct[]={&debug_CMD, &unknownCommand, &help, &up, &d
 //énumération des types de case
 #include "Case.h"
  //fonctions à appeler quand le joueur essaie d'aller sur une case
-const FunctionCase CasesFct[]={&air, &air, &air, &solid, &chest, &rareChest, &bed, &forge, &air, &parchement, &trap, &secretPassage, &lever, &entry1, &entry2, &entry3, &entry4};
+const FunctionCase CasesFct[]={&air, &air, &air, &solid, &chest, &rareChest, &bed, &forge, &air, &parchement, &trap, &secretPassage, &lever, &entry1, &entry2, &entry3, &entry4, &dayNightDoor};
 
 //gestion affichage en console
 #include "Interface.h"
@@ -41,6 +41,9 @@ int main() {
 	print(PRINT_LOADING_START);
 	game.level = GAME_LEVEL;
 	game.renderDistance = GAME_RENDER_DISTANCE;
+	game.dayDuration = GAME_DAY_DURATION;
+	game.nightDuration = GAME_NIGHT_DURATION;
+	onDay();
 
   	if (loadingFiles(game.level, &game.nb_map, &game.size_maps, &game.maps)) //chargement des fichier 
   		assert("erreur lors du chargement des fichiers"); //lance une exception
@@ -91,8 +94,11 @@ int main() {
 			if (xMax>=game.current_size)xMax=game.current_size-1;
 			if (yMax>=game.current_size)yMax=game.current_size-1;
 
-			clearConsole(); //fait de la place
-			display(game.current_map, game.current_size, xMin, yMin, xMax, yMax, game.x_player, game.y_player); //affiche
+			clearConsole(); //fait de la place dans la console
+			//affichage du labyrinthe
+			display_labyrinthe(game.current_map, game.current_size, xMin, yMin, xMax, yMax, game.x_player, game.y_player); 
+			//affichage du temps
+			display_time(game.night, game.time);
   		}
 
 
@@ -113,6 +119,23 @@ int main() {
 
 //déplacement possible sur cette case ?
 int goToCaseAt(int x, int y) {
+
+	//avancé du temps
+	if (game.time<=0) {
+		
+		if (game.night) { //si nuit
+			//mettre jour
+			onDay();
+		} else { //sinon
+			//mettre nuit
+			onNight();
+		}
+
+	} 
+	else 
+		game.time--;
+
+
 	int c = game.current_map[y*game.current_size+x];
 	return CasesFct[c]();
 }
@@ -298,6 +321,13 @@ int rareChest() {
 
 //interaction avec un lit
 int bed() {
+	print(PRINT_GAME_BED);
+	if (game.night) {
+		print(PRINT_GAME_BED_NIGHT);
+		onDay();
+	} else {
+		print(PRINT_GAME_BED_DAY);
+	}
 	return 0;
 }
 
@@ -324,4 +354,52 @@ int secretPassage() {
 //interaction avec un levier
 int lever() {
 	return 0;
+}
+
+//passage par la porte jour/nuit (ouverte seulement le jour)
+int dayNightDoor() {
+	if (game.night) {
+		print(PRINT_GAME_DOOR_CLOSE);
+		return 0;
+	} else {
+		return 1;
+	}
+}
+
+
+
+//évènement durant le jeu:
+
+
+//mort du joueur :(
+void onDie() {
+	if (!GOD_MOD) {
+		game.x_player = game.x_spawn;
+		game.y_player = game.y_spawn;
+		print(PRINT_GAME_DIE);
+	}
+}
+
+//quand le jour se lève
+void onDay() {
+	game.night = 0;
+	game.time = game.dayDuration;
+	print(PRINT_GAME_DAY);
+}
+
+//quand le jour se couche
+void onNight() {
+	game.night = 1;
+	game.time = game.nightDuration;
+	print(PRINT_GAME_NIGHT);
+	
+	//si le joueur se trouvait malencontreusement sur la case de la porte...
+	int x;
+	int y;
+	if (lookingFor(&x, &y, game.current_map, game.current_size, DAY_NIGHT_DOOR)) { //recherche de la case porte
+		if (x == game.x_player && y == game.y_player) {
+			//le joueur est écrasé :/
+			onDie();
+		}
+	}
 }
