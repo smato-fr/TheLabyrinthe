@@ -22,5 +22,26 @@
 	  ENTRY3, // Passage bloc 3
 	  ENTRY4, // Passage bloc 4	
   };
+
+  	//fonction appelées quand on va vers la case
+	int air();
+	int solid();
+	int chest();
+	int rareChest();
+	int bed();
+	int forge();
+	int parchement();
+	int trap();
+	int secretPassage();
+	int lever();
+	int entry1();
+	int entry2();
+	int entry3();
+	int entry4();
+
+   	typedef int (*FunctionCase)(); //crée un type qui peut contenir un pointeur vers une fonction
+
+  	//à utiliser pour créer un tableau qui renvoie la fonction correspondante à la Case. Exemple Cases[SOLID] = solid();
+
   
 #endif 
