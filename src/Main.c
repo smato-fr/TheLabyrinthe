@@ -2,7 +2,6 @@
 
 
 //IMPORTATIONS
-#include <assert.h>
 #include <stdlib.h>
 
 
@@ -35,9 +34,10 @@ const FunctionCase CasesFct[]={&air, &air, &air, &solid, &chest, &rareChest, &be
 //instance de game
 Game game;
 
-//FONCTION PRINCIPALE
-int main() {
-  	//INITIALISATION
+
+//INITIALISATION
+int init() {
+
 	print(PRINT_LOADING_START);
 	game.level = GAME_LEVEL;
 	game.renderDistance = GAME_RENDER_DISTANCE;
@@ -46,8 +46,41 @@ int main() {
 	onDay();
 
   	if (loadingFiles(game.level, &game.nb_map, &game.size_maps, &game.maps)) //chargement des fichier 
-  		assert("erreur lors du chargement des fichiers"); //lance une exception
+  		return -1; //erreur détéctée
 
+	return 0;
+}
+
+
+//ARRET DU PROGRAMME
+int shutdown() {
+	//désallocation mémoire
+	//attention si erreurs lors du chargement, les pointeurs peuvent être nuls
+	if (game.maps != NULL) {
+		for (int m = 0; m < game.nb_map; m++) {
+			if (game.maps[m] != NULL)
+				free(game.maps[m]);
+		}
+		
+		free(game.maps);
+	}
+	if (game.size_maps != NULL) 
+		free(game.size_maps);
+}
+
+
+//FONCTION PRINCIPALE
+int main() {
+
+	//INITIALISATION
+  	if (init()) {
+
+		//en cas d'erreur
+		shutdown();
+		return -1;
+	}
+
+	//DEMARRAGE DU JEU
 
   	//recherche du point de spawn du joueur
 
@@ -60,8 +93,11 @@ int main() {
 		int y;
 
 	  	if (lookingFor(&x, &y, game.current_map, game.current_size, START)) { //recherche le point START dans la map
+			//si point trouvé, copie de ses positions
 			game.x_spawn=x;
 			game.y_spawn=y;
+
+			//place le joueur sur le point de spawn
 			game.x_player=x;
 			game.y_player=y;
 			break;
@@ -73,6 +109,8 @@ int main() {
 
 
   	enum Command cmd = UP;
+
+	//MAINLOOP (boucle principale du jeu)
   	while(cmd != STOP) { //arrêt du jeu si commande stop détéctée
 		
 		
@@ -106,14 +144,6 @@ int main() {
   		cmd = read_console();
   	}
   	
-
-
-	//désallocation mémoire
-	for (int m = 0; m < game.nb_map; m++) {
-		free(game.maps[m]);
-	}
-	free(game.maps);
-	free(game.size_maps);
 }
 
 
@@ -133,11 +163,11 @@ int goToCaseAt(int x, int y) {
 
 	} 
 	else 
-		game.time--;
+		game.time--; //le temps avance
 
 
-	int c = game.current_map[y*game.current_size+x];
-	return CasesFct[c]();
+	int c = game.current_map[y*game.current_size+x]; //type de la case
+	return CasesFct[c](); //appel de la fonction correspondante au type
 }
 
 
@@ -145,6 +175,7 @@ int goToCaseAt(int x, int y) {
 
 //fonctions appelées par  les commandes utilisateurs (définies dans Command.h)
 
+//fct utilisée pour le debuggage
 int debug_CMD() {
 	return 1;
 }
