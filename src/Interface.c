@@ -61,10 +61,10 @@ void display_labyrinthe(int* map, int size, int xMin, int yMin, int xMax, int yM
 {
 	
 	/*parcours des lignes du tableau */
-	for (int y = yMin; y < yMax; y++)
+	for (int y = yMin; y <= yMax; y++)
 	{
 		/* parcours des colonnes du tableau */
-		for (int x = xMin; x < xMax; x++)
+		for (int x = xMin; x <= xMax; x++)
 		{
 			/*printf("pos: %d/%d\n", x, y);
 			printf("map: %d\n",map[y*size+x]);
