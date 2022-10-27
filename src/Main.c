@@ -53,7 +53,7 @@ int init() {
 
 
 //ARRET DU PROGRAMME
-int shutdown() {
+void shutdown() {
 	//désallocation mémoire
 	//attention si erreurs lors du chargement, les pointeurs peuvent être nuls
 	if (game.maps != NULL) {
