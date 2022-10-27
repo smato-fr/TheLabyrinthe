@@ -55,7 +55,7 @@ ______________________
 | 3 |    | x | x | max |
 ______________________
 x-> case à afficher
-
+(min et max inclus)
 */
 void display_labyrinthe(int* map, int size, int xMin, int yMin, int xMax, int yMax, int xPlayer, int yPlayer) 
 {
@@ -93,14 +93,24 @@ enum Command read_console()
 	char mot[10];
 	/* demande a l'utilisateur d entrer un mot */
 	scanf("%s", mot);
+
+	
+	/* test si le mot entre par l utilisateur correspond au mot associe a l action de debuggage */
 	if (strcmp(mot, "debug") == 0)
 	{
-		/* si c est le cas alors le personnage va en bas*/
+		/* fonction de debuggade */
 		return (DEBUG);
 	}
+	/* test si le mot entre par l utilisateur correspond au mot associe a l action qui demande de l'aide*/
+	if (strcmp(mot, "help") == 0)
+	{
+		/* affichage des aides pour le joueur*/
+		return (HELP);
+	}
+	/* test si le mot entre par l utilisateur correspond au mot associe a l action qui arrête le jeu */
 	if (strcmp(mot, "stop") == 0)
 	{
-		/* si c est le cas alors le personnage va en bas*/
+		/* arrêt du jeu*/
 		return (STOP);
 	}
 	/* test si le mot entre par l utilisateur correspond au mot associe a l action qui le fera aller en haut */
