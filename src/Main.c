@@ -13,12 +13,12 @@
 
 //énumération des types de commande utilisateur (en console)
 #include "Command.h"
- //fonctions à appeler quand une commande est executée
+//fonctions à appeler quand une commande est executée
 const FunctionCommand CommandsFct[]={&debug_CMD, &unknownCommand, &help, &up, &down, &right, &left};
 
 //énumération des types de case
 #include "Case.h"
- //fonctions à appeler quand le joueur essaie d'aller sur une case
+//fonctions à appeler quand le joueur essaie d'aller sur une case
 const FunctionCase CasesFct[]={&air, &air, &air, &solid, &chest, &rareChest, &bed, &forge, &air, &parchement, &trap, &secretPassage, &lever, &entry1, &entry2, &entry3, &entry4, &dayNightDoor};
 
 //gestion affichage en console
