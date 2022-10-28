@@ -113,11 +113,11 @@ int*** maps -> pointeur à modifier, pointe sur nb_map pointeurs pointant eux me
 
 
 /* On définit quelques fonctions auxiliaires qui nous serons utiles*/
+
 int concat(char s1[], char s2[]){ //concaténer deux strings
-  int taille = 0; 
+  int taille = 0; //taille de s1
   int j = 0;
 	
-  // déterminer la taille de s1
   while (s1[taille] != '\0') {
     ++taille;
   }
@@ -128,8 +128,7 @@ int concat(char s1[], char s2[]){ //concaténer deux strings
 	j++;
 	taille++;
   }
-
-  // Il faut bien sûr terminer le string s1 !
+	
   s1[taille] = '\0';
   return 0;
 }
@@ -177,7 +176,7 @@ int loadingFiles(const int level, int* nb_maps, int** size_maps, int*** maps) {
 	char to_path[256] = "./src/res/levels/level_";
 	concat(niveau,"/");
 	concat(to_path, niveau); // to_path = ./src/res/levels/level_'level'/
-	//printf("%s\n",to_path);
+	
 	
 	// Recherche du nombre de maps dans le jeu
 	char lab0opt[256]; 
@@ -212,16 +211,13 @@ int loadingFiles(const int level, int* nb_maps, int** size_maps, int*** maps) {
 		duplicate(path, to_path); // On définit path, et on va le concaténer avec tempo pour obtenir le chemin final
 		char tempo[256] = "labyrinthe_"; // On va maintenant s'occuper de tempo, pour obtenir un string de la forme
 		concat(tempo,num); // tempo = labyrinthe_X
-		//printf("%s\n", tempo);
-		//printf("%s\n", path);
 		concat(path, tempo); // path = ./src/res/levels/level_'level'/labyrinthe_X
-		//printf("%s\n", path);
 
 
 		char path_size[256];
 		duplicate(path_size, path);
 		concat(path_size,".opt"); // path = ./src/res/levels/level_'level'/labyrinthe_X.opt
-		//printf("%s\n", path_size);
+		
 		//accès au document
 		FILE* flux_entree = fopen(path_size, "r"); // accède au document
 		if (flux_entree == NULL) {
@@ -238,18 +234,14 @@ int loadingFiles(const int level, int* nb_maps, int** size_maps, int*** maps) {
 			}
 		}
 		(*size_maps)[i] = atoi(taille);
-		//printf("%s, %d\n", taille, (*size_maps)[i]);
 		fclose(flux_entree);
 
 		// définition de maps
 		char path_maps[256];
 		duplicate(path_maps, path);
 		concat(path_maps, ".lvl");
-		//printf("%s\n",path_maps);
 		(*maps)[i] = (int*)malloc(sizeof(int)*((*size_maps)[i])*((*size_maps)[i])); //définition de maps
-		//printf("verif1\n");
 		loadMap(path_maps,(*size_maps)[i], (*maps)[i]);
-		//printf("verif2\n");
 	}
 	return 0;
 }
