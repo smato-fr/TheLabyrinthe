@@ -50,6 +50,7 @@ int init() {
 	game.force = GAME_STAT_STRENGHT;
 	game.speed = GAME_STAT_SPEED;
 	game.perception = GAME_STAT_PERCEPTION;
+	game.xp = 0;
 	onDay();
 
   	if (loadingFiles(game.level, &game.nb_map, &game.size_maps, &game.maps)) //chargement des fichier 
@@ -348,13 +349,16 @@ int entry4(){
 	return 2;
 }
 
+
 //interaction avec un coffre 
 int chest() {
+	game.xp++;
 	return 0;
 }
 
 //interaction avec un coffre rare
 int rareChest() {
+	game.xp += 3;
 	return 0;
 }
 
@@ -372,6 +376,30 @@ int bed() {
 
 //interaction avec une forge
 int forge() {
+	char buffer[256];
+	int niveau;
+	affiche_forge(game.xp, game.speed, game.force, (game.perception-1), buffer, niveau);
+	if (game.xp < niveau){
+		print(USER_ERROR_DATA);
+	}
+	else if ((buffer == "vitesse") && (game.speed + niveau > GAME_STAT_SPEED_MAX)){
+		game.speed += niveau;
+		game.xp -= niveau;
+		print(PRINT_GAME_FORGE);
+	} 
+	else if ((buffer == "force") && (game.force + niveau > GAME_STAT_STRENGHT_MAX)){
+		game.force += niveau;
+		game.xp -= niveau;
+		print(PRINT_GAME_FORGE);
+	} 
+	else if ((buffer == "perception") && (game.perception + niveau > GAME_STAT_PERCEPTION_MAX)){
+		game.perception += niveau;
+		game.xp -= niveau;
+		print(PRINT_GAME_FORGE);
+	} 
+	else{
+		printf("Erreur, cette compétence n'existe pas. (Ecrivez bien en minuscule)");
+	}
 	return 0;
 }
 

@@ -34,6 +34,7 @@
     int speed; //durée pour effectuer une action
     int force; //utile pour ouvrir les coffres
     int perception; //distance de vue
+    int xp; //xp du joueur
     int accessLevel; //niveau d'accès dans le labyrinthe
     
   }Game;
