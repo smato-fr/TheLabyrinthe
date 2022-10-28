@@ -2,6 +2,8 @@
 #include <stdio.h>
 //énumération des types de case
 #include "Case.h"
+//structure du jeu
+#include "Game.h"
 
 
 //chemin vers le fichier où se trouve tous les niveaux
@@ -168,7 +170,7 @@ int egaux(char *tab1, char *tab2){
 
 
 //Programme principal loadingFiles
-int loadingFiles(const int level, int* nb_maps, int** size_maps, int*** maps) {
+int loadingFiles(const int level, int* nb_maps, Map** maps) {
 	
 	//définition d'un string chemin de base to_path, on devra s'en servir par la suite
 	char niveau[256];
@@ -198,8 +200,9 @@ int loadingFiles(const int level, int* nb_maps, int** size_maps, int*** maps) {
 	*nb_maps = atoi(buffer); //nb_maps pointe donc vers le nombre de maps
 	//printf("nb _maps = %d\n",*nb_maps);
 	fclose(flux_entree);
-	*size_maps = (int*)malloc(sizeof(int)*(*nb_maps));
-	*maps = (int**)malloc(sizeof(int*)*(*nb_maps)); //on alloue la bonne taille à *maps
+	
+	*maps = (Map*) malloc(sizeof(Map)*(*nb_maps)); //on alloue la bonne taille à *maps
+	if (*maps == NULL) return -1;
 
 	//Définition du tableau size_maps et de maps
 	for(int i = 0; i < *nb_maps; i++) { 
@@ -233,15 +236,20 @@ int loadingFiles(const int level, int* nb_maps, int** size_maps, int*** maps) {
 				break; 
 			}
 		}
-		(*size_maps)[i] = atoi(taille);
+		(*maps)[i].size = atoi(taille);
 		fclose(flux_entree);
 
 		// définition de maps
 		char path_maps[256];
 		duplicate(path_maps, path);
 		concat(path_maps, ".lvl");
-		(*maps)[i] = (int*)malloc(sizeof(int)*((*size_maps)[i])*((*size_maps)[i])); //définition de maps
-		loadMap(path_maps,(*size_maps)[i], (*maps)[i]);
+		
+		//allocation du tableau 2D (size*size)
+		(*maps)[i].labyrinthe = (int*)malloc(sizeof(int)*((*maps)[i].size)*((*maps)[i].size)); 
+		if ((*maps)[i].labyrinthe == NULL) return -1;
+
+		//chargement des valeurs du tableau 2D
+		if (!loadMap(path_maps,(*maps)[i].size, (*maps)[i].labyrinthe)) return -1;
 	}
 	return 0;
 }
