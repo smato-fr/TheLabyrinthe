@@ -133,7 +133,8 @@ int main() {
 			int xMax = game.x_player+game.perception;
 			int yMax = game.y_player+game.perception;
 
-			//si le joueur est trop proche du bord, il ne sera pas placé au centre
+			//si le joueur est trop proche du bord, il ne sera pas placé au centre 
+			//on ne peut pas afficher ce qui est hors du tableau
 			if (xMin<0)xMin=0;
 			if (yMin<0)yMin=0;
 			if (xMax>=game.current_size)xMax=game.current_size-1;
