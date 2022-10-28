@@ -288,16 +288,16 @@ int entry1() {
 	if (game.current_map == game.maps[0]) {
 			game.current_map = game.maps[1];
 			game.current_size = game.size_maps[1];
-		} else {
-			game.current_map = game.maps[0];
-			game.current_size = game.size_maps[0];
-		}
-		
-		
-		lookingFor(&game.x_spawn, &game.y_spawn, game.current_map, game.current_size, ENTRY1);
-		game.x_player=game.x_spawn;
-		game.y_player=game.y_spawn;
-		return 2;
+	} else {
+		game.current_map = game.maps[0];
+		game.current_size = game.size_maps[0];
+	}
+	
+	
+	lookingFor(&game.x_spawn, &game.y_spawn, game.current_map, game.current_size, ENTRY1);
+	game.x_player=game.x_spawn;
+	game.y_player=game.y_spawn;
+	return 2;
 }
 
 //vers labyrinthe2
