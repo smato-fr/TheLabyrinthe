@@ -123,12 +123,12 @@ int main() {
 			//détermination des coordonnées des extrémités d'un cube en fct de la distance de vue, et en placant le joueur au centre 
 
 			//position minimale d'affichage
-			int xMin = game.x_player-game.renderDistance;
-			int yMin = game.y_player-game.renderDistance;
+			int xMin = game.x_player-game.perception;
+			int yMin = game.y_player-game.perception;
 
 			//position maximale d'affichage
-			int xMax = game.x_player+game.renderDistance;
-			int yMax = game.y_player+game.renderDistance;
+			int xMax = game.x_player+game.perception;
+			int yMax = game.y_player+game.perception;
 
 			//si le joueur est trop proche du bord, il ne sera pas placé au centre
 			if (xMin<0)xMin=0;
