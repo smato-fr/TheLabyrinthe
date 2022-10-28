@@ -38,7 +38,10 @@ Game game;
 //INITIALISATION
 int init() {
 
+
 	print(PRINT_LOADING_START);
+	
+	//chargement des valeurs initiales (voir Constants.h)
 	game.level = GAME_LEVEL;
 	game.dayDuration = GAME_DAY_DURATION;
 	game.nightDuration = GAME_NIGHT_DURATION;
