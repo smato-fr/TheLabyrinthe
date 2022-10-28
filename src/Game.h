@@ -37,7 +37,8 @@
     int accessLevel; //niveau d'accès dans le labyrinthe
 
     //griffeurs
-    int* griffeurPositions;
+    int* griffeurPositions_x;
+    int* griffeurPositions_y;
     
   }Game;
 
