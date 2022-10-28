@@ -51,6 +51,7 @@ int init() {
 	game.speed = GAME_STAT_SPEED;
 	game.perception = GAME_STAT_PERCEPTION;
 	game.xp = 0;
+	game.lever= GAME_LEVER DOWN
 	onDay();
 
   	if (loadingFiles(game.level, &game.nb_map, &game.size_maps, &game.maps)) //chargement des fichier 
@@ -352,13 +353,27 @@ int entry4(){
 
 //interaction avec un coffre 
 int chest() {
-	game.xp++;
+	if(game.force >= GAME_CHEST_FORCE){
+		game.xx +=  GAME_CHEST_XP;
+		game.force -= GAME_CHEST_FORCE;
+		print(PRINT_GAME_COFFRE_SUCCES);
+	}
+	else {
+		print(PRINT_GAME_COFFRE_ECHEC);
+	}
 	return 0;
 }
 
 //interaction avec un coffre rare
 int rareChest() {
-	game.xp += 3;
+	if(game.force >= GAME_RARE_CHEST_FORCE){
+		game.xp += GAME_RARE_CHEST_XP;
+		game.force -= GAME_RARE_CHEST_FORCE;
+		print(PRINT_GAME_COFFRE_SUCCES);
+	}
+	else {
+		print(PRINT_GAME_COFFRE_ECHEC);
+	}
 	return 0;
 }
 
@@ -398,7 +413,7 @@ int forge() {
 		print(PRINT_GAME_FORGE);
 	} 
 	else{
-		printf("Erreur, cette compétence n'existe pas. (Ecrivez bien en minuscule)");
+		printf("Erreur, cette compétence n'existe pas. (Ecrivez bien en minuscules)");
 	}
 	return 0;
 }
@@ -410,16 +425,23 @@ int parchement() {
 
 //interaction avec un piège
 int trap() {
+	print(PRINT_GAME_TRAP);
 	return 2;
 }
 
 //interaction avec un passage secret
 int secretPassage() {
-	return 2;
-}
+	if (game.lever == 0){
+		return 1;
+	}
+	else {
+		return 0;
+	}
 
 //interaction avec un levier
 int lever() {
+	game.lever = 1;
+	print(PRINT_GAME_LEVER);
 	return 0;
 }
 

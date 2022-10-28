@@ -24,7 +24,9 @@
     int* current_map;//carte actuelle où se trouve le joueur
     
     int time; //cycle jour nuit
-    int night; //0-> oui, 1-> nuit
+    int night; //0-> jour, 1-> nuit
+
+    int lever; //0 -> Pas activé, 1 -> Activé
 
     //position du joueur
     int x_player;
