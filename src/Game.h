@@ -5,7 +5,6 @@
   typedef struct Game {
     //constantes
     int level; //id du level à charger
-    int renderDistance;
     int nightDuration;
     int dayDuration;
 
@@ -30,6 +29,13 @@
     //position du joueur
     int x_player;
     int y_player; 
+
+    //capacités
+    int speed; //durée pour effectuer une action
+    int force; //utile pour ouvrir les coffres
+    int perception; //distance de vue
+    int accessLevel; //niveau d'accès dans le labyrinthe
+    
   }Game;
 
   void onDie();

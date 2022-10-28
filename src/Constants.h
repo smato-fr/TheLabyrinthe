@@ -12,8 +12,20 @@
 #define PRINT_GAME_DOOR_CLOSE "On dirait que ce mur peut s'ouvrir..."
 
 #define GAME_LEVEL 1
-#define GAME_RENDER_DISTANCE 5
 #define GAME_NIGHT_DURATION 51
 #define GAME_DAY_DURATION 66
+
+#define GAME_CHEST_XP 1
+#define GAME_CHEST_FORCE 1
+#define GAME_CHEST_RARE_XP 3
+#define GAME_CHEST_RARE_FORCE 3
+
+#define GAME_STAT_PERCEPTION 2
+#define GAME_STAT_PERCEPTION_MAX 9
+#define GAME_STAT_SPEED 1
+#define GAME_STAT_SPEED_MAX 7
+#define GAME_STAT_STRENGHT 1
+#define GAME_STAT_STRENGHT_MAX 7
+
 
 #define GOD_MOD 0

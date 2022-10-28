@@ -40,9 +40,13 @@ int init() {
 
 	print(PRINT_LOADING_START);
 	game.level = GAME_LEVEL;
-	game.renderDistance = GAME_RENDER_DISTANCE;
 	game.dayDuration = GAME_DAY_DURATION;
 	game.nightDuration = GAME_NIGHT_DURATION;
+	
+	game.accessLevel = 1;
+	game.force = GAME_STAT_STRENGHT;
+	game.speed = GAME_STAT_SPEED;
+	game.perception = GAME_STAT_PERCEPTION;
 	onDay();
 
   	if (loadingFiles(game.level, &game.nb_map, &game.size_maps, &game.maps)) //chargement des fichier 
