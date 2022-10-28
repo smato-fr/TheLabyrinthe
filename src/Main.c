@@ -52,8 +52,9 @@ int init() {
 	game.perception = GAME_STAT_PERCEPTION;
 	onDay();
 
-  	if (loadingFiles(game.level, &game.nb_map, &game.size_maps, &game.maps)) //chargement des fichier 
+  	if (loadingFiles(game.level, &game.nb_map, &game.maps)) //chargement des fichier 
   		return -1; //erreur détéctée
+
 
 	return 0;
 }
@@ -65,14 +66,12 @@ void shutdown() {
 	//attention si erreurs lors du chargement, les pointeurs peuvent être nuls
 	if (game.maps != NULL) {
 		for (int m = 0; m < game.nb_map; m++) {
-			if (game.maps[m] != NULL)
-				free(game.maps[m]);
+			if (game.maps[m].labyrinthe != NULL)
+				free(game.maps[m].labyrinthe);
 		}
 		
 		free(game.maps);
 	}
-	if (game.size_maps != NULL) 
-		free(game.size_maps);
 }
 
 
@@ -93,13 +92,12 @@ int main() {
 
 	for (int m = 0; m < game.nb_map; m++)  { //pour chaque map
 
-  		game.current_map = game.maps[m];
-  		game.current_size = game.size_maps[m];
+  		game.current_map = (game.maps[m]);
 		
 		int x;
 		int y;
 
-	  	if (lookingFor(&x, &y, game.current_map, game.current_size, START, 1)) { //recherche le point START dans la map
+	  	if (lookingFor(&x, &y, game.current_map.labyrinthe, game.current_map.size, START, 1)) { //recherche le point START dans la map
 			//si point trouvé, copie de ses positions
 			game.x_spawn=x;
 			game.y_spawn=y;
@@ -138,12 +136,12 @@ int main() {
 			//on ne peut pas afficher ce qui est hors du tableau
 			if (xMin<0)xMin=0;
 			if (yMin<0)yMin=0;
-			if (xMax>=game.current_size)xMax=game.current_size-1;
-			if (yMax>=game.current_size)yMax=game.current_size-1;
+			if (xMax>=game.current_map.size)xMax=game.current_map.size-1;
+			if (yMax>=game.current_map.size)yMax=game.current_map.size-1;
 
 			clearConsole(); //fait de la place dans la console
 			//affichage du labyrinthe
-			display_labyrinthe(game.current_map, game.current_size, xMin, yMin, xMax, yMax, game.x_player, game.y_player); 
+			display_labyrinthe(game.current_map.labyrinthe, game.current_map.size, xMin, yMin, xMax, yMax, game.x_player, game.y_player); 
 			//affichage du temps
 			display_time(game.night, game.time);
   		}
@@ -175,7 +173,7 @@ int goToCaseAt(int x, int y) {
 		game.time--; //le temps avance
 
 
-	int c = game.current_map[y*game.current_size+x]; //type de la case
+	int c = game.current_map.labyrinthe[y*game.current_map.size+x]; //type de la case
 	return CasesFct[c](); //appel de la fonction correspondante au type
 }
 
@@ -221,7 +219,7 @@ int up() {
 //déplacement vers le bas
 int down() {
 
-	if (game.y_player+1 < game.current_size) {
+	if (game.y_player+1 < game.current_map.size) {
 
 		int answer = goToCaseAt(game.x_player, game.y_player+1);
 		if (answer == 1) game.y_player++;
@@ -237,7 +235,7 @@ int down() {
 //déplacement vers la droite
 int right() {
 
-	if (game.x_player+1 < game.current_size) {
+	if (game.x_player+1 < game.current_map.size) {
 
 		int answer = goToCaseAt(game.x_player+1, game.y_player);
 		if (answer == 1) game.x_player++;
@@ -286,16 +284,17 @@ int solid() {
 
 //vers labyrinthe1
 int entry1() {
-	if (game.current_map == game.maps[0]) {
-			game.current_map = game.maps[1];
-			game.current_size = game.size_maps[1];
+	//si le pointeur labyrinthe de la map où se trouve le joueur est le même que celui de la map 0
+	//alors le joueur se trouve dans la map 0
+	//sinon le joueur se trouve dans la map 1
+	if (game.current_map.labyrinthe == game.maps[0].labyrinthe) {
+			game.current_map = game.maps[1]; //déplacement vers la map 1
 	} else {
-		game.current_map = game.maps[0];
-		game.current_size = game.size_maps[0];
+		game.current_map = game.maps[0]; //déplacement vers la map2
 	}
 	
-	
-	lookingFor(&game.x_spawn, &game.y_spawn, game.current_map, game.current_size, ENTRY1, 1);
+	//met le joueur à l'entrée correspondante
+	lookingFor(&game.x_spawn, &game.y_spawn, game.current_map.labyrinthe, game.current_map.size, ENTRY1, 1);
 	game.x_player=game.x_spawn;
 	game.y_player=game.y_spawn;
 	return 2;
@@ -303,15 +302,13 @@ int entry1() {
 
 //vers labyrinthe2
 int entry2(){
-	if (game.current_map == game.maps[0]) {
+	if (game.current_map.labyrinthe == game.maps[0].labyrinthe) {
 		game.current_map = game.maps[2];
-		game.current_size = game.size_maps[2];
 	} else {
 		game.current_map = game.maps[0];
-		game.current_size = game.size_maps[0];
 	}
 
-	lookingFor(&game.x_spawn, &game.y_spawn, game.current_map, game.current_size, ENTRY2, 1);
+	lookingFor(&game.x_spawn, &game.y_spawn, game.current_map.labyrinthe, game.current_map.size, ENTRY2, 1);
 	game.x_player=game.x_spawn;
 	game.y_player=game.y_spawn;
 	return 2;
@@ -319,15 +316,13 @@ int entry2(){
 
 //vers labyrinthe3
 int entry3(){
-	if (game.current_map == game.maps[0]) {
+	if (game.current_map.labyrinthe == game.maps[0].labyrinthe) {
 		game.current_map = game.maps[3];
-		game.current_size = game.size_maps[3];
 	} else {
 		game.current_map = game.maps[0];
-		game.current_size = game.size_maps[0];
 	}
 
-	lookingFor(&game.x_spawn, &game.y_spawn, game.current_map, game.current_size, ENTRY3, 1);
+	lookingFor(&game.x_spawn, &game.y_spawn, game.current_map.labyrinthe, game.current_map.size, ENTRY3, 1);
 	game.x_player=game.x_spawn;
 	game.y_player=game.y_spawn;
 	return 2;
@@ -335,15 +330,13 @@ int entry3(){
 
 //vers labyrinthe4
 int entry4(){
-	if (game.current_map == game.maps[0]) {
+	if (game.current_map.labyrinthe == game.maps[0].labyrinthe) {
 		game.current_map = game.maps[4];
-		game.current_size = game.size_maps[4];
 	} else {
 		game.current_map = game.maps[0];
-		game.current_size = game.size_maps[0];
 	}
 
-	lookingFor(&game.x_spawn, &game.y_spawn, game.current_map, game.current_size, ENTRY4, 1);
+	lookingFor(&game.x_spawn, &game.y_spawn, game.current_map.labyrinthe, game.current_map.size, ENTRY4, 1);
 	game.x_player=game.x_spawn;
 	game.y_player=game.y_spawn;
 	return 2;
@@ -436,7 +429,7 @@ void onNight() {
 	//si le joueur se trouvait malencontreusement sur la case de la porte...
 	int x;
 	int y;
-	if (lookingFor(&x, &y, game.current_map, game.current_size, DAY_NIGHT_DOOR, 1)) { //recherche de la case porte
+	if (lookingFor(&x, &y, game.current_map.labyrinthe, game.current_map.size, DAY_NIGHT_DOOR, 1)) { //recherche de la case porte
 		if (x == game.x_player && y == game.y_player) {
 			//le joueur est écrasé :/
 			onDie();
