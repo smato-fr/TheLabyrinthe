@@ -99,7 +99,7 @@ int main() {
 		int x;
 		int y;
 
-	  	if (lookingFor(&x, &y, game.current_map, game.current_size, START)) { //recherche le point START dans la map
+	  	if (lookingFor(&x, &y, game.current_map, game.current_size, START, 1)) { //recherche le point START dans la map
 			//si point trouvé, copie de ses positions
 			game.x_spawn=x;
 			game.y_spawn=y;
@@ -120,6 +120,7 @@ int main() {
 	//MAINLOOP (boucle principale du jeu)
   	while(cmd != STOP) { //arrêt du jeu si commande stop détéctée
 		
+
 		
 		//execution de la fonction associée à la cmd
   		if (CommandsFct[cmd]()>0) { //puis si retour stt positif affichage du labyrinthe
@@ -294,7 +295,7 @@ int entry1() {
 	}
 	
 	
-	lookingFor(&game.x_spawn, &game.y_spawn, game.current_map, game.current_size, ENTRY1);
+	lookingFor(&game.x_spawn, &game.y_spawn, game.current_map, game.current_size, ENTRY1, 1);
 	game.x_player=game.x_spawn;
 	game.y_player=game.y_spawn;
 	return 2;
@@ -310,7 +311,7 @@ int entry2(){
 		game.current_size = game.size_maps[0];
 	}
 
-	lookingFor(&game.x_spawn, &game.y_spawn, game.current_map, game.current_size, ENTRY2);
+	lookingFor(&game.x_spawn, &game.y_spawn, game.current_map, game.current_size, ENTRY2, 1);
 	game.x_player=game.x_spawn;
 	game.y_player=game.y_spawn;
 	return 2;
@@ -326,7 +327,7 @@ int entry3(){
 		game.current_size = game.size_maps[0];
 	}
 
-	lookingFor(&game.x_spawn, &game.y_spawn, game.current_map, game.current_size, ENTRY3);
+	lookingFor(&game.x_spawn, &game.y_spawn, game.current_map, game.current_size, ENTRY3, 1);
 	game.x_player=game.x_spawn;
 	game.y_player=game.y_spawn;
 	return 2;
@@ -342,7 +343,7 @@ int entry4(){
 		game.current_size = game.size_maps[0];
 	}
 
-	lookingFor(&game.x_spawn, &game.y_spawn, game.current_map, game.current_size, ENTRY4);
+	lookingFor(&game.x_spawn, &game.y_spawn, game.current_map, game.current_size, ENTRY4, 1);
 	game.x_player=game.x_spawn;
 	game.y_player=game.y_spawn;
 	return 2;
@@ -435,7 +436,7 @@ void onNight() {
 	//si le joueur se trouvait malencontreusement sur la case de la porte...
 	int x;
 	int y;
-	if (lookingFor(&x, &y, game.current_map, game.current_size, DAY_NIGHT_DOOR)) { //recherche de la case porte
+	if (lookingFor(&x, &y, game.current_map, game.current_size, DAY_NIGHT_DOOR, 1)) { //recherche de la case porte
 		if (x == game.x_player && y == game.y_player) {
 			//le joueur est écrasé :/
 			onDie();

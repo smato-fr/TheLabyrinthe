@@ -35,6 +35,9 @@
     int force; //utile pour ouvrir les coffres
     int perception; //distance de vue
     int accessLevel; //niveau d'accès dans le labyrinthe
+
+    //griffeurs
+    int* griffeurPositions;
     
   }Game;
 
