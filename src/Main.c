@@ -55,6 +55,15 @@ int init() {
   	if (loadingFiles(game.level, &game.nb_map, &game.maps)) //chargement des fichier 
   		return -1; //erreur détéctée
 
+	for (int m = 0; m < game.nb_map; m++) { //pour chaque map
+		//recherche du nombre de griffeur dans la map
+		game.maps[m].scratcherNumber = numberOf(game.maps[m].labyrinthe, game.maps[m].size, SCRATCHER_SPAWN);
+		//allocation d'un tableau à 2D (nombre de griffeurs * 2) 
+		//(2 entiers, un pour la pos x et l'autre pour y)
+		game.maps[m].scratcherPositon = (int*) malloc(sizeof(int)*game.maps[m].scratcherNumber*2);
+	
+		if (game.maps[m].scratcherPositon == NULL) return -1; //si erreur
+	}
 
 	return 0;
 }
@@ -68,6 +77,9 @@ void shutdown() {
 		for (int m = 0; m < game.nb_map; m++) {
 			if (game.maps[m].labyrinthe != NULL)
 				free(game.maps[m].labyrinthe);
+
+			if (game.maps[m].scratcherPositon != NULL)
+				free(game.maps[m].scratcherPositon);
 		}
 		
 		free(game.maps);
@@ -118,7 +130,8 @@ int main() {
 	//MAINLOOP (boucle principale du jeu)
   	while(cmd != STOP) { //arrêt du jeu si commande stop détéctée
 		
-
+		//déplacement des griffeurs
+		
 		
 		//execution de la fonction associée à la cmd
   		if (CommandsFct[cmd]()>0) { //puis si retour stt positif affichage du labyrinthe
