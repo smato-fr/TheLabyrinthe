@@ -22,7 +22,7 @@
 	  ENTRY3, // Passage bloc 3
 	  ENTRY4, // Passage bloc 4	
 	  DAY_NIGHT_DOOR, // Porte qui se ferme la nuit pour que la zone safe soit bien sécurisée !
-	  EXIT;
+	  EXIT,
   };
 
   	//fonction appelées quand on va vers la case
