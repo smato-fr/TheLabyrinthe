@@ -13,7 +13,7 @@ Partie affichage et lecture en console
 //énumération des types de case dans le labyrinthe
 #include "Case.h" 
 //associe à chaque case un caractère à afficher
-char characteres[]={' ', ' ', ' ', 'X', '?', '+', 'L', 'F', '!', '$', 'T', 'P', '/','E', 'E', 'E', 'E', '^'};
+char characteres[]={' ', ' ', ' ', 'X', '?', '+', 'L', 'F', ' ', '$', 'T', 'P', '/','E', 'E', 'E', 'E', '^'};
 
 //activation du mode de debuggage 
 #define DEBUG_MOD 1
@@ -57,7 +57,7 @@ ______________________
 x-> case à afficher
 (min et max inclus)
 */
-void display_labyrinthe(int* map, int size, int xMin, int yMin, int xMax, int yMax, int xPlayer, int yPlayer) 
+void display_labyrinthe(int* map, int size, int xMin, int yMin, int xMax, int yMax, int xPlayer, int yPlayer, int* scratcherPos, int scratcherNumber) 
 {
 	
 	/*parcours des lignes du tableau */
@@ -69,14 +69,27 @@ void display_labyrinthe(int* map, int size, int xMin, int yMin, int xMax, int yM
 			/*printf("pos: %d/%d\n", x, y);
 			printf("map: %d\n",map[y*size+x]);
 			printf("char: %c\n", characteres[map[y*size+x]]);*/
-
-			if (x == xPlayer && y == yPlayer)
-			{
-				printf("o "); //affiche le joueur
+			
+			//test si griffeur
+			int notPrinted = 1;
+			for (int i = 0; i < scratcherNumber; i++) {
+				if (scratcherPos[2*i] == x && scratcherPos[2*i+1] == y) {
+					notPrinted=0;
+					printf("! ");
+					break;
+				}
 			}
-			else 
-			{
-				printf("%c ",characteres[map[y*size+x]]); /*affiche le caractere associe a sa case */
+
+			if (notPrinted) {
+				//test si joueur
+				if (x == xPlayer && y == yPlayer)
+				{
+					printf("o "); //affiche le joueur
+				}
+				else 
+				{
+					printf("%c ",characteres[map[y*size+x]]); /*affiche le caractere associe a sa case */
+				}
 			}
 		}
 	printf("\n");

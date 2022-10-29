@@ -2,6 +2,15 @@
   
   #define _GAME_H_
   
+  //Contient toutes les informations sur une carte
+  typedef struct Map {
+    int size; //taille du labyrinthe
+    int* labyrinthe; //tableau 2D décrivant le contenu du labyrinthe
+    int scratcherNumber; //nombre de griffeur
+    int* scratcherPositon; //positions des griffeurs
+  }Map;
+
+  //Contient toutes les informations de la partie
   typedef struct Game {
     //constantes
     int level; //id du level à charger
@@ -10,9 +19,7 @@
 
     //à charger dans les fichiers
     int nb_map; //nombre de carte
-    int* size_maps; //tableau des tailles des cartes
-    int** maps; //tous les tableaux 2D
-
+    Map* maps; //tous les tableaux 2D
 
     //variables du jeu
     
@@ -20,8 +27,7 @@
     int x_spawn;
     int y_spawn;
     
-    int current_size; //taille de la carte actuelle
-    int* current_map;//carte actuelle où se trouve le joueur
+    Map current_map;//carte actuelle où se trouve le joueur
     
     int time; //cycle jour nuit
     int night; //0-> jour, 1-> nuit
@@ -38,6 +44,8 @@
     int perception; //distance de vue
     int xp; //xp du joueur
     int accessLevel; //niveau d'accès dans le labyrinthe
+
+    
     
   }Game;
 
