@@ -47,11 +47,12 @@ int init() {
 	game.nightDuration = GAME_NIGHT_DURATION;
 	
 	game.accessLevel = 1;
-	game.force = GAME_STAT_STRENGHT;
+	game.force_capacity = GAME_STAT_STRENGHT_CAPACITY;
+	game.force = GAME_STAT_STRENGHT_CAPACITY;
 	game.speed = GAME_STAT_SPEED;
 	game.perception = GAME_STAT_PERCEPTION;
 	game.xp = 0;
-	game.lever= GAME_LEVER DOWN
+	game.lever= GAME_LEVER_DOWN
 	onDay();
 
   	if (loadingFiles(game.level, &game.nb_map, &game.maps)) {//chargement des fichier 
@@ -411,6 +412,7 @@ int bed() {
 	if (game.night) {
 		print(PRINT_GAME_BED_NIGHT);
 		onDay();
+		game.force = game.force_capacity;
 	} else {
 		print(PRINT_GAME_BED_DAY);
 	}
@@ -421,7 +423,7 @@ int bed() {
 int forge() {
 	char buffer[256];
 	int niveau;
-	affiche_forge(game.xp, game.speed, game.force, (game.perception-1), buffer, niveau);
+	affiche_forge(game.xp, game.speed, game.force_capacity, (game.perception-1), buffer, niveau);
 	if (game.xp < niveau){
 		print(USER_ERROR_DATA);
 	}
@@ -430,8 +432,8 @@ int forge() {
 		game.xp -= niveau;
 		print(PRINT_GAME_FORGE);
 	} 
-	else if ((buffer == "force") && (game.force + niveau > GAME_STAT_STRENGHT_MAX)){
-		game.force += niveau;
+	else if ((buffer == "force") && (game.force_capacity + niveau > GAME_STAT_STRENGHT_CAPACITY_MAX)){
+		game.force_capacity += niveau;
 		game.xp -= niveau;
 		print(PRINT_GAME_FORGE);
 	} 
