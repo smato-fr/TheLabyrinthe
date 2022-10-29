@@ -19,8 +19,8 @@
 #define PRINT_GAME_LEVER "Vous entendez un mécanisme s'activer au loin"
 
 #define GAME_LEVEL 1
-#define GAME_NIGHT_DURATION 51
-#define GAME_DAY_DURATION 5
+#define GAME_NIGHT_DURATION 100
+#define GAME_DAY_DURATION 150
 
 #define GAME_CHEST_XP 1
 #define GAME_CHEST_FORCE 1
