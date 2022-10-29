@@ -53,6 +53,7 @@ int init() {
 	game.perception = GAME_STAT_PERCEPTION;
 	game.xp = 0;
 	game.lever= GAME_LEVER_DOWN;
+	game.scratcherPerception = GAME_SCRATCHER_PERCEPTION;
   
 	onDay();
 
@@ -144,7 +145,7 @@ int main() {
 				int scratcher_y = game.current_map.scratcherPositon[2*i+1];
 
 
-				int* path = pathFinding(game.current_map.labyrinthe, game.current_map.size, scratcher_x, scratcher_y, game.x_player, game.y_player, GAME_SCRATCHER_PERCEPTION);
+				int* path = pathFinding(game.current_map.labyrinthe, game.current_map.size, scratcher_x, scratcher_y, game.x_player, game.y_player, game.scratcherPerception);
 				if (path != NULL) {
 					//debug("path found");
 					//printf("scratcher: %d/%d\n", game.current_map.scratcherPositon[i*2], game.current_map.scratcherPositon[i]);
@@ -574,6 +575,7 @@ void onDay() {
 void onNight() {
 	game.night = 1;
 	game.time = game.nightDuration;
+	game.scratcherPerception++;
 	print(PRINT_GAME_NIGHT);
 	
 	//si le joueur se trouvait malencontreusement sur la case de la porte...

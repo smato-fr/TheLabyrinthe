@@ -28,6 +28,8 @@
     int y_spawn;
     
     Map current_map;//carte actuelle où se trouve le joueur
+
+    int scratcherPerception; //portée de détection en cases des griffeurs
     
     int time; //cycle jour nuit
     int night; //0-> jour, 1-> nuit
