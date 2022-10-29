@@ -249,7 +249,10 @@ int loadingFiles(const int level, int* nb_maps, Map** maps) {
 		if ((*maps)[i].labyrinthe == NULL) return -1;
 
 		//chargement des valeurs du tableau 2D
-		if (!loadMap(path_maps,(*maps)[i].size, (*maps)[i].labyrinthe)) return -1;
+		if (loadMap(path_maps,(*maps)[i].size, (*maps)[i].labyrinthe))  {
+			printf("map id: %d do not load !",i);
+			return -1;
+		}
 	}
 	return 0;
 }
