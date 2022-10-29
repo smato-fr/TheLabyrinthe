@@ -84,7 +84,7 @@ int loadMap(char* path, const int size, int* map) {
 			else if (buffer[j] == 'D'){ //chemin vers bloc 4
 				map[i*size + j] = DAY_NIGHT_DOOR;
 			}
-			else if (buffer[j] == 'D'){ //sortie
+			else if (buffer[j] == 'E'){ //sortie
 				map[i*size + j] = EXIT;
 			}
 			else {
