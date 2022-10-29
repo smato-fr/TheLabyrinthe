@@ -51,7 +51,7 @@ int init() {
 	game.speed = GAME_STAT_SPEED;
 	game.perception = GAME_STAT_PERCEPTION;
 	game.xp = 0;
-	game.lever= GAME_LEVER DOWN
+	game.lever= GAME_LEVER_DOWN;
 	onDay();
 
   	if (loadingFiles(game.level, &game.nb_map, &game.maps)) {//chargement des fichier 
@@ -382,7 +382,7 @@ int entry4(){
 //interaction avec un coffre 
 int chest() {
 	if(game.force >= GAME_CHEST_FORCE){
-		game.xx +=  GAME_CHEST_XP;
+		game.xp +=  GAME_CHEST_XP;
 		game.force -= GAME_CHEST_FORCE;
 		print(PRINT_GAME_COFFRE_SUCCES);
 	}
@@ -421,27 +421,40 @@ int bed() {
 int forge() {
 	char buffer[256];
 	int niveau;
-	affiche_forge(game.xp, game.speed, game.force, (game.perception-1), buffer, niveau);
+	forgeInteract(game.xp, game.speed, game.force, (game.perception-1), buffer, &niveau);
 	if (game.xp < niveau){
 		print(USER_ERROR_DATA);
-	}
-	else if ((buffer == "vitesse") && (game.speed + niveau > GAME_STAT_SPEED_MAX)){
-		game.speed += niveau;
-		game.xp -= niveau;
-		print(PRINT_GAME_FORGE);
-	} 
-	else if ((buffer == "force") && (game.force + niveau > GAME_STAT_STRENGHT_MAX)){
-		game.force += niveau;
-		game.xp -= niveau;
-		print(PRINT_GAME_FORGE);
-	} 
-	else if ((buffer == "perception") && (game.perception + niveau > GAME_STAT_PERCEPTION_MAX)){
-		game.perception += niveau;
-		game.xp -= niveau;
-		print(PRINT_GAME_FORGE);
-	} 
-	else{
-		printf("Erreur, cette compétence n'existe pas. (Ecrivez bien en minuscules)");
+	} else {
+		 if ((buffer[0] == 'v')){
+			if ((game.speed + niveau <= GAME_STAT_SPEED_MAX)) {
+				game.speed += niveau;
+				game.xp -= niveau;
+				print(PRINT_GAME_FORGE);
+			} else {
+				print(PRINT_GAME_FORGE_LEVEL_MAX);
+			}
+		} 
+		else if ((buffer[0] == 'f')){
+			if ((game.force + niveau <= GAME_STAT_STRENGHT_MAX)) {
+				game.force += niveau;
+				game.xp -= niveau;
+				print(PRINT_GAME_FORGE);
+			} else {
+				print(PRINT_GAME_FORGE_LEVEL_MAX);
+			}
+		} 
+		else if ((buffer[0] == 'p')){
+			if ((game.perception + niveau <= GAME_STAT_PERCEPTION_MAX)) {
+				game.perception += niveau;
+				game.xp -= niveau;
+				print(PRINT_GAME_FORGE);
+			} else {
+				print(PRINT_GAME_FORGE_LEVEL_MAX);
+			}
+		} 
+		else{
+			print("Erreur, cette compétence n'existe pas. (Ecrivez bien en minuscules)");
+		}
 	}
 	return 0;
 }
@@ -465,7 +478,7 @@ int secretPassage() {
 	else {
 		return 0;
 	}
-
+}
 //interaction avec un levier
 int lever() {
 	game.lever = 1;
