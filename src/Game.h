@@ -30,7 +30,9 @@
     Map current_map;//carte actuelle où se trouve le joueur
     
     int time; //cycle jour nuit
-    int night; //0-> oui, 1-> nuit
+    int night; //0-> jour, 1-> nuit
+
+    int lever; //0 -> Pas activé, 1 -> Activé
 
     //position du joueur
     int x_player;
@@ -40,6 +42,7 @@
     int speed; //durée pour effectuer une action
     int force; //utile pour ouvrir les coffres
     int perception; //distance de vue
+    int xp; //xp du joueur
     int accessLevel; //niveau d'accès dans le labyrinthe
 
     
