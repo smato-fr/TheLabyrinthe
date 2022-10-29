@@ -462,7 +462,7 @@ int forge() {
 			}
 		} 
 		else if ((buffer[0] == 'f')){
-			if ((game.force + niveau <= GAME_STAT_STRENGHT_MAX)) {
+			if ((game.force + niveau <= GAME_STAT_STRENGHT_CAPACITY_MAX)) {
 				game.force += niveau;
 				game.xp -= niveau;
 				print(PRINT_GAME_FORGE);
