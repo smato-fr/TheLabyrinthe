@@ -52,7 +52,8 @@ int init() {
 	game.speed = GAME_STAT_SPEED;
 	game.perception = GAME_STAT_PERCEPTION;
 	game.xp = 0;
-	game.lever= GAME_LEVER_DOWN
+	game.lever= GAME_LEVER_DOWN;
+  
 	onDay();
 
   	if (loadingFiles(game.level, &game.nb_map, &game.maps)) {//chargement des fichier 
@@ -141,6 +142,8 @@ int main() {
 				//debug("pathfinding start");
 				int scratcher_x = game.current_map.scratcherPositon[2*i];
 				int scratcher_y = game.current_map.scratcherPositon[2*i+1];
+
+
 				int* path = pathFinding(game.current_map.labyrinthe, game.current_map.size, scratcher_x, scratcher_y, game.x_player, game.y_player, GAME_SCRATCHER_PERCEPTION);
 				if (path != NULL) {
 					//debug("path found");
@@ -152,6 +155,10 @@ int main() {
 					game.current_map.scratcherPositon[2*i+1]=y_goto;
 					//printf("scratcher: %d/%d\n", game.current_map.scratcherPositon[i], game.current_map.scratcherPositon[i]);
 					free(path);
+
+					if (x_goto == game.x_player && y_goto == game.y_player) { //le joueur s'est fait attrapé !
+						onDie();
+					}
 				}
 				//debug("pathfinding end");
 			}
@@ -178,7 +185,7 @@ int main() {
 
 			clearConsole(); //fait de la place dans la console
 			//affichage du labyrinthe
-			display_labyrinthe(game.current_map.labyrinthe, game.current_map.size, xMin, yMin, xMax, yMax, game.x_player, game.y_player, game.current_map.scratcherPositon, game.current_map.scratcherNumber); 
+			display_labyrinthe(game.current_map.labyrinthe, game.current_map.size, xMin, yMin, xMax, yMax, game.x_player, game.y_player, game.current_map.scratcherPositon, game.night ? game.current_map.scratcherNumber : 0); 
 			//affichage du temps
 			display_time(game.night, game.time);
   		}
@@ -207,7 +214,7 @@ int goToCaseAt(int x, int y) {
 
 	} 
 	else 
-		game.time--; //le temps avance
+		game.time-=(10-game.speed); //le temps avance en fonction de la stat vitesse du joueur
 
 
 	int c = game.current_map.labyrinthe[y*game.current_map.size+x]; //type de la case
@@ -246,6 +253,10 @@ int up() {
 		int answer = goToCaseAt(game.x_player, game.y_player-1);
 		if (answer == 1) game.y_player--;
 
+		if (answer == -1) { //objet à usage unique
+			game.current_map.labyrinthe[(game.y_player-1)*game.current_map.size + game.x_player] = AIR;
+		}
+
 		return answer;
 	}
 
@@ -260,6 +271,10 @@ int down() {
 
 		int answer = goToCaseAt(game.x_player, game.y_player+1);
 		if (answer == 1) game.y_player++;
+
+		if (answer == -1) { //objet à usage unique
+			game.current_map.labyrinthe[(game.y_player+1)*game.current_map.size + game.x_player] = AIR;
+		}
 
 		return answer;
 	}
@@ -276,6 +291,10 @@ int right() {
 
 		int answer = goToCaseAt(game.x_player+1, game.y_player);
 		if (answer == 1) game.x_player++;
+		
+		if (answer == -1) { //objet à usage unique
+			game.current_map.labyrinthe[game.y_player*game.current_map.size + game.x_player+1] = AIR;
+		}
 
 		return answer;
 	}
@@ -292,6 +311,10 @@ int left() {
 		int answer = goToCaseAt(game.x_player-1, game.y_player);
 		if (answer == 1) game.x_player--;
 
+		if (answer == -1) { //objet à usage unique
+			game.current_map.labyrinthe[game.y_player*game.current_map.size + game.x_player-1] = AIR;
+		}
+
 		return answer;
 	}
 	print(USER_ERROR_UNMOVABLE);
@@ -307,6 +330,7 @@ int left() {
 //revoie 2 si déplacement possible mais action spéciale
 //renvoie 1 si déplacement possible
 //renvoie 0 si déplacement impossible
+//renvoie -1 si objet à usage unique
 
 //case vide
 int air() {
@@ -383,13 +407,13 @@ int entry4(){
 //interaction avec un coffre 
 int chest() {
 	if(game.force >= GAME_CHEST_FORCE){
-		game.xx +=  GAME_CHEST_XP;
+		game.xp +=  GAME_CHEST_XP;
 		game.force -= GAME_CHEST_FORCE;
 		print(PRINT_GAME_COFFRE_SUCCES);
+		return -1;
 	}
-	else {
-		print(PRINT_GAME_COFFRE_ECHEC);
-	}
+	
+	print(PRINT_GAME_COFFRE_ECHEC);
 	return 0;
 }
 
@@ -399,10 +423,10 @@ int rareChest() {
 		game.xp += GAME_RARE_CHEST_XP;
 		game.force -= GAME_RARE_CHEST_FORCE;
 		print(PRINT_GAME_COFFRE_SUCCES);
+		return -1;
 	}
-	else {
-		print(PRINT_GAME_COFFRE_ECHEC);
-	}
+	
+	print(PRINT_GAME_COFFRE_ECHEC);
 	return 0;
 }
 
@@ -423,27 +447,42 @@ int bed() {
 int forge() {
 	char buffer[256];
 	int niveau;
-	affiche_forge(game.xp, game.speed, game.force_capacity, (game.perception-1), buffer, niveau);
+  
+	forgeInteract(game.xp, game.speed, game.force, (game.perception-1), buffer, &niveau);
 	if (game.xp < niveau){
 		print(USER_ERROR_DATA);
-	}
-	else if ((buffer == "vitesse") && (game.speed + niveau > GAME_STAT_SPEED_MAX)){
-		game.speed += niveau;
-		game.xp -= niveau;
-		print(PRINT_GAME_FORGE);
-	} 
-	else if ((buffer == "force") && (game.force_capacity + niveau > GAME_STAT_STRENGHT_CAPACITY_MAX)){
-		game.force_capacity += niveau;
-		game.xp -= niveau;
-		print(PRINT_GAME_FORGE);
-	} 
-	else if ((buffer == "perception") && (game.perception + niveau > GAME_STAT_PERCEPTION_MAX)){
-		game.perception += niveau;
-		game.xp -= niveau;
-		print(PRINT_GAME_FORGE);
-	} 
-	else{
-		printf("Erreur, cette compétence n'existe pas. (Ecrivez bien en minuscules)");
+	} else {
+		 if ((buffer[0] == 'v')){
+			if ((game.speed + niveau <= GAME_STAT_SPEED_MAX)) {
+				game.speed += niveau;
+				game.xp -= niveau;
+				print(PRINT_GAME_FORGE);
+			} else {
+				print(PRINT_GAME_FORGE_LEVEL_MAX);
+			}
+		} 
+		else if ((buffer[0] == 'f')){
+			if ((game.force + niveau <= GAME_STAT_STRENGHT_MAX)) {
+				game.force += niveau;
+				game.xp -= niveau;
+				print(PRINT_GAME_FORGE);
+			} else {
+				print(PRINT_GAME_FORGE_LEVEL_MAX);
+			}
+		} 
+		else if ((buffer[0] == 'p')){
+			if ((game.perception + niveau <= GAME_STAT_PERCEPTION_MAX)) {
+				game.perception += niveau;
+				game.xp -= niveau;
+				print(PRINT_GAME_FORGE);
+			} else {
+				print(PRINT_GAME_FORGE_LEVEL_MAX);
+			}
+		} 
+		else{
+			print("Erreur, cette compétence n'existe pas. (Ecrivez bien en minuscules)");
+		}
+    
 	}
 	return 0;
 }
@@ -467,7 +506,7 @@ int secretPassage() {
 	else {
 		return 0;
 	}
-
+}
 //interaction avec un levier
 int lever() {
 	game.lever = 1;

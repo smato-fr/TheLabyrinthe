@@ -13,7 +13,7 @@ Partie affichage et lecture en console
 //énumération des types de case dans le labyrinthe
 #include "Case.h" 
 //associe à chaque case un caractère à afficher
-char characteres[]={' ', ' ', ' ', 'X', '?', '+', 'L', 'F', ' ', '$', 'T', 'P', '/','E', 'E', 'E', 'E', '^'};
+char characteres[]={' ', ' ', ' ', 'X', '?', '+', 'L', 'F', ' ', '$', '?', '^', '/','A', 'B', 'C', 'D', '^'};
 
 //activation du mode de debuggage 
 #define DEBUG_MOD 1
@@ -160,7 +160,7 @@ void print(char* str)
 	printf("(%s)\n", str);
 }
 
-void affiche_forge(int xp, int vitesse, int force, int perception, char buffer[256], int nb_exp){
+void forgeInteract(int xp, int vitesse, int force, int perception, char buffer[256], int* nb_exp){
 	printf("vous voici dans la forge. vous avez %d niveaux d'expérience à utiliser. Voici vos niveaux de compétence : \n Vitesse : %d/7 \t Force : %d/7 \t Perception : %d/7 \t. \n Choisissez une compétence à améliorer :", xp, vitesse, force, perception);
 	scanf("%s", buffer);
 	printf("\n Nombre de niveaux :");
