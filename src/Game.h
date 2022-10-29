@@ -2,13 +2,15 @@
   
   #define _GAME_H_
   
+  //Contient toutes les informations sur une carte
   typedef struct Map {
     int size; //taille du labyrinthe
     int* labyrinthe; //tableau 2D décrivant le contenu du labyrinthe
-    int griffeurNumber; //nombre de griffeur
-    int* griffeurPositon; //positions des griffeurs
+    int scratcherNumber; //nombre de griffeur
+    int* scratcherPositon; //positions des griffeurs
   }Map;
 
+  //Contient toutes les informations de la partie
   typedef struct Game {
     //constantes
     int level; //id du level à charger

@@ -5,7 +5,7 @@ void clearConsole();
 //affichage du temps
 void display_time(int night, int time);
 //affichage d'une partie du labyrinthe en console
-void display_labyrinthe(int* map, int size, int xMin, int yMin, int xMax, int yMax, int xPlayer, int yPlayer);
+void display_labyrinthe(int* map, int size, int xMin, int yMin, int xMax, int yMax, int xPlayer, int yPlayer, int* scratcherPos, int scratcherNumber);
 
 /*
 demande à l'utilisateur d'entrer une commande sous une chaine de caractère

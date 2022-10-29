@@ -52,9 +52,20 @@ int init() {
 	game.perception = GAME_STAT_PERCEPTION;
 	onDay();
 
-  	if (loadingFiles(game.level, &game.nb_map, &game.maps)) //chargement des fichier 
-  		return -1; //erreur détéctée
+  	if (loadingFiles(game.level, &game.nb_map, &game.maps)) {//chargement des fichier 
+  		print("erreur lors du chargement des fichiers");
+		return -1; //erreur détéctée
+	}
 
+	for (int m = 0; m < game.nb_map; m++) { //pour chaque map
+		//recherche du nombre de griffeur dans la map
+		game.maps[m].scratcherNumber = numberOf(game.maps[m].labyrinthe, game.maps[m].size, SCRATCHER_SPAWN);
+		//allocation d'un tableau à 2D (nombre de griffeurs * 2) 
+		//(2 entiers, un pour la pos x et l'autre pour y)
+		game.maps[m].scratcherPositon = (int*) malloc(sizeof(int)*game.maps[m].scratcherNumber*2);
+	
+		if (game.maps[m].scratcherPositon == NULL) return -1; //si erreur
+	}
 
 	return 0;
 }
@@ -68,6 +79,9 @@ void shutdown() {
 		for (int m = 0; m < game.nb_map; m++) {
 			if (game.maps[m].labyrinthe != NULL)
 				free(game.maps[m].labyrinthe);
+
+			if (game.maps[m].scratcherPositon != NULL)
+				free(game.maps[m].scratcherPositon);
 		}
 		
 		free(game.maps);
@@ -118,7 +132,27 @@ int main() {
 	//MAINLOOP (boucle principale du jeu)
   	while(cmd != STOP) { //arrêt du jeu si commande stop détéctée
 		
-
+		//déplacement des griffeurs
+		if (game.night) {
+			for (int i = 0; i < game.current_map.scratcherNumber; i++) {
+				//debug("pathfinding start");
+				int scratcher_x = game.current_map.scratcherPositon[2*i];
+				int scratcher_y = game.current_map.scratcherPositon[2*i+1];
+				int* path = pathFinding(game.current_map.labyrinthe, game.current_map.size, scratcher_x, scratcher_y, game.x_player, game.y_player, GAME_SCRATCHER_PERCEPTION);
+				if (path != NULL) {
+					//debug("path found");
+					//printf("scratcher: %d/%d\n", game.current_map.scratcherPositon[i*2], game.current_map.scratcherPositon[i]);
+					int x_goto = game.current_map.scratcherPositon[i*2] + path[0];
+					int y_goto = game.current_map.scratcherPositon[i*2+1] + path[1];
+					//printf("path: %d/%d\n", path[0], path[1]);
+					game.current_map.scratcherPositon[2*i]=x_goto;
+					game.current_map.scratcherPositon[2*i+1]=y_goto;
+					//printf("scratcher: %d/%d\n", game.current_map.scratcherPositon[i], game.current_map.scratcherPositon[i]);
+					free(path);
+				}
+				//debug("pathfinding end");
+			}
+		}
 		
 		//execution de la fonction associée à la cmd
   		if (CommandsFct[cmd]()>0) { //puis si retour stt positif affichage du labyrinthe
@@ -141,7 +175,7 @@ int main() {
 
 			clearConsole(); //fait de la place dans la console
 			//affichage du labyrinthe
-			display_labyrinthe(game.current_map.labyrinthe, game.current_map.size, xMin, yMin, xMax, yMax, game.x_player, game.y_player); 
+			display_labyrinthe(game.current_map.labyrinthe, game.current_map.size, xMin, yMin, xMax, yMax, game.x_player, game.y_player, game.current_map.scratcherPositon, game.current_map.scratcherNumber); 
 			//affichage du temps
 			display_time(game.night, game.time);
   		}
@@ -288,7 +322,7 @@ int entry1() {
 	//alors le joueur se trouve dans la map 0
 	//sinon le joueur se trouve dans la map 1
 	if (game.current_map.labyrinthe == game.maps[0].labyrinthe) {
-			game.current_map = game.maps[1]; //déplacement vers la map 1
+		game.current_map = game.maps[1]; //déplacement vers la map 1
 	} else {
 		game.current_map = game.maps[0]; //déplacement vers la map2
 	}
@@ -434,5 +468,23 @@ void onNight() {
 			//le joueur est écrasé :/
 			onDie();
 		}
+	}
+
+
+	//apparition des griffeurs
+	int* pos_x = (int*) malloc(sizeof(int)*game.current_map.scratcherNumber);
+	int* pos_y = (int*) malloc(sizeof(int)*game.current_map.scratcherNumber);
+	if (pos_x != NULL && pos_y != NULL) {
+		lookingFor(pos_x, pos_y, game.current_map.labyrinthe, game.current_map.size, SCRATCHER_SPAWN, game.current_map.scratcherNumber);
+		for (int i = 0; i < game.current_map.scratcherNumber; i++) {
+			//printf("scratcher: %d/%d", pos_x[i], pos_y[i]);
+			game.current_map.scratcherPositon[2*i]=pos_x[i];
+			game.current_map.scratcherPositon[2*i+1]=pos_y[i];
+		}
+		
+		free(pos_x);
+		free(pos_y);
+	} else {
+		debug("malloc error");
 	}
 }
