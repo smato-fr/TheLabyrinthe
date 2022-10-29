@@ -47,11 +47,13 @@ int init() {
 	game.nightDuration = GAME_NIGHT_DURATION;
 	
 	game.accessLevel = 1;
-	game.force = GAME_STAT_STRENGHT;
+	game.force_capacity = GAME_STAT_STRENGHT_CAPACITY;
+	game.force = GAME_STAT_STRENGHT_CAPACITY;
 	game.speed = GAME_STAT_SPEED;
 	game.perception = GAME_STAT_PERCEPTION;
 	game.xp = 0;
 	game.lever= GAME_LEVER_DOWN;
+  
 	onDay();
 
   	if (loadingFiles(game.level, &game.nb_map, &game.maps)) {//chargement des fichier 
@@ -434,6 +436,7 @@ int bed() {
 	if (game.night) {
 		print(PRINT_GAME_BED_NIGHT);
 		onDay();
+		game.force = game.force_capacity;
 	} else {
 		print(PRINT_GAME_BED_DAY);
 	}
@@ -444,6 +447,7 @@ int bed() {
 int forge() {
 	char buffer[256];
 	int niveau;
+  
 	forgeInteract(game.xp, game.speed, game.force, (game.perception-1), buffer, &niveau);
 	if (game.xp < niveau){
 		print(USER_ERROR_DATA);
@@ -478,6 +482,7 @@ int forge() {
 		else{
 			print("Erreur, cette compétence n'existe pas. (Ecrivez bien en minuscules)");
 		}
+    
 	}
 	return 0;
 }
