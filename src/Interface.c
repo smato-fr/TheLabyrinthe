@@ -13,7 +13,7 @@ Partie affichage et lecture en console
 //énumération des types de case dans le labyrinthe
 #include "Case.h" 
 //associe à chaque case un caractère à afficher
-char characteres[]={' ', ' ', ' ', 'X', '?', '+', 'L', 'F', ' ', '$', '?', '^', '/','A', 'B', 'C', 'D', '^'};
+char characteres[]={' ', ' ', ' ', 'X', '?', '+', 'L', 'F', ' ', '?', '?', '^', '?','A', 'B', 'C', 'D', '^'};
 
 //activation du mode de debuggage 
 #define DEBUG_MOD 1

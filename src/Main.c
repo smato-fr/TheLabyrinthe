@@ -46,7 +46,7 @@ int init() {
 	game.dayDuration = GAME_DAY_DURATION;
 	game.nightDuration = GAME_NIGHT_DURATION;
 	
-	game.accessLevel = 1;
+	game.accessLevel = 0;
 	game.force_capacity = GAME_STAT_STRENGHT_CAPACITY;
 	game.force = GAME_STAT_STRENGHT_CAPACITY;
 	game.speed = GAME_STAT_SPEED;
@@ -345,62 +345,82 @@ int solid() {
 
 //vers labyrinthe1
 int entry1() {
-	//si le pointeur labyrinthe de la map où se trouve le joueur est le même que celui de la map 0
-	//alors le joueur se trouve dans la map 0
-	//sinon le joueur se trouve dans la map 1
-	if (game.current_map.labyrinthe == game.maps[0].labyrinthe) {
-		game.current_map = game.maps[1]; //déplacement vers la map 1
+	if (game.accessLevel >= 1) {
+		//si le pointeur labyrinthe de la map où se trouve le joueur est le même que celui de la map 0
+		//alors le joueur se trouve dans la map 0
+		//sinon le joueur se trouve dans la map 1
+		if (game.current_map.labyrinthe == game.maps[0].labyrinthe) {
+			game.current_map = game.maps[1]; //déplacement vers la map 1
+		} else {
+			game.current_map = game.maps[0]; //déplacement vers la map2
+		}
+		
+		//met le joueur à l'entrée correspondante
+		lookingFor(&game.x_spawn, &game.y_spawn, game.current_map.labyrinthe, game.current_map.size, ENTRY1, 1);
+		game.x_player=game.x_spawn;
+		game.y_player=game.y_spawn;
+		return 2;
 	} else {
-		game.current_map = game.maps[0]; //déplacement vers la map2
+		print(PRINT_GAME_DOOR_CLOSE);
+		return 0;
 	}
-	
-	//met le joueur à l'entrée correspondante
-	lookingFor(&game.x_spawn, &game.y_spawn, game.current_map.labyrinthe, game.current_map.size, ENTRY1, 1);
-	game.x_player=game.x_spawn;
-	game.y_player=game.y_spawn;
-	return 2;
 }
 
 //vers labyrinthe2
 int entry2(){
-	if (game.current_map.labyrinthe == game.maps[0].labyrinthe) {
-		game.current_map = game.maps[2];
-	} else {
-		game.current_map = game.maps[0];
-	}
+	if (game.accessLevel >= 2) {
+		if (game.current_map.labyrinthe == game.maps[0].labyrinthe) {
+			game.current_map = game.maps[2];
+		} else {
+			game.current_map = game.maps[0];
+		}
 
-	lookingFor(&game.x_spawn, &game.y_spawn, game.current_map.labyrinthe, game.current_map.size, ENTRY2, 1);
-	game.x_player=game.x_spawn;
-	game.y_player=game.y_spawn;
-	return 2;
+		lookingFor(&game.x_spawn, &game.y_spawn, game.current_map.labyrinthe, game.current_map.size, ENTRY2, 1);
+		game.x_player=game.x_spawn;
+		game.y_player=game.y_spawn;
+		return 2;
+	} else {
+		print(PRINT_GAME_DOOR_CLOSE);
+		return 0;
+	}
 }
 
 //vers labyrinthe3
 int entry3(){
-	if (game.current_map.labyrinthe == game.maps[0].labyrinthe) {
-		game.current_map = game.maps[3];
-	} else {
-		game.current_map = game.maps[0];
-	}
+	if (game.accessLevel >= 3) {
+		if (game.current_map.labyrinthe == game.maps[0].labyrinthe) {
+			game.current_map = game.maps[3];
+		} else {
+			game.current_map = game.maps[0];
+		}
 
-	lookingFor(&game.x_spawn, &game.y_spawn, game.current_map.labyrinthe, game.current_map.size, ENTRY3, 1);
-	game.x_player=game.x_spawn;
-	game.y_player=game.y_spawn;
-	return 2;
+		lookingFor(&game.x_spawn, &game.y_spawn, game.current_map.labyrinthe, game.current_map.size, ENTRY3, 1);
+		game.x_player=game.x_spawn;
+		game.y_player=game.y_spawn;
+		return 2;
+	} else {
+		print(PRINT_GAME_DOOR_CLOSE);
+		return 0;
+	}
 }
 
 //vers labyrinthe4
 int entry4(){
-	if (game.current_map.labyrinthe == game.maps[0].labyrinthe) {
-		game.current_map = game.maps[4];
-	} else {
-		game.current_map = game.maps[0];
-	}
+	if (game.accessLevel >= 4) {
+		if (game.current_map.labyrinthe == game.maps[0].labyrinthe) {
+			game.current_map = game.maps[4];
+		} else {
+			game.current_map = game.maps[0];
+		}
 
-	lookingFor(&game.x_spawn, &game.y_spawn, game.current_map.labyrinthe, game.current_map.size, ENTRY4, 1);
-	game.x_player=game.x_spawn;
-	game.y_player=game.y_spawn;
-	return 2;
+		lookingFor(&game.x_spawn, &game.y_spawn, game.current_map.labyrinthe, game.current_map.size, ENTRY4, 1);
+		game.x_player=game.x_spawn;
+		game.y_player=game.y_spawn;
+		return 2;
+	} else {
+		print(PRINT_GAME_DOOR_CLOSE);
+		return 0;
+	}
 }
 
 
@@ -489,21 +509,26 @@ int forge() {
 
 //interaction avec un parchemin
 int parchement() {
-	return 0;
+	game.accessLevel++;
+	print(PRINT_GAME_PARCHEMENT);
+	return -1;
 }
 
 //interaction avec un piège
 int trap() {
 	print(PRINT_GAME_TRAP);
-	return 2;
+	if (!game.night) onNight();
+	else game.time-=GAME_TRAP_TIME;
+	return -1;
 }
 
 //interaction avec un passage secret
 int secretPassage() {
-	if (game.lever == 0){
+	if (game.lever){ //passage ouvert
 		return 1;
 	}
 	else {
+		print(PRINT_GAME_DOOR_CLOSE);
 		return 0;
 	}
 }
@@ -511,7 +536,7 @@ int secretPassage() {
 int lever() {
 	game.lever = 1;
 	print(PRINT_GAME_LEVER);
-	return 0;
+	return -1;
 }
 
 //passage par la porte jour/nuit (ouverte seulement le jour)
@@ -577,5 +602,6 @@ void onNight() {
 		free(pos_y);
 	} else {
 		debug("malloc error");
+		onDay();
 	}
 }

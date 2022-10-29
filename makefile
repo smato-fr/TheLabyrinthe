@@ -1,4 +1,4 @@
-Labyrinthe: Main.o Interface.o FileManager.o Tools.o
+Labyrinthe: clean Main.o Interface.o FileManager.o Tools.o
 	gcc -o Labyrinthe Main.o Interface.o FileManager.o Tools.o
 
 Main.o:

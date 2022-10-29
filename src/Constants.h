@@ -16,11 +16,12 @@
 #define PRINT_GAME_COFFRE_SUCCES "Vous avez trouvez une amulette d'expérience !"
 #define PRINT_GAME_COFFRE_ECHEC "Vous n'avez pas assez de force pour ouvrir ce coffre ! Vous êtes faible, allez vous reposer."
 #define PRINT_GAME_TRAP "Oh non ! Vous êtes tombés dans un piège. Vous avez perdu une heure en vous échappant."
-#define PRINT_GAME_LEVER "Vous entendez un mécanisme s'activer au loin"
+#define PRINT_GAME_LEVER "Vous entendez un mécanisme s'activer au loin!"
+#define PRINT_GAME_PARCHEMENT "Une inscription est gravée sur le mur, elle vous explique comment accéder au prochain bloc."
 
 #define GAME_LEVEL 1
-#define GAME_NIGHT_DURATION 100
-#define GAME_DAY_DURATION 150
+#define GAME_NIGHT_DURATION 500
+#define GAME_DAY_DURATION 200
 
 #define GAME_CHEST_XP 1
 #define GAME_CHEST_FORCE 1
@@ -28,6 +29,7 @@
 #define GAME_RARE_CHEST_FORCE 3
 
 #define GAME_LEVER_DOWN 0
+#define GAME_TRAP_TIME 40
 
 #define GAME_STAT_PERCEPTION 2
 #define GAME_STAT_PERCEPTION_MAX 8
