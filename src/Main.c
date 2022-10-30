@@ -474,7 +474,7 @@ int forge() {
 	char buffer[256];
 	int niveau;
   
-	forgeInteract(game.xp, game.speed, game.force, (game.perception-1), buffer, &niveau);
+	forgeInteract(game.xp, game.speed, game.force_capacity, (game.perception-1), buffer, &niveau);
 	if (game.xp < niveau){
 		print(USER_ERROR_DATA);
 	} else {
@@ -488,8 +488,8 @@ int forge() {
 			}
 		} 
 		else if ((buffer[0] == 'f')){
-			if ((game.force + niveau <= GAME_STAT_STRENGHT_CAPACITY_MAX)) {
-				game.force += niveau;
+			if ((game.force_capacity + niveau <= GAME_STAT_STRENGHT_CAPACITY_MAX)) {
+				game.force_capacity += niveau;
 				game.xp -= niveau;
 				print(PRINT_GAME_FORGE);
 			} else {

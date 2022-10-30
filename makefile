@@ -1,4 +1,11 @@
-Labyrinthe: clean Main.o Interface.o FileManager.o Tools.o
+linux: clean1 LabyrintheLinux clean2
+
+windows: clean1 LabyrintheWindows clean2
+
+LabyrintheWindows: MainW.o InterfaceW.o FileManagerW.o ToolsW.o
+	x86_64-w64-mingw32-gcc -o Labyrinthe.exe MainW.o InterfaceW.o FileManagerW.o ToolsW.o
+
+LabyrintheLinux: Main.o Interface.o FileManager.o Tools.o
 	gcc -o Labyrinthe Main.o Interface.o FileManager.o Tools.o
 
 Main.o:
@@ -13,8 +20,6 @@ FileManager.o:
 Tools.o:
 	gcc -c -Wall ./src/Tools.c
 
-win: clean MainW.o InterfaceW.o FileManagerW.o ToolsW.o
-	x86_64-w64-mingw32-gcc -o Labyrinthe.exe MainW.o InterfaceW.o FileManagerW.o ToolsW.o
 
 MainW.o:
 	x86_64-w64-mingw32-gcc -o MainW.o -c -Wall ./src/Main.c
@@ -28,5 +33,8 @@ FileManagerW.o:
 ToolsW.o:
 	x86_64-w64-mingw32-gcc -o ToolsW.o -c -Wall ./src/Tools.c
 
-clean:
-	rm -f Labyrinthe *.o
+clean1:
+	rm -f *.o
+
+clean2:
+	rm -f *.o
