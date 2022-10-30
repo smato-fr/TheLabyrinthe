@@ -1,12 +1,17 @@
 linux: clean1 LabyrintheLinux clean2
 
+linux_win: clean1 LabyrintheWindows clean2
+
 windows: clean1 LabyrintheWindows clean2
 
-LabyrintheWindows: MainW.o InterfaceW.o FileManagerW.o ToolsW.o
+LabyrintheWindowsFromLinux: MainW.o InterfaceW.o FileManagerW.o ToolsW.o
 	x86_64-w64-mingw32-gcc -o Labyrinthe.exe MainW.o InterfaceW.o FileManagerW.o ToolsW.o
 
 LabyrintheLinux: Main.o Interface.o FileManager.o Tools.o
 	gcc -o Labyrinthe Main.o Interface.o FileManager.o Tools.o
+
+LabyrintheWindows: Main.o Interface.o FileManager.o Tools.o
+	gcc -o Labyrinthe.exe Main.o Interface.o FileManager.o Tools.o
 
 Main.o:
 	gcc -c -Wall ./src/Main.c
