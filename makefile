@@ -13,5 +13,20 @@ FileManager.o:
 Tools.o:
 	gcc -c -Wall ./src/Tools.c
 
+win: clean MainW.o InterfaceW.o FileManagerW.o ToolsW.o
+	x86_64-w64-mingw32-gcc -o Labyrinthe.exe MainW.o InterfaceW.o FileManagerW.o ToolsW.o
+
+MainW.o:
+	x86_64-w64-mingw32-gcc -o MainW.o -c -Wall ./src/Main.c
+
+InterfaceW.o:
+	x86_64-w64-mingw32-gcc -o InterfaceW.o -c -Wall ./src/Interface.c
+
+FileManagerW.o:
+	x86_64-w64-mingw32-gcc -o FileManagerW.o -c -Wall ./src/FileManager.c
+
+ToolsW.o:
+	x86_64-w64-mingw32-gcc -o ToolsW.o -c -Wall ./src/Tools.c
+
 clean:
 	rm -f Labyrinthe *.o
