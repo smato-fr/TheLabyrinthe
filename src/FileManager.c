@@ -85,7 +85,7 @@ int loadMap(char* path, const int size, int* map) {
 				map[i*size + j] = DAY_NIGHT_DOOR;
 			}
 			else if (buffer[j] == 'E'){ //sortie
-				map[i*size + j] = EXIT;
+				map[i*size + j] = EXIT_DOOR;
 			}
 			else {
 				map[i*size + j] = 0;

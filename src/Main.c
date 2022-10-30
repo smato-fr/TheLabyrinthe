@@ -19,7 +19,7 @@ const FunctionCommand CommandsFct[]={&debug_CMD, &unknownCommand, &help, &up, &d
 //énumération des types de case
 #include "Case.h"
 //fonctions à appeler quand le joueur essaie d'aller sur une case
-const FunctionCase CasesFct[]={&air, &air, &air, &solid, &chest, &rareChest, &bed, &forge, &air, &parchement, &trap, &secretPassage, &lever, &entry1, &entry2, &entry3, &entry4, &dayNightDoor};
+const FunctionCase CasesFct[]={&air, &air, &air, &solid, &chest, &rareChest, &bed, &forge, &air, &parchement, &trap, &secretPassage, &lever, &entry1, &entry2, &entry3, &entry4, &dayNightDoor, &exitDoor};
 
 //gestion affichage en console
 #include "Interface.h"
@@ -555,6 +555,13 @@ int dayNightDoor() {
 	}
 }
 
+
+//sortie du labyrinthe (fin du jeu)
+int exitDoor() {
+	clearConsole();
+	print(PRINT_GAME_CONGRATULATION);
+	return 2;
+}
 
 
 //évènement durant le jeu:

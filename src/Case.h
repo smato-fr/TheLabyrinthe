@@ -22,7 +22,7 @@
 	  ENTRY3, // Passage bloc 3
 	  ENTRY4, // Passage bloc 4	
 	  DAY_NIGHT_DOOR, // Porte qui se ferme la nuit pour que la zone safe soit bien sécurisée !
-	  EXIT,
+	  EXIT_DOOR,
   };
 
   	//fonction appelées quand on va vers la case
@@ -41,7 +41,7 @@
 	int entry3();
 	int entry4();
 	int dayNightDoor();
-	int exit();
+	int exitDoor();
 
    	typedef int (*FunctionCase)(); //crée un type qui peut contenir un pointeur vers une fonction
 
