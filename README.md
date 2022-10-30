@@ -15,3 +15,4 @@ P -> Passage secret
 L -> Levier d'activation
 1/2/3/4 -> Accès aux blocs 1 2 3 4
 D -> Porte jour/nuit
+E -> Sortie !!
