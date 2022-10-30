@@ -2,6 +2,16 @@
 #include "Case.h"
 
 #include <stdio.h>
+#include <assert.h>
+
+
+//structure liste dynamique chainée 
+typedef struct List {
+    int x;
+    int y;
+    struct List* next;
+}List; 
+
 
 //recherche le nombre d'apparatition d'un type de case dans la carte
 int numberOf(const int* map, const int size, const int type) {
@@ -49,50 +59,114 @@ int* copy_path(int* path, int length) {
     return path2;
 }
 
-//parcours de graphe récursif en profondeur
-int* graph(int* map, const int size, int x, int y, int* path, int* distance, const int dMax, const int xTarget, const int yTarget) {
-    //printf("newRec\n");
-    if (x == xTarget && y == yTarget) return path; //chemin trouvé !
-    //printf("d:%d\n", *distance);
-    if (*distance > dMax) return NULL; //chemin non trouvé
-    //printf("graph: %d/%d\n", x, y, *distance);
-    map[y*size+x] = SOLID; //marque la case pour ne plus y repasser
-    
 
-    int* path2 = NULL;
-    int distMin;
-    for (int i = 0; i < 4; i++) {
-        //printf("dir:%d\n",i);
-        int x2 = x + dir[i][0];
-        int y2 = y + dir[i][1];
+//parcours de graphe itératif en largeur
+int* graph(int* map, const int size, int x, int y, int* path, const int dMax, const int xTarget, const int yTarget) {
+    if (x == xTarget && y == yTarget) return NULL; //arrivée et départ identiques 
 
-        if (map[y2*size+x2] == AIR) { //si déplacement possible vers cette case
-            //printf("can go !\n");
-            path[(*distance)*2] = dir[i][0];
-            path[(*distance)*2+1] = dir[i][1];
+    List* arrivee = (List*) malloc(sizeof(List));
+    arrivee->x = xTarget;
+    arrivee->y = yTarget;
+    arrivee->next = NULL;
 
-            int nDistance = (*distance)+1;
-            int* nPath = graph(map, size, x2, y2, path, &nDistance, dMax, xTarget, yTarget); //continue la rechercher
-            if (nPath != NULL) {
-                //printf("DISTANCES: %dvs%d\n", nDistance, path2 == NULL ? -1 : distMin);
-                //on garde le chemin le plus court
+    map[yTarget*size+xTarget] = SOLID;
+    map[y*size + x] = AIR;
 
-                if (path2 == NULL || nDistance < distMin) {
-                  //  printf("good !!!\n");
-                    if (path2 != NULL) free(path2);
-                    path2 = copy_path(nPath, nDistance*2);
-                    distMin = nDistance;
-                } else {
-                    //printf("free nPath\n");
-                    free(nPath);
+    List* dynamic_list = arrivee;
+
+    int* back = (int*) malloc(sizeof(int)*size*size*2); //permet de retracer le chemin à l'envers si trouvé
+    if (back == NULL) return NULL;
+
+    int found = 0;
+    int dist = 0;
+
+    while (dynamic_list != NULL && dist < dMax) { //tant que la liste n'est pas vide
+        printf("searching... !\n");
+        dist++;
+        List* liste = dynamic_list; //on copie la liste principale
+        dynamic_list = NULL; //on vide la liste principale
+        while (liste != NULL) //pour chaque elt de l'ancienne liste
+        {          
+            
+            //on va ajouter tous les cases adjacentes accessibles et non marquées
+            List* pos = liste;
+            
+            printf("for: %d/%d\n",pos->x, pos->y);
+            if (liste == pos->next) {
+                printf("errrrrror !!!!\n");
+                exit(0);
+            }
+            for (int i = 0; i < 4; i++) {
+                printf("dir:%d\n",i);
+                int x2 = pos->x + dir[i][0];
+                int y2 = pos->y + dir[i][1];
+                
+
+                if (map[y2*size + x2] == AIR) { //si la case est accessible et non marqué
+                    printf("canGoTO! %d/%d\n", x2, y2);
+                    List* element= (List*) malloc(sizeof(List));
+                    element->x = x2;
+                    element->y = y2;
+                    element->next = dynamic_list;
+                    
+                    dynamic_list = element;
+
+                    map[y2*size + x2] = SOLID;  //on marque la case pour ne plus y repasser
+                    //on pointe sur l'element precedent en inversant la direction
+                    back[y2*size+x2*2] = -dir[i][0];
+                    back[y2*size+x2*2+1] = -dir[i][1];
+
+                    if (x2 == x && y2 == y) {
+                        printf("found.........!\n");
+                        found = 1;
+                        dynamic_list = NULL;
+                        break;
+                    }
                 }
             }
+
+            liste=pos->next; //passage à l'elt suivant
+            free(pos);
         }
+
+        while (liste != NULL)//s'il reste des elts dans la liste on libère la mémoire
+        { 
+            List* l2 = liste;
+            liste=liste->next;
+            free(l2);
+        }
+    
+    }
+
+    while (dynamic_list != NULL) {//s'il reste des elts dans la liste on libère la mémoire
+        List* l2 = dynamic_list;
+        dynamic_list=dynamic_list->next;
+        free(l2);
     }
     
-    if (path2 != NULL) *distance = distMin;
-   // printf("graph next...");
-    return path2;
+    
+    if (found) {
+        int pos_x = x;
+        int pos_y = y;
+        int dist = 0;
+        while (!(pos_x == xTarget && pos_y == yTarget))
+        {
+            printf("found !\n");
+            int dir_x = back[pos_y*size + pos_x*2];
+            int dir_y = back[pos_y*size + pos_x*2 + 1];
+            printf("dir: %d/%d\n",dir_x, dir_y);
+            path[dist*2] = dir_x;
+            path[dist*2 + 1] = dir_y;
+            pos_x+=dir_x;
+            pos_y+=dir_y;
+            dist++;
+        }
+        free(back);
+        return path;
+    }
+    
+    free(back);
+    return NULL;
 }
 
 //recherche d'un chemin d'un point A à un point B dans le labyrinthe, avec une distance max dMax
@@ -106,11 +180,11 @@ int* pathFinding(const int* map, const int size, int x_A, int y_A, int x_B, int 
             map_copy[i*size+j]=map[i*size+j];
 
     if (empty_path != NULL && map_copy != NULL) {
-        for (int i = 0; i < (dMax+1)*2; i++) empty_path[i] = -1;
+        for (int i = 0; i < (dMax+1)*2; i++) empty_path[i] = 0;
         //printf("starting graph...\n");
-        int dist = 0;
-        int* path = graph(map_copy, size, x_A, y_A, empty_path, &dist, dMax, x_B, y_B);
-        free(empty_path);
+        
+        int* path = graph(map_copy, size, x_A, y_A, empty_path, dMax, x_B, y_B);
+        if (path == NULL) free(empty_path);
         free(map_copy);
         //printf("graph ended !...\n");
         return path;
