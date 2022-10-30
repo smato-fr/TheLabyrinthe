@@ -28,6 +28,7 @@
     int y_spawn;
     
     Map current_map;//carte actuelle où se trouve le joueur
+    Map spawn_map;
 
     int scratcherPerception; //portée de détection en cases des griffeurs
     
@@ -55,5 +56,6 @@
   void onDie();
   void onDay();
   void onNight();
+  void refreshScratcherPosition();
 
 #endif

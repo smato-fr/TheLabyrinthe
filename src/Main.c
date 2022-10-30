@@ -118,6 +118,7 @@ int main() {
 
 	  	if (lookingFor(&x, &y, game.current_map.labyrinthe, game.current_map.size, START, 1)) { //recherche le point START dans la map
 			//si point trouvé, copie de ses positions
+			game.spawn_map = game.current_map;
 			game.x_spawn=x;
 			game.y_spawn=y;
 
@@ -233,7 +234,11 @@ int goToCaseAt(int x, int y) {
 
 //fct utilisée pour le debuggage
 int debug_CMD() {
-	game.perception = 100;
+	game.perception = game.current_map.size;
+	game.accessLevel = 10;
+	game.force_capacity = GAME_STAT_STRENGHT_CAPACITY_MAX;
+	game.force = game.force_capacity;
+	game.speed = GAME_STAT_SPEED_MAX;
 	return 1;
 }
 
@@ -362,9 +367,12 @@ int entry1() {
 		}
 		
 		//met le joueur à l'entrée correspondante
-		lookingFor(&game.x_spawn, &game.y_spawn, game.current_map.labyrinthe, game.current_map.size, ENTRY1, 1);
-		game.x_player=game.x_spawn;
-		game.y_player=game.y_spawn;
+		int x, y;
+		lookingFor(&x, &y, game.current_map.labyrinthe, game.current_map.size, ENTRY1, 1);
+		game.x_player=x;
+		game.y_player=y;
+
+		refreshScratcherPosition();
 		return 2;
 	} else {
 		print(PRINT_GAME_DOOR_CLOSE);
@@ -381,9 +389,12 @@ int entry2(){
 			game.current_map = game.maps[0];
 		}
 
-		lookingFor(&game.x_spawn, &game.y_spawn, game.current_map.labyrinthe, game.current_map.size, ENTRY2, 1);
-		game.x_player=game.x_spawn;
-		game.y_player=game.y_spawn;
+		int x, y;
+		lookingFor(&x, &y, game.current_map.labyrinthe, game.current_map.size, ENTRY2, 1);
+		game.x_player=x;
+		game.y_player=y;
+
+		refreshScratcherPosition();
 		return 2;
 	} else {
 		print(PRINT_GAME_DOOR_CLOSE);
@@ -400,9 +411,12 @@ int entry3(){
 			game.current_map = game.maps[0];
 		}
 
-		lookingFor(&game.x_spawn, &game.y_spawn, game.current_map.labyrinthe, game.current_map.size, ENTRY3, 1);
-		game.x_player=game.x_spawn;
-		game.y_player=game.y_spawn;
+		int x, y;
+		lookingFor(&x, &y, game.current_map.labyrinthe, game.current_map.size, ENTRY3, 1);
+		game.x_player=x;
+		game.y_player=y;
+
+		refreshScratcherPosition();
 		return 2;
 	} else {
 		print(PRINT_GAME_DOOR_CLOSE);
@@ -419,9 +433,12 @@ int entry4(){
 			game.current_map = game.maps[0];
 		}
 
-		lookingFor(&game.x_spawn, &game.y_spawn, game.current_map.labyrinthe, game.current_map.size, ENTRY4, 1);
-		game.x_player=game.x_spawn;
-		game.y_player=game.y_spawn;
+		int x, y;
+		lookingFor(&x, &y, game.current_map.labyrinthe, game.current_map.size, ENTRY4, 1);
+		game.x_player=x;
+		game.y_player=y;
+
+		refreshScratcherPosition();
 		return 2;
 	} else {
 		print(PRINT_GAME_DOOR_CLOSE);
@@ -515,7 +532,8 @@ int forge() {
 
 //interaction avec un parchemin
 int parchement() {
-	game.accessLevel++;
+	game.accessLevel++; //niveau d'accès augmenté
+	game.scratcherPerception+=GAME_SCRATCHER_PERCEPTION_DIFFICULTY; //augmente la portée des griffeurs
 	print(PRINT_GAME_PARCHEMENT);
 	return -1;
 }
@@ -572,8 +590,9 @@ void onDie() {
 	if (!GOD_MOD) {
 		game.x_player = game.x_spawn;
 		game.y_player = game.y_spawn;
-		game.current_map = game.maps[0];
+		game.current_map = game.spawn_map;
 		print(PRINT_GAME_DIE);
+		refreshScratcherPosition();
 	}
 }
 
@@ -588,7 +607,6 @@ void onDay() {
 void onNight() {
 	game.night = 1;
 	game.time = game.nightDuration;
-	game.scratcherPerception++;
 	print(PRINT_GAME_NIGHT);
 	
 	//si le joueur se trouvait malencontreusement sur la case de la porte...
@@ -603,6 +621,11 @@ void onNight() {
 
 
 	//apparition des griffeurs
+	refreshScratcherPosition();
+}
+
+void refreshScratcherPosition() {
+	//printf("looking for Scratchers...");
 	int* pos_x = (int*) malloc(sizeof(int)*game.current_map.scratcherNumber);
 	int* pos_y = (int*) malloc(sizeof(int)*game.current_map.scratcherNumber);
 	if (pos_x != NULL && pos_y != NULL) {
@@ -616,7 +639,7 @@ void onNight() {
 		free(pos_x);
 		free(pos_y);
 	} else {
-		debug("malloc error");
+		//debug("malloc error");
 		onDay();
 	}
 }
