@@ -81,7 +81,7 @@ int* graph(int* map, const int size, int x, int y, int* path, const int dMax, co
     int dist = 0;
 
     while (dynamic_list != NULL && dist < dMax) { //tant que la liste n'est pas vide
-        printf("searching... !\n");
+        //printf("searching... !\n");
         dist++;
         List* liste = dynamic_list; //on copie la liste principale
         dynamic_list = NULL; //on vide la liste principale
@@ -91,19 +91,19 @@ int* graph(int* map, const int size, int x, int y, int* path, const int dMax, co
             //on va ajouter tous les cases adjacentes accessibles et non marquées
             List* pos = liste;
             
-            printf("for: %d/%d\n",pos->x, pos->y);
+           // printf("for: %d/%d\n",pos->x, pos->y);
             if (liste == pos->next) {
-                printf("errrrrror !!!!\n");
+                //printf("errrrrror !!!!\n");
                 exit(0);
             }
             for (int i = 0; i < 4; i++) {
-                printf("dir:%d\n",i);
+                //printf("dir:%d\n",i);
                 int x2 = pos->x + dir[i][0];
                 int y2 = pos->y + dir[i][1];
                 
 
                 if (map[y2*size + x2] == AIR) { //si la case est accessible et non marqué
-                    printf("canGoTO! %d/%d\n", x2, y2);
+                    //printf("canGoTO! %d/%d\n", x2, y2);
                     List* element= (List*) malloc(sizeof(List));
                     element->x = x2;
                     element->y = y2;
@@ -117,7 +117,7 @@ int* graph(int* map, const int size, int x, int y, int* path, const int dMax, co
                     back[y2*size+x2*2+1] = -dir[i][1];
 
                     if (x2 == x && y2 == y) {
-                        printf("found.........!\n");
+                        //printf("found.........!\n");
                         found = 1;
                         dynamic_list = NULL;
                         break;

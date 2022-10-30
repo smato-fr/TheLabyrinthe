@@ -147,17 +147,17 @@ int main() {
 				if (scratcher_x == game.x_player && scratcher_y == game.y_player) { //le joueur s'est fait attraper !
 					onDie();
 				} else {
-					printf("=======SCRATCHER: %d/%d========\n", scratcher_x, scratcher_y);
+					//printf("=======SCRATCHER: %d/%d========\n", scratcher_x, scratcher_y);
 					int* path = pathFinding(game.current_map.labyrinthe, game.current_map.size, scratcher_x, scratcher_y, game.x_player, game.y_player, game.scratcherPerception);
 					if (path != NULL) {
-						debug("path found");
-						printf("scratcher: %d/%d\n", game.current_map.scratcherPositon[i*2], game.current_map.scratcherPositon[i]);
+						//debug("path found");
+						//printf("scratcher: %d/%d\n", game.current_map.scratcherPositon[i*2], game.current_map.scratcherPositon[i]);
 						int x_goto = game.current_map.scratcherPositon[i*2] + path[0];
 						int y_goto = game.current_map.scratcherPositon[i*2+1] + path[1];
-						printf("path: %d/%d\n", path[0], path[1]);
+						//printf("path: %d/%d\n", path[0], path[1]);
 						game.current_map.scratcherPositon[2*i]=x_goto;
 						game.current_map.scratcherPositon[2*i+1]=y_goto;
-						printf("scratcher: %d/%d\n", game.current_map.scratcherPositon[i], game.current_map.scratcherPositon[i]);
+						//printf("scratcher: %d/%d\n", game.current_map.scratcherPositon[i], game.current_map.scratcherPositon[i]);
 						free(path);
 
 						if (x_goto == game.x_player && y_goto == game.y_player) { //le joueur s'est fait attraper !
