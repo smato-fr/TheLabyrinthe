@@ -596,6 +596,7 @@ int exitDoor() {
 //mort du joueur :(
 void onDie() {
 	if (!GOD_MOD) {
+		game.xp = 0;
 		game.x_player = game.x_spawn;
 		game.y_player = game.y_spawn;
 		game.current_map = game.spawn_map;
