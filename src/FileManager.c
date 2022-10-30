@@ -6,9 +6,6 @@
 #include "Game.h"
 
 
-//chemin vers le fichier où se trouve tous les niveaux
-#define LEVELS_PATH "./res/levels/"
-
 /*
 
 const char* path -> chemin vers le fichier où se trouve les infos de la map
@@ -179,7 +176,7 @@ int loadingFiles(const int level, int* nb_maps, Map** maps) {
 	//définition d'un string chemin de base to_path, on devra s'en servir par la suite
 	char niveau[256];
 	sprintf(niveau, "%d", level); // définit un string qui contient la valeur de level, un int.
-	char to_path[256] = "./src/res/levels/level_";
+	char to_path[256] = "./res/levels/level_";
 	concat(niveau,"/");
 	concat(to_path, niveau); // to_path = ./src/res/levels/level_'level'/
 	
