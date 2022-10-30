@@ -100,7 +100,8 @@ int* graph(int* map, const int size, int x, int y, int* path, const int dMax, co
                 //printf("dir:%d\n",i);
                 int x2 = pos->x + dir[i][0];
                 int y2 = pos->y + dir[i][1];
-                
+
+                if (x2 < 0 && x2 >= size && y2 < 0 && y2 >= size) continue; //si position en dehors de la map
 
                 if (map[y2*size + x2] == AIR) { //si la case est accessible et non marqué
                     //printf("canGoTO! %d/%d\n", x2, y2);
@@ -151,10 +152,10 @@ int* graph(int* map, const int size, int x, int y, int* path, const int dMax, co
         int dist = 0;
         while (!(pos_x == xTarget && pos_y == yTarget))
         {
-            printf("found !\n");
+            //printf("found !\n");
             int dir_x = back[pos_y*size + pos_x*2];
             int dir_y = back[pos_y*size + pos_x*2 + 1];
-            printf("dir: %d/%d\n",dir_x, dir_y);
+            //printf("dir: %d/%d\n",dir_x, dir_y);
             path[dist*2] = dir_x;
             path[dist*2 + 1] = dir_y;
             pos_x+=dir_x;
