@@ -18,7 +18,7 @@
 #define PRINT_GAME_TRAP "Oh non ! Vous êtes tombés dans un piège. Vous avez perdu une heure en vous échappant."
 #define PRINT_GAME_LEVER "Vous entendez un mécanisme s'activer au loin!"
 #define PRINT_GAME_PARCHEMENT "Une inscription est gravée sur le mur, elle vous explique comment accéder au prochain bloc."
-#define PRINT_GAME_CONGRATULATION "Félicitation vous êtes parvenu(e) à vous échapper !"
+#define PRINT_GAME_CONGRATULATION "Félicitation vous êtes parvenu(e) à vous échapper !\nFin du jeu."
 
 #define GAME_LEVEL 1
 #define GAME_NIGHT_DURATION 500

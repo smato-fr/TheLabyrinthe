@@ -171,7 +171,12 @@ int main() {
 		}
 		
 		//execution de la fonction associée à la cmd
-  		if (CommandsFct[cmd]()>0) { //puis si retour stt positif affichage du labyrinthe
+		int answer = CommandsFct[cmd]();
+		if (answer == 42) {
+			break; //victoire
+		}
+
+  		else if (answer>0) { //puis si retour stt positif affichage du labyrinthe
 			//détermination des coordonnées des extrémités d'un cube en fct de la distance de vue, et en placant le joueur au centre 
 
 			//position minimale d'affichage
@@ -201,6 +206,7 @@ int main() {
   		cmd = read_console();
   	}
   	
+	shutdown();
 }
 
 
@@ -267,6 +273,8 @@ int up() {
 		if (answer == -1) { //objet à usage unique
 			game.current_map.labyrinthe[(game.y_player-1)*game.current_map.size + game.x_player] = AIR;
 		}
+
+		
 
 		return answer;
 	}
@@ -578,7 +586,7 @@ int dayNightDoor() {
 int exitDoor() {
 	clearConsole();
 	print(PRINT_GAME_CONGRATULATION);
-	return 2;
+	return 42;
 }
 
 
