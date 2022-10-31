@@ -28,12 +28,8 @@ void clearConsole() {
 
 
 //affichage du temps
-void display_time(int night, int time) {
-	if (night) {
-		printf("Il fait nuit, %d heure(s) avant le jour...\n", time);
-	} else {
-		printf("Il fait jour, %d heure(s) avant la nuit...\n", time);
-	}
+void display_time(int heure, int minute) {
+	printf(" -- %dh%d --\n", heure, minute);
 }
 
 
@@ -161,7 +157,7 @@ void print(char* str)
 }
 
 void forgeInteract(int xp, int vitesse, int force, int perception, char buffer[256], int* nb_exp){
-	printf("vous voici dans la forge. vous avez %d niveaux d'expérience à utiliser. Voici vos niveaux de compétence : \n Vitesse : %d/7 \t Force : %d/7 \t Perception : %d/7 \t. \n Choisissez une compétence à améliorer :", xp, vitesse, force, perception);
+	printf("Vous voici dans la forge. Vous avez %d niveaux d'expérience à utiliser. Voici vos niveaux de compétence : \n Vitesse : %d/7 \t Force : %d/7 \t Perception : %d/7 \t. \n Choisissez une compétence à améliorer :", xp, vitesse, force, perception);
 	scanf("%s", buffer);
 	printf("\n Nombre de niveaux :");
 	scanf("%d", nb_exp); 
