@@ -8,9 +8,7 @@
 #define PRINT_GAME_DIE "Vous venez de perdre la vie..."
 #define PRINT_GAME_NIGHT "La nuit vient de tomber !"
 #define PRINT_GAME_DAY "Le jour vient de se lever !"
-#define PRINT_GAME_BED "Ceci est un lit"
-#define PRINT_GAME_BED_NIGHT "Zzzz... zz.. z..."
-#define PRINT_GAME_BED_DAY "Il fait encore jour..."
+#define PRINT_GAME_BED "Zzzz... zz.. z... (force restaurer)"
 #define PRINT_GAME_DOOR_CLOSE "On dirait que ce mur peut s'ouvrir..."
 #define PRINT_GAME_FORGE "Cling Clang Scratch Cling ! Amélioration terminée"
 #define PRINT_GAME_FORGE_LEVEL_MAX "Niveau déjà au max !"
@@ -41,6 +39,6 @@
 #define GAME_STAT_STRENGHT_CAPACITY_MAX 7
 
 #define GAME_SCRATCHER_PERCEPTION 10
-#define GAME_SCRATCHER_PERCEPTION_DIFFICULTY 5
+#define GAME_SCRATCHER_PERCEPTION_DIFFICULTY 3
 
 #define GOD_MOD 0

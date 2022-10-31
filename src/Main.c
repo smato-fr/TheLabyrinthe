@@ -502,13 +502,9 @@ int rareChest() {
 //interaction avec un lit
 int bed() {
 	print(PRINT_GAME_BED);
-	if (game.night) {
-		print(PRINT_GAME_BED_NIGHT);
-		onDay();
-		game.force = game.force_capacity;
-	} else {
-		print(PRINT_GAME_BED_DAY);
-	}
+	onDay();
+	game.force = game.force_capacity;
+	
 	return 0;
 }
 
