@@ -20,8 +20,7 @@
 #define PRINT_GAME_CONGRATULATION "Félicitation vous êtes parvenu(e) à vous échapper !\n Crédits : \n Nathan VALETTE - Superviseur technique (sans lui les griffeurs bougeraient pas :( )  \n Elie ELBAZE-SCHEININE - Community Manager  \n Louis-Eliott MAGNIN : Bêta testeur."
 
 #define GAME_LEVEL 1
-#define GAME_NIGHT_DURATION 500
-#define GAME_DAY_DURATION 200
+#define GAME_INIT_TIME 480
 
 #define GAME_CHEST_XP 1
 #define GAME_CHEST_FORCE 1

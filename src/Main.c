@@ -52,8 +52,9 @@ int init() {
 	game.xp = 0;
 	game.lever= GAME_LEVER_DOWN;
 	game.scratcherPerception = GAME_SCRATCHER_PERCEPTION;
-	game.hour = 8;
+	game.hour = 0;
 	game.minute = 0;
+	game.time = GAME_INIT_TIME;
   
   	if (loadingFiles(&game.nb_map, &game.maps)) {//chargement des fichier 
   		print("erreur lors du chargement des fichiers");
@@ -225,11 +226,11 @@ int goToCaseAt(int x, int y) {
 	}
 	game.time = 60*(game.hour) + game.minute;
 	
-	if (game.minute==60){
-		game.minute = 0;
+	if (game.minute >= 60){
+		game.minute -= 60;
 		game.hour++;
-		if (game.hour == 24){
-			game.hour = 0;
+		if (game.hour >= 24){
+			game.hour -= 24;
 		}
 	}
 	
