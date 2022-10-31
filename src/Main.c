@@ -54,6 +54,8 @@ int init() {
 	game.xp = 0;
 	game.lever= GAME_LEVER_DOWN;
 	game.scratcherPerception = GAME_SCRATCHER_PERCEPTION;
+	game.hour = 0;
+	game.minute = 0;
   
   	if (loadingFiles(&game.nb_map, &game.maps)) {//chargement des fichier 
   		print("erreur lors du chargement des fichiers");
@@ -211,21 +213,41 @@ int main() {
 
 //déplacement possible sur cette case ?
 int goToCaseAt(int x, int y) {
-
-	//avancé du temps
-	if (game.time<=0) {
+	
+	//Réglage de l'horloge du jeu
+	while (game.time > 0) {
+		if (game.time >=60){
+			game.hour++;
+			game.time -= 60;
+		}
+		else {
+			game.minute++;
+			game.time--;
+		}
+	}
+	game.time = 60*(game.hour) + game.minute;
+	
+	if (game.minute==60){
+		game.minute = 0;
+		game.hour++;
+		if (game.hour == 24){
+			game.hour = 0;
+		}
+	}
 		
-		if (game.night) { //si nuit
-			//mettre jour
-			onDay();
-		} else { //sinon
-			//mettre nuit
-			onNight();
+	
+	if (game.hour == 8) { // si il est 8h, on met le jour
+		//mettre jour
+		onDay();
+		} 
+	else if (game.hour == 20) { //nuit à partir de 20h
+		//mettre nuit
+		onNight();
 		}
 
 	} 
 	else 
-		game.time-=(10-game.speed); //le temps avance en fonction de la stat vitesse du joueur
+		game.time-=(11-game.speed); //le temps avance en fonction de la stat vitesse du joueur
 
 
 	int c = game.current_map.labyrinthe[y*game.current_map.size+x]; //type de la case
