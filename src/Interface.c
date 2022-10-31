@@ -111,7 +111,7 @@ renvoie la commande dans le type Command
 enum Command read_console() 
 {
 	
-	char mot[10];
+	char mot[255];
 	/* demande a l'utilisateur d entrer un mot */
 	scanf("%s", mot);
 
