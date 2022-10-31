@@ -1,6 +1,6 @@
 linux: clean1 LabyrintheLinux clean2
 
-linux_win: clean1 LabyrintheWindows clean2
+linux_win: clean1 LabyrintheWindowsFromLinux clean2
 
 windows: clean1 LabyrintheWindows clean2
 
