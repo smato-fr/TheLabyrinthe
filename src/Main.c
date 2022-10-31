@@ -219,7 +219,7 @@ int goToCaseAt(int x, int y) {
 	
 
 	
-	if ((game.hour >= 8) && (game.hour < 20) && (game.night ==1)) { // si il est 8h, on met le jour
+	if ((game.hour >= 8) && (game.hour < 18) && (game.night ==1)) { // si il est 8h, on met le jour
 		//mettre jour
 		onDay();
 		} 
@@ -549,8 +549,7 @@ int parchement() {
 //interaction avec un piège
 int trap() {
 	print(PRINT_GAME_TRAP);
-	if (!game.night) onNight();
-	else game.time-=GAME_TRAP_TIME;
+	game.time += 300;
 	return -1;
 }
 
