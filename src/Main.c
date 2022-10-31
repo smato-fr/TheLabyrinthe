@@ -54,7 +54,7 @@ int init() {
 	game.xp = 0;
 	game.lever= GAME_LEVER_DOWN;
 	game.scratcherPerception = GAME_SCRATCHER_PERCEPTION;
-	game.hour = 0;
+	game.hour = 8;
 	game.minute = 0;
   
   	if (loadingFiles(&game.nb_map, &game.maps)) {//chargement des fichier 
