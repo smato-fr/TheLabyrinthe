@@ -171,35 +171,60 @@ int egaux(char *tab1, char *tab2){
 
 
 //Programme principal loadingFiles
-int loadingFiles(const int level, int* nb_maps, Map** maps) {
-	
+/*charge toutes les données nécessaires au jeu depuis le dossier res */
+int loadingFiles(int* nb_maps, Map** maps) {
+	char buffer[256]; //sera utilisé pour récupérer les données des fichiers
+
 	//définition d'un string chemin de base to_path, on devra s'en servir par la suite
-	char niveau[256];
-	sprintf(niveau, "%d", level); // définit un string qui contient la valeur de level, un int.
-	char to_path[256] = "./res/levels/level_";
-	concat(niveau,"/");
-	concat(to_path, niveau); // to_path = ./src/res/levels/level_'level'/
-	
-	
-	// Recherche du nombre de maps dans le jeu
-	char lab0opt[256]; 
-	duplicate(lab0opt, to_path); 
-	concat(lab0opt,"labyrinthe_0.opt"); // lab0opt = ./src/res/levels/level_'level'/labyrinthe_0.opt
-	//printf("%s\n", lab0opt);
-	FILE* flux_entree = fopen(lab0opt, "r"); // labyrinthe_0.opt contient la taille de la carte centrale et le nombre total de maps
+	char to_path[256] = "./res/levels/";
+
+
+	//On cherche le chemin vers le dossier du niveau à charger
+
+	char levelOPT[256]; 
+	duplicate(levelOPT, to_path); //copie de to_path
+	concat(levelOPT, "levels.opt"); //chemin obtenue: './res/levels/levels.opt'
+
+	printf("Scan du fichier: %s\n", levelOPT);
+
+	FILE* flux_entree = fopen(levelOPT, "r"); // labyrinthe_0.opt contient la taille de la carte centrale et le nombre total de maps
 	if (flux_entree == NULL) {
 		printf("erreur chargement");
 		return (-1);
 	}
-	char buffer[256];
+	
+	while(fscanf(flux_entree,"%s", buffer) != EOF){
+		if (egaux(buffer, "level:")){  //on trouve le premier motif 'nb_maps: '
+			fscanf(flux_entree,"%s", buffer); // on sait alors que le string suivant est la donnée de nb_maps, bingo!
+			break;
+		}
+	}
+	concat(to_path, buffer);
+	concat(to_path, "/");
+	printf("chargement de la map à: %s\n",to_path);
+	fclose(flux_entree);
+
+	// Recherche du nombre de maps dans le jeu
+	char lab0opt[256]; 
+	duplicate(lab0opt, to_path); 
+	concat(lab0opt,"labyrinthe_0.opt"); // lab0opt = ./res/levels/'level'/labyrinthe_0.opt
+	//printf("%s\n", lab0opt);
+	flux_entree = fopen(lab0opt, "r"); // labyrinthe_0.opt contient la taille de la carte centrale et le nombre total de maps
+	if (flux_entree == NULL) {
+		printf("erreur chargement");
+		return (-1);
+	}
+	//printf("2\n");
 	while(fscanf(flux_entree,"%s", buffer) != EOF){
 		if (egaux(buffer, "nb_maps:")){  //on trouve le premier motif 'nb_maps: '
 			fscanf(flux_entree,"%s", buffer); // on sait alors que le string suivant est la donnée de nb_maps, bingo!
 			break;
 		}
 	}
+	//printf("%s\n",buffer);
+	//printf("%d\n",*nb_maps);
 	*nb_maps = atoi(buffer); //nb_maps pointe donc vers le nombre de maps
-	//printf("nb _maps = %d\n",*nb_maps);
+	printf("%d à charger...\n",*nb_maps);
 	fclose(flux_entree);
 	
 	*maps = (Map*) malloc(sizeof(Map)*(*nb_maps)); //on alloue la bonne taille à *maps
@@ -254,6 +279,10 @@ int loadingFiles(const int level, int* nb_maps, Map** maps) {
 			printf("map id: %d do not load !",i);
 			return -1;
 		}
+
+		printf("map %d chargée !\n", i);
 	}
+
+	printf("Toutes les maps sont chargées !\n");
 	return 0;
 }

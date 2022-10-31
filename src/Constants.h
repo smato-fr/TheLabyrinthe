@@ -4,6 +4,7 @@
 
 #define PRINT_LOADING_START "Chargement en cours..."
 #define PRINT_LOADING_COMPLETE "Terminé !"
+#define PRINT_START "Entrez 'up' pour démarrer..."
 #define PRINT_GAME_DIE "Vous venez de perdre la vie..."
 #define PRINT_GAME_NIGHT "La nuit vient de tomber !"
 #define PRINT_GAME_DAY "Le jour vient de se lever !"

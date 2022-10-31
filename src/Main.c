@@ -55,9 +55,7 @@ int init() {
 	game.lever= GAME_LEVER_DOWN;
 	game.scratcherPerception = GAME_SCRATCHER_PERCEPTION;
   
-	onDay();
-
-  	if (loadingFiles(game.level, &game.nb_map, &game.maps)) {//chargement des fichier 
+  	if (loadingFiles(&game.nb_map, &game.maps)) {//chargement des fichier 
   		print("erreur lors du chargement des fichiers");
 		return -1; //erreur détéctée
 	}
@@ -72,6 +70,7 @@ int init() {
 		if (game.maps[m].scratcherPositon == NULL) return -1; //si erreur
 	}
 
+	onDay(); //met le jour
 	return 0;
 }
 
@@ -132,8 +131,8 @@ int main() {
 
 	print(PRINT_LOADING_COMPLETE); //chargement terminé !
 
-
-  	enum Command cmd = UP;
+	print(PRINT_START);
+  	enum Command cmd = read_console();
 
 	//MAINLOOP (boucle principale du jeu)
   	while(cmd != STOP) { //arrêt du jeu si commande stop détéctée

@@ -157,7 +157,7 @@ enum Command read_console()
 //affichage en console d'un string
 void print(char* str) 
 {
-	printf("(%s)\n", str);
+	printf("%s\n", str);
 }
 
 void forgeInteract(int xp, int vitesse, int force, int perception, char buffer[256], int* nb_exp){
