@@ -54,7 +54,7 @@ int init() {
 	game.scratcherPerception = GAME_SCRATCHER_PERCEPTION;
 	game.hour = 0;
 	game.minute = 0;
-	game.time = GAME_INIT_TIME;
+	game.time = GAME_TIME_DAY*60;
   
   	if (loadingFiles(&game.nb_map, &game.maps)) {//chargement des fichier 
   		print("erreur lors du chargement des fichiers");
@@ -138,6 +138,8 @@ int main() {
 	//MAINLOOP (boucle principale du jeu)
   	while(cmd != STOP) { //arrêt du jeu si commande stop détéctée
 		
+		
+
 		//déplacement des griffeurs
 		if (game.night) {
 			for (int i = 0; i < game.current_map.scratcherNumber; i++) {
@@ -197,9 +199,26 @@ int main() {
 			clearConsole(); //fait de la place dans la console
 			//affichage du labyrinthe
 			display_labyrinthe(game.current_map.labyrinthe, game.current_map.size, xMin, yMin, xMax, yMax, game.x_player, game.y_player, game.current_map.scratcherPositon, game.night ? game.current_map.scratcherNumber : 0); 
-			//affichage du temps
-			display_time(game.hour, game.minute);
+			
   		}
+
+		//Réglage de l'horloge du jeu
+		game.minute = game.time % 60;
+		game.hour = (game.time / 60) % 24;
+		if ((game.hour >= GAME_TIME_DAY) && (game.hour < GAME_TIME_NIGHT) && (game.night)) { // si il est 8h, on met le jour
+			//mettre jour
+			onDay();
+		} 
+		else if ((game.hour >= GAME_TIME_NIGHT) && !(game.night)) { //nuit à partir de 20h
+			//mettre nuit
+			onNight();
+		}
+		
+		game.time += (11-game.speed); //le temps avance en fonction de la stat vitesse du joueur
+
+		//affichage du temps
+		display_time(game.night, game.hour, game.minute);
+
 
 
   		//attente d'une instruction donnée par le joueur
@@ -213,24 +232,6 @@ int main() {
 //déplacement possible sur cette case ?
 int goToCaseAt(int x, int y) {
 	
-	//Réglage de l'horloge du jeu
-	game.minute = game.time % 60;
-	game.hour = (game.time / 60) % 24;
-	
-
-	
-	if ((game.hour >= 8) && (game.hour < 18) && (game.night ==1)) { // si il est 8h, on met le jour
-		//mettre jour
-		onDay();
-		} 
-	else if ((game.hour >= 20) && (game.night == 0)) { //nuit à partir de 20h
-		//mettre nuit
-		onNight();
-		}
-	
-	game.time += (11-game.speed); //le temps avance en fonction de la stat vitesse du joueur
-
-
 	int c = game.current_map.labyrinthe[y*game.current_map.size+x]; //type de la case
 	return CasesFct[c](); //appel de la fonction correspondante au type
 }
@@ -549,7 +550,7 @@ int parchement() {
 //interaction avec un piège
 int trap() {
 	print(PRINT_GAME_TRAP);
-	game.time += 300;
+	game.time += GAME_TRAP_TIME;
 	return -1;
 }
 
