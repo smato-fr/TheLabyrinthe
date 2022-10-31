@@ -43,8 +43,6 @@ int init() {
 	
 	//chargement des valeurs initiales (voir Constants.h)
 	game.level = GAME_LEVEL;
-	game.dayDuration = GAME_DAY_DURATION;
-	game.nightDuration = GAME_NIGHT_DURATION;
 	
 	game.accessLevel = 0;
 	game.force_capacity = GAME_STAT_STRENGHT_CAPACITY;
@@ -628,14 +626,12 @@ void onDie() {
 //quand le jour se lève
 void onDay() {
 	game.night = 0;
-	game.time = game.dayDuration;
 	print(PRINT_GAME_DAY);
 }
 
 //quand le jour se couche
 void onNight() {
 	game.night = 1;
-	game.time = game.nightDuration;
 	print(PRINT_GAME_NIGHT);
 	
 	//si le joueur se trouvait malencontreusement sur la case de la porte...
