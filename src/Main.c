@@ -214,25 +214,10 @@ int main() {
 int goToCaseAt(int x, int y) {
 	
 	//Réglage de l'horloge du jeu
-	while (game.time > 0) {
-		if (game.time >=60){
-			game.hour++;
-			game.time -= 60;
-		}
-		else {
-			game.minute++;
-			game.time--;
-		}
-	}
-	game.time = 60*(game.hour) + game.minute;
+	game.minute = game.time % 60;
+	game.hour = (game.time / 60) % 24;
 	
-	if (game.minute >= 60){
-		game.minute -= 60;
-		game.hour++;
-		if (game.hour >= 24){
-			game.hour -= 24;
-		}
-	}
+
 	
 	if ((game.hour >= 8) && (game.hour < 20) && (game.night ==1)) { // si il est 8h, on met le jour
 		//mettre jour
