@@ -54,7 +54,7 @@ int init() {
 	game.scratcherPerception = GAME_SCRATCHER_PERCEPTION;
 	game.hour = 0;
 	game.minute = 0;
-	game.time = 480;
+	game.time = GAME_INIT_TIME;
   
   	if (loadingFiles(&game.nb_map, &game.maps)) {//chargement des fichier 
   		print("erreur lors du chargement des fichiers");
