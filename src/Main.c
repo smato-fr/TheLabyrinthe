@@ -199,7 +199,7 @@ int main() {
 			//affichage du labyrinthe
 			display_labyrinthe(game.current_map.labyrinthe, game.current_map.size, xMin, yMin, xMax, yMax, game.x_player, game.y_player, game.current_map.scratcherPositon, game.night ? game.current_map.scratcherNumber : 0); 
 			//affichage du temps
-			display_time(game.night, game.time);
+			display_time(game.hour, game.minute);
   		}
 
 
