@@ -1,5 +1,7 @@
 # TheLabyrinthe
 
+#VOIR LE FICHIER documentation.odt
+
 #caractères de sauvegarde des niveaux:
 x->mur
 0->case vide(déplacement possible seulement ici)
