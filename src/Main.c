@@ -226,11 +226,11 @@ int goToCaseAt(int x, int y) {
 	}
 	game.time = 60*(game.hour) + game.minute;
 	
-	if (game.minute==60){
-		game.minute = 0;
+	if (game.minute >= 60){
+		game.minute -= 60;
 		game.hour++;
-		if (game.hour == 24){
-			game.hour = 0;
+		if (game.hour >= 24){
+			game.hour -= 24;
 		}
 	}
 	
