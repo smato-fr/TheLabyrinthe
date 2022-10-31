@@ -234,20 +234,17 @@ int goToCaseAt(int x, int y) {
 			game.hour = 0;
 		}
 	}
-		
 	
-	if (game.hour == 8) { // si il est 8h, on met le jour
+	if ((game.hour >= 8) && (game.hour < 20) && (game.night ==1)) { // si il est 8h, on met le jour
 		//mettre jour
 		onDay();
 		} 
-	else if (game.hour == 20) { //nuit à partir de 20h
+	else if ((game.hour >= 20) && (game.night == 0)) { //nuit à partir de 20h
 		//mettre nuit
 		onNight();
 		}
-
-	} 
-	else 
-		game.time-=(11-game.speed); //le temps avance en fonction de la stat vitesse du joueur
+	
+	game.time += (11-game.speed); //le temps avance en fonction de la stat vitesse du joueur
 
 
 	int c = game.current_map.labyrinthe[y*game.current_map.size+x]; //type de la case
