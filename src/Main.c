@@ -256,7 +256,9 @@ int unknownCommand() {
 //quand le joueur demande de l'aide
 int help() {
 	print("\n");
-	print("déplacement: up/down/left/right (tips: zqsd)\n");
+	print("déplacements: up/down/left/right (tips: zqsd)\n");
+	print("-> déplacez vous dans le labyrinthe\n");
+	print("-> pour interagir avec un objet, déplacez vous vers lui\n");
 	print("\n");
 	return 0;
 }
