@@ -14,7 +14,7 @@
 #define PRINT_GAME_FORGE_LEVEL_MAX "Niveau déjà au max !"
 #define PRINT_GAME_COFFRE_SUCCES "Vous avez trouvez une amulette d'expérience !"
 #define PRINT_GAME_COFFRE_ECHEC "Vous n'avez pas assez de force pour ouvrir ce coffre ! Vous êtes faible, allez vous reposer."
-#define PRINT_GAME_TRAP "Oh non ! Vous êtes tombés dans un piège. Vous avez perdu une heure en vous échappant."
+#define PRINT_GAME_TRAP "Oh non ! Vous êtes tombés dans un piège. Vous avez perdu 5 heures en vous échappant."
 #define PRINT_GAME_LEVER "Vous entendez un mécanisme s'activer au loin!"
 #define PRINT_GAME_PARCHEMENT "Une inscription est gravée sur le mur, elle vous explique comment accéder au prochain bloc."
 #define PRINT_GAME_CONGRATULATION "Félicitation vous êtes parvenu(e) à vous échapper !\n Crédits : \n Nathan VALETTE - Superviseur technique (sans lui les griffeurs bougeraient pas :( )  \n Elie ELBAZE-SCHEININE - Community Manager  \n Louis-Eliott MAGNIN : Bêta testeur."
