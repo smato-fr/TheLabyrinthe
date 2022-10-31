@@ -37,9 +37,11 @@
 
     int lever; //0 -> Pas activé, 1 -> Activé
 
-    //position du joueur
+    //position du joueur et position temporelle
     int x_player;
     int y_player; 
+    int hour;
+    int minute;
 
     //capacités
     int speed; //durée pour effectuer une action
