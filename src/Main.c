@@ -489,6 +489,7 @@ int rareChest() {
 //interaction avec un lit
 int bed() {
 	print(PRINT_GAME_BED);
+        game.time+=60*7;
 	onDay();
 	game.force = game.force_capacity;
 	
