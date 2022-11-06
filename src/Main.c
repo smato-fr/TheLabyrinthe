@@ -489,7 +489,20 @@ int rareChest() {
 //interaction avec un lit
 int bed() {
 	print(PRINT_GAME_BED);
-        game.time+=60*7;
+	printf("t%d:\n"+game.time);
+	if (game.time % 24 >= GAME_TIME_NIGHT) {
+		//entre tombée de la nuit et minuit
+		game.time+= (24-(game.time%24))*60;
+		game.time+= (GAME_TIME_DAY+3)*60;
+	} else if (game.time % 24 < GAME_TIME_DAY) {
+		//entre minuit et levé du jour
+		game.time+=(GAME_TIME_DAY)*60;
+	} else {
+		//jour
+		game.time+=(GAME_TIME_DAY)*60;
+	}
+
+	printf("t%d:\n"+game.time);
 	onDay();
 	game.force = game.force_capacity;
 	

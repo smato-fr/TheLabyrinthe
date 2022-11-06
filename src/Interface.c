@@ -29,7 +29,7 @@ void clearConsole() {
 
 //affichage du temps
 void display_time(int night, int heure, int minute) {
-	printf("n:%d\n",night);
+	//printf("n:%d\n",night);
 	if (minute < 10){
 		if (night)
 			printf("<-- %dh0%d -->\n", heure, minute);
